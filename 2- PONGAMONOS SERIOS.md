@@ -8,7 +8,7 @@ En varios de los temas ya se tiene dominio, pero otro de mis objetivos es public
 
 _**Nota:**_ Me estaré apoyando mucho en libros que me presta la empresa en la cual laboro, además de otros que he comprado así que tratare de hacerlo citando de forma correcta y sin infringir derecho de autor, y claro… por el momento no busco tengan beneficio económico. _**Puro amor por el arte.**_
 
-# SI YA ANDALE DIME QUE SIGUE…#
+# SI YA ANDALE DIME QUE SIGUE…
 
 Bueno en primera parte pondre el temario:
 
@@ -62,7 +62,7 @@ Aqui puedes pobrar tus scripts para ver que se significa cada comando:
 
 https://www.explainshell.com/
 
-¡Lo más importante practica!
+### ¡Lo más importante practica!
 
 Aqui estan publicados ejercicios de bash por la gente y de verdad ayudan mucho, te recomiendo claro hacerlo en tu SO de pentest:
 
