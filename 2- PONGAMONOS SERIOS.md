@@ -8,7 +8,7 @@ En varios de los temas ya se tiene dominio, pero otro de mis objetivos es public
 
 _**Nota:**_ Me estaré apoyando mucho en libros que me presta la empresa en la cual laboro, además de otros que he comprado así que tratare de hacerlo citando de forma correcta y sin infringir derecho de autor, y claro… por el momento no busco tengan beneficio económico. _**Puro amor por el arte.**_
 
-# SI YA ANDALE DIME QUE SIGUE…
+## SI YA ANDALE DIME QUE SIGUE…
 
 Bueno en primera parte pondre el temario:
 
@@ -78,7 +78,7 @@ https://www.hackerrank.com/domains/shell
 
 Ptsss! Puedes usar apuntes solo una vez, el sentido de esto es que con el tiempo te sea todo esto familiar.
 
-¿Ya crees tener las bases?
+### ¿Ya crees tener las bases?
 
 Bueno ahora pasemos a unos pequeños "juegos de guerra":
 
@@ -86,6 +86,6 @@ https://overthewire.org/wargames/bandit/
 
 Si puedes resolver los ejercicios, podremos ahora sabes que si puedes pasar a ejecutar herramientas.
 
-Essential Tools in Kali
+## Essential Tools in Kali
 
 Seamos hacker eticos, tal vez ya conozcas herramientas pero el sentido no es solo ejecutarlas sino entenderlas por eso tanto rollo de entender kali y bash.
