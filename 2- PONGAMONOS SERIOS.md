@@ -6,7 +6,7 @@ Y lo prometido es deuda, por eso les comparto lo que estaré haciendo el primer 
 
 En varios de los temas ya se tiene dominio, pero otro de mis objetivos es publicar libros de ayuda a la comunidad mes con mes, entonces publicare desde lo más básico para avanzar a temas más complejos poco a poco.
 
-_**Nota:** Me estaré apoyando mucho en libros que me presta la empresa en la cual laboro, además de otros que he comprado así que tratare de hacerlo citando de forma correcta y sin infringir derecho de autor, y claro… por el momento no busco tengan beneficio económico. **Puro amor por el arte.**_
+_**Nota:**_ Me estaré apoyando mucho en libros que me presta la empresa en la cual laboro, además de otros que he comprado así que tratare de hacerlo citando de forma correcta y sin infringir derecho de autor, y claro… por el momento no busco tengan beneficio económico. _**Puro amor por el arte.**_
 
 # SI YA ANDALE DIME QUE SIGUE…#
 
