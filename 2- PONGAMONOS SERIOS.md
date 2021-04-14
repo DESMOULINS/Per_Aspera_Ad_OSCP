@@ -20,7 +20,7 @@ Teniendo lo basico que es mi LAB instalado en Virtual Box pasamos a lo siguiente
 
 ![Vms](https://cdn-images-1.medium.com/max/800/1*UETEi0YYjCmgcPyq_t814g.png "VMs")
 
-## CURSOS BASICOS DE KALI:
+### CURSOS BASICOS DE KALI:
 
 Sí no tienes experiencia con este SO te recomiendo hagas primero una pequeña guía que tiene offsec, es breve y concisa:
 
@@ -34,7 +34,7 @@ Despues te recomiendo te pases por este documento publicado en español y habla 
 
 http://www.reydes.com/archivos/Kali_Linux_v3_Alonso_ReYDeS.pdf
 
-## LINUX:
+### LINUX:
 
 Otro de los temas necesarios es conocer en general el nucleo, ya que siendo sincero ya que dominas una distribucion y su nucleo, veras que es facil manejar ya cualquier distribucion GNU/LINUX.
 
@@ -46,7 +46,9 @@ Despues te puedes pasar a este libro, que te da principalmente tips y atajos en 
 
 https://goalkicker.com/LinuxBook/
 
-## BASH:
+### BASH:
+
+#### Lo "aburrido" pero necesario:
 
 Ahora ya nos pondremos serios, empezaremos con temas mas formales como son lo basico del lenguaje bash, para ello me estare basando de varios libros pero te comparto una serie de libros que he encontrado a lo largo del tiempo y son libres de acceso:
 
@@ -62,7 +64,7 @@ Aqui puedes pobrar tus scripts para ver que se significa cada comando:
 
 https://www.explainshell.com/
 
-### ¡Lo más importante practica!
+#### ¡Lo más importante practica!
 
 Aqui estan publicados ejercicios de bash por la gente y de verdad ayudan mucho, te recomiendo claro hacerlo en tu SO de pentest:
 
@@ -78,7 +80,7 @@ https://www.hackerrank.com/domains/shell
 
 Ptsss! Puedes usar apuntes solo una vez, el sentido de esto es que con el tiempo te sea todo esto familiar.
 
-### ¿Ya crees tener las bases?
+#### ¿Ya crees tener las bases?
 
 Bueno ahora pasemos a unos pequeños "juegos de guerra":
 
