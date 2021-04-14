@@ -18,7 +18,7 @@ Iremos desde lo básico, pero tampoco demasiado, a este punto es necesario ya po
 
 Teniendo lo basico que es mi LAB instalado en Virtual Box pasamos a lo siguiente:
 
-https://cdn-images-1.medium.com/max/800/1*UETEi0YYjCmgcPyq_t814g.png
+![Vms](https://cdn-images-1.medium.com/max/800/1*UETEi0YYjCmgcPyq_t814g.png "VMs")
 
 ## CURSOS BASICOS DE KALI:
 
