@@ -86,7 +86,7 @@ Bueno ahora pasemos a unos pequeños "juegos de guerra":
 
 https://overthewire.org/wargames/bandit/
 
-Si puedes resolver los ejercicios, podremos ahora sabes que si puedes pasar a ejecutar herramientas.
+Si puedes resolver los ejercicios, puedes ahora saber que si puedes pasar a ejecutar herramientas.
 
 ## Essential Tools in Kali
 
