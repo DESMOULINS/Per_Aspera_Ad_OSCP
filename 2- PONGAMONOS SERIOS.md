@@ -18,7 +18,7 @@ Iremos desde lo básico, pero tampoco demasiado, a este punto es necesario ya po
 
 Teniendo lo basico que es mi LAB instalado en Virtual Box pasamos a lo siguiente:
 
-![Vms](https://cdn-images-1.medium.com/max/800/1*UETEi0YYjCmgcPyq_t814g.png "VMs")
+![Vms](https://raw.githubusercontent.com/DESMOULINS/Per_Aspera_Ad_OSCP/main/Imagenes/68747470733a2f2f63646e2d696d616765732d312e6d656469756d2e636f6d2f6d61782f3830302f312a55455445693059596a436d67635079715f74383134672e706e67.png "VMs")
 
 ### CURSOS BASICOS DE KALI:
 
