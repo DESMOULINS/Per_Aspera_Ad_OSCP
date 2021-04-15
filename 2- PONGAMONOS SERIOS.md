@@ -86,9 +86,9 @@ Bueno ahora pasemos a unos pequeños "juegos de guerra":
 
 https://overthewire.org/wargames/bandit/
 
-Si puedes resolver los ejercicios, puedes ahora saber que si puedes pasar a ejecutar herramientas.
+Si puedes resolver los ejercicios, ahora sabes que puedes pasar a ejecutar herramientas.
 
 ## Essential Tools in Kali
 
-Seamos eticos, tal vez ya conozcas herramientas pero el sentido no es solo ejecutarlas sino entenderlas por eso tuvimos que empezar por temas basicos de linux.
+Seamos eticos, ya conocemos herramientas pero ahora trataremos de ver lo mas profundo posible de su funcionamiento, por eso tuvimos que empezar por temas basicos de linux.
 
