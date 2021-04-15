@@ -90,4 +90,5 @@ Si puedes resolver los ejercicios, puedes ahora saber que si puedes pasar a ejec
 
 ## Essential Tools in Kali
 
-Seamos hacker eticos, tal vez ya conozcas herramientas pero el sentido no es solo ejecutarlas sino entenderlas por eso tanto rollo de entender kali y bash.
+Seamos eticos, tal vez ya conozcas herramientas pero el sentido no es solo ejecutarlas sino entenderlas por eso tuvimos que empezar por temas basicos de linux.
+
