@@ -18,7 +18,7 @@ Iremos desde lo básico, pero tampoco demasiado, a este punto es necesario ya po
 
 Teniendo lo basico que es mi LAB instalado en Virtual Box pasamos a lo siguiente:
 
-![Vms](https://raw.githubusercontent.com/DESMOULINS/Per_Aspera_Ad_OSCP/main/Imagenes/Vms.png "VMs")
+![Vms](https://raw.githubusercontent.com/DESMOULINS/Per_Aspera_Ad_OSCP/main/Imagenes/68747470733a2f2f63646e2d696d616765732d312e6d656469756d2e636f6d2f6d61782f3830302f312a55455445693059596a436d67635079715f74383134672e706e67.png "VMs")
 
 ### CURSOS BASICOS DE KALI:
 
@@ -90,5 +90,4 @@ Si puedes resolver los ejercicios, ahora sabes que puedes pasar a ejecutar herra
 
 ## Essential Tools in Kali
 
-Seamos eticos, ya conocemos herramientas pero ahora trataremos de ver lo mas profundo posible de su funcionamiento, por eso tuvimos que empezar por temas basicos de linux.
-
+Esta seccion aun esta en escritura... espero tenerla en un lapso de dos semanas, PER ASPERA AD ASTRA...
