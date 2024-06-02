@@ -88,6 +88,22 @@ https://overthewire.org/wargames/bandit/
 
 Si puedes resolver los ejercicios, ahora sabes que puedes pasar a ejecutar herramientas.
 
-## Essential Tools in Kali
+## Primeros recorridos en el hacking:
 
-Esta seccion aun esta en escritura... espero tenerla en un lapso de dos semanas, PER ASPERA AD ASTRA...
+Despues ya puedes pasar a cosas más avanzadas:
+
+Pentest web:
+https://www.youtube.com/watch?v=roG3r5tNWOU&t=91s
+
+Pentest AD:
+https://www.youtube.com/watch?v=-bNb4hwgkCo&t=3334s
+
+Puedes hacer el primer modulo de portswigger:
+https://portswigger.net/web-security
+
+Puedes hacer modulos de introducción en tryhackme:
+https://tryhackme.com/dashboard
+
+Para empezar no te recomiendo estar salte y salte entre contenido o ver contenido avanzado, te vas a saturar y tardaras más tiempo, dale enfoque en un solo tema y siguele hasta acabar.
+
+Incluso no resuelvas maquinas sin guias tardaras más tiempo innecesario para aprender un tema, empezar usando guias es natural cuando empiezas.
