@@ -3,7 +3,7 @@ Repositorio con el objetivo de escribir toda mi experiencia en avances en el lar
 
 ## 1- INTRODUCCIÓN _(8 ABRIL 2021)_
 _Esta publicación fue rápida, y solo sirve como motivante e introducción para ver lo que se estudiara._
-* https://github.com/DESMOULINS/Per_Aspera_Ad_OSCP/blob/main/1-%20EL%20CAMINO%20INICIA.md
+* https://github.com/DESMOULINS/Per_Aspera_Ad_OSCP/blob/main/1-%20EL%20INICIO.md
 
 ## 2- PONGAMONOS SERIOS _(15 ABRIL 2021)_
 _Aqui ya formalizamos los temas del primer mes, y se trata de brindar la mayor cantidad de informacion publica para estudiar las bases_
