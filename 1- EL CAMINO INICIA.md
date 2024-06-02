@@ -1,66 +1,39 @@
 # EL CAMINO INICIA
-No soy el más versado en temas de escritura, más sin embargo hoy tengo una firme decisión, escribir toda mi experiencia de mis avances en el largo camino que es la seguridad informática.
+No soy el más versado en temas de escritura pero escribire mi experiencia en avances en el largo camino que es la seguridad informática.
+¡here we go!
 
-El objetivo es conseguir en corto plazo de un año la certificación OSCP, y consiguiente todo lo demás que se pueda…
-Cuando iniciamos una carrera, a veces solo pensamos en éxito y dinero, pero poco volteamos a ver el tiempo invertido y que será un estilo de vida, el de nuestra única vida, y aceptar eso es difícil, pero ¡here we go!
-
-## MI CAMINO NINJA:
+## MI CAMINO:
 El camino es sencillo en teoría, solo en teoría. pedí a mi pareja que guardara dinero de mis pagos (Gracias Gaby :), y que cada mes revisara mis avances, así mismo estaré subiendo por acá notas, y todo lo que encuentre para estudiar y así apoyar a la comunidad:
 
 ## INSPIRACION:
 
-Esta liga fue de donde saque la idea, y mi primer base para escribir una guía de todo este año:
+A traves del camino eh consegido diversos medios, la EJTP, la información del CEH, pero creo mis principales guias fueron (hoy en día ya puede ser algo desactualizado):
 
 https://www.netsecfocus.com/oscp/2019/03/29/The_Journey_to_Try_Harder-_TJNulls_Preparation_Guide_for_PWK_OSCP.html
 
-## EL METODO DE MI CAMINO:
+Aunque siempre realista lo que termino ayudandome a empezar fue:
+
+https://www.youtube.com/watch?v=roG3r5tNWOU&t=91s
+https://www.youtube.com/watch?v=-bNb4hwgkCo&t=3334s
+
+Haciendo las practicas que pide tendras bastante avance para empezar a hacer maquinas vulnerables.
+
+## EL METODO:
 
 A veces el problema no es empezar, sino preguntarnos ¿!Y donde demonios inicio¡? Para ello, a mí y a todos nos gusta dividir a la seguridad en capas entonces hagámoslo:
 
 https://blogdelciso.files.wordpress.com/2020/03/5f10c-dep.png
 
-Mi experiencia siempre ha sido en blue team, pero en esta ocasión haremos un giro de tuerca todo mi enfoque inicial será conocer el ataque de cada capa de seguridad, y después leer sobre su protección.
+Siempre las bases son importantes... lo digo por experiencia desarrollar la logica en TI te prometo te hara aumentar de un hayazgo basico a uno donde logres ser admin porque sabras donde a la gente de TI le gusta no batallar e implementa malas practicas (que claro que no los juzgo la mayoria de las veces es por el exceso de trabajo)
 
-Para este fin nos enfocaremos este año en 3 capas ya internas:
-
-* Red interna.
-* Estaciones de trabajo.
-* Aplicaciones.
-
-Teniendo ya más claro el camino de que vulnerar, ahora veremos los temas a tratar, me base en lo que pide el OSCP “PWK Syllabus” que serán distribuidos en los primeros 6 meses:
-
-* Getting Comfortable with Kali Linux | Essential Tools in Kali.
-* Passive Reconnaissance | Active Reconnaissance.
-* Vulnerability Scanning | Buffer Overflows.
-* Working with Public Exploits | Metasploit Framework.
-* File Transfer | Tunneling/Pivoting.
-* Privilege Escalation | Client-Side Attacks.
-* Web Application Attacks | Password Attacks.
-* Antivirus Bypassing | Evasion techniques.
-
-El otro medio año será para ampliar conocimientos de ataques, esto planeo cambiarlo terminado el primer semestre, pero como premisa tengo estudiar estos otros estos temas:
-
-* Python
-* MITRE ATT&CK
-* GNS3
+Mi experiencia inicial siempre fue blue team, pero el tiempo me permitio hacer un giro de tuerca apoyando en proyectos de conocer el ataque de cada capa de seguridad, sabiendo que cosas las conoceras en el día a día y que otras si debes conocerlas como base.
 
 ## LABORATORIO DE PRUEBAS:
 
-Me voy a basar en una lista, las cuales muestran un conjunto de máquinas que se comentan se asemejan lo más parecido a las que se encuentran en el laboratorio de OSCP.
+Demasiado contenido te satura y terminas perdiendo el objetivo, yo en lo personal trato de limitar las plataformas, por ejemplo de guias para maquinas vulnerables las que uso son:
 
 https://docs.google.com/spreadsheets/d/1dwSMIAPIam0PuRBkCiDI88pU3yzrqqHkDtBngUHNCw8/edit#gid=0
 
-## ENTREGABLES MENSUALES:
-
-El sentido es que se avance cada mes dos secciones, por ejemplo, el primer mes seria:
-
-* Getting Comfortable with Kali Linux
-* Essential Tools in Kali
-
-Además de entregar 3 máquinas como mínimo al mes, con máquinas extra que se vayan encontrando además de buscar participar en CTF.
-
-## SIGUIENTE POST:
-
-Este post es un compromiso para mí para seguir escribiendo, por lo que el siguiente post será estructurar aún más el primer mes.
+https://docs.google.com/spreadsheets/d/1dzvaGlT_0xnT-PGO27Z_4prHgA8PHIpErmoWdlUrSoA/edit
 
     TRY HARD…
