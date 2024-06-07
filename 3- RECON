@@ -1,0 +1,157 @@
+# Introducción:
+Aqui estara todo lo relacionado a reconocimiento en resumen de paginas y herramientas, porque ya muchas no son funcionales.
+
+## OSINT WEB:
+Esto es sumamente importante, por ejemplo, lo más clasico es encontrar la pagina web de desarrollo que no tiene protección o versiones antiguas de las paginas que nos dara información como directorios o paginas ocultas.
+
+### GOOGLE DORKS
+El mejor repositorio general por excelencia es:
+- https://www.exploit-db.com/google-hacking-database
+
+Pero sí google te empieza a bloquear o solo quieres los basicos:
+- https://pentest-tools.com/information-gathering/google-hacking
+
+O por ejemplo estos son ejemplos de eccouncil:
+
+- caché: Este operador permite ver la versión en caché de la página web. 
+  - [cache:www.eccouncil.org]- La consulta devuelve la versión en caché de la página web www.eccouncil.org
+- allinurl: Este operador restringe los resultados a las páginas que contienen todos los términos de consulta especificados en la URL. 
+  - [allinurl: EC-Council career]- La consulta sólo devuelve páginas que contengan las palabras «EC-Council» y «career» en la URL.
+- inurl: Este operador restringe los resultados a las páginas que contengan la palabra especificada en la URL 
+  - [inurl: copy site:www.eccouncil.org]-La consulta sólo devuelve las páginas del sitio de EC-Council en cuya URL aparezca la palabra «copy».
+- allintitle: Este operador restringe los resultados a las páginas que contienen todos los términos de la consulta especificados en el título. 
+  - [allintitle: detectar malware]-La consulta sólo devuelve páginas que contengan las palabras «detectar» y «malware» en el título
+- inanchor: Este operador restringe los resultados a las páginas que contienen los términos de la consulta especificados en el texto ancla de los enlaces a la página. 
+  - [Anti-virus inanchor:Norton]-La consulta sólo devuelve páginas con texto de anclaje en los enlaces a las páginas que contienen la palabra «Norton» y la página que contiene la palabra «Anti-virus».
+- allinanchor: Este operador restringe los resultados a las páginas que contienen todos los términos de la consulta especificados en el texto de anclaje de los enlaces a la página. 
+  - [allinanchor: mejor proveedor de servicios en la nube]-La consulta devuelve sólo las páginas en las que el texto de anclaje de los enlaces a las páginas contiene las palabras «mejor», «nube», «servicio» y «proveedor».
+- enlace: Este operador busca sitios web o páginas que contengan enlaces al sitio web o página especificados. 
+  - [link:www.eccouncil.org]-Encuentra páginas que apuntan a la página principal de EC-Council
+- relacionados: Este operador muestra sitios web similares o relacionados con la URL especificada. 
+  - [related:www.eccouncil.org]-La consulta proporciona la página de resultados del motor de búsqueda de Google con sitios web similares a eccouncil.org
+- info: Este operador encuentra información para la página web especificada. 
+  - [info:eccouncil.org]-La consulta proporciona información sobre la página de inicio www.eccouncil.org
+- ubicación: Este operador encuentra información para una ubicación específica. 
+  - [ubicación: EC-Council]-La consulta proporciona resultados basados en el término EC-Council.
+
+### Videos:
+
+Metadata de videos de youtube:
+- https://mattw.io/youtube-metadata/
+
+### Descubrimiento de FTP publicos relacionados a la empresa auditada:
+
+- https://www.searchftps.net/
+
+### Buscador de vulnerabilidades de equipos publicos:
+
+- https://www.shodan.io/
+
+### Buscador de información de ip o dominios:
+Este es el más importante aqui si o si en la mayoria de las ocasiones vas a encontrar la información más valiosa para los pentest:
+
+- https://search.censys.io/
+- https://www.netcraft.com/tools/
+- https://centralops.net/co/
+- https://www.robtex.com/dns-lookup/google.com
+
+### EMAIL Tracking:
+
+### WHOIS:
+Esta información basica dificilmente te dara información interesante, pero... hay unas que te correlacionar donde te muestra paginas similares en base a su información de whois, obteniendo sitios similares o de desarrollo publicados por empresas.
+
+Domaintools: El basico whois
+https://whois.domaintools.com/google.com 
+
+Builtwith: Uno de mis favoritos para encontrar dominios asociados al del alcance.
+https://builtwith.com/relationships/google.com
+
+Whoisology: Otro de los escenciales es buscar el historial y ver que otros dominios pertenecen al mismo propietario.
+https://whoisology.com/amiprecio.com
+
+
+### DNS:
+Este tambien es otro de los puntos más importantes y que es vital, muchas de las herramientas de otras secciones se basan en DNS pero aqui quise poner las 
+
+
+### Buscador de información sobre personas:
+
+Esto te ayudara principalmente en temas de campañas de phishing, no siempre se usa en pentest.
+
+- https://www.peekyou.com/
+- https://www.spokeo.com/
+- https://www.beenverified.com/
+
+## OSINT EN DEEP WEB:
+No siempre es comun realizarlo pero puedes probar haciendo buscas rapidas de contraseñas filtradas o información que te sea util para ingreso rapido.
+
+The Hidden Wiki: Sitio ONION que funciona como un servicio Wikipedia de sitios web ocultos. 
+- http://zqktlwiuavvvqqt4ybvgvi7tyo4hjl5xgfuvpdf6otjiycgwqbym2qad.onion/wiki
+
+Exonerator: Historial de existencia de paginas ONION
+- https://metrics.torproject.org/exonerator.html
+
+Ventas de tarjetas:
+- http://ymvhtqya23wqpez63gyc3ke4svju3mqsby2awnhd3bk2e65izt7baqad.onion
+- http://s57divisqlcjtsyutxjz2ww77vlbwpxgodtijcsrgsuts4js5hnxkhqd.onion
+
+Buscadores:
+https://onionlandsearchengine.net/
+
+
+## OSINT POR TERMINAL:
+Esto es diferente al web porque ocuparemos instalar herramienatas especificas.
+
+### Herramientas generales:
+TheHarvester: En lo personal siento ya se quedo atras, hoy en día facilmente Google o cualquier buscador detecta tu alto consumo de peticiones y te bloquea.
+```
+theHarvester -d eccouncil -l 200 -b linkedin
+```
+
+### Información de usuarios:
+sherlock: Buscador de usuarios
+- https://github.com/sherlock-project/sherlock
+```
+python3 sherlock satya nadella 
+```
+UserRecon: Buscador de usuarios
+https://github.com/wishihab/userrecon
+
+### OSINT de paginas web:
+Photon:
+```
+python3 photon.py -u http://www.certifiedhacker.com -l 3 -t 200 --wayback
+```
+GRecon:
+```
+python3 grecon.py
+```
+
+### Extraer datos de paginas (metadata):
+Esta parte puede ser util aunque no siempre regresa información que vayamos a usar, tenemos dos bandos; con costo y siendo sincero en la mayoria de las empresas va a ser muy raro que te autoricen presupuestos para nuevas herramientas así, y hay otros sin costo que pueden ser más utiles aunque con funciones más puntuales.
+
+Web Data Extractor wdepro.exe: Extrae información interna de paginas sobre documentos, imagenes, etc. **Tiene costo**
+- http://www.webextractor.com/
+
+Cewl: Hara una wordlist de las palabras más clave de una pagina web, puede ser util para hacer ataques de contraseña, directorios, etc. **Eh notado que sitios con WAF o protección no regresa info**
+```
+cewl -d 2 -m 5 -w docswords.txt https://www.dominio.com
+```
+
+### Clonador de paginas:
+Es importante para temas de phishing en pentest solo en temas especificos tal vez para pentest de redes wifi.
+
+HTTrack Web Site Copier:
+- https://www.httrack.com/
+
+Cyotek:
+https://www.cyotek.com
+
+###
+
+
+
+
+
+
+
