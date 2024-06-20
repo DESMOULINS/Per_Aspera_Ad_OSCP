@@ -53,6 +53,7 @@ Este es el más importante aqui si o si en la mayoria de las ocasiones vas a enc
 
 ### Información sobre herramientas:
 OsintFramework: buscador general de herramientas aunque muchas ya no funcionan o tienen costo.
+- https://osintframework.com/
 
 ### EMAIL Tracking:
 
@@ -60,13 +61,13 @@ OsintFramework: buscador general de herramientas aunque muchas ya no funcionan o
 Esta información basica dificilmente te dara información interesante, pero... hay unas que te correlacionar donde te muestra paginas similares en base a su información de whois, obteniendo sitios similares o de desarrollo publicados por empresas.
 
 Domaintools: El basico whois
-https://whois.domaintools.com/google.com 
+- https://whois.domaintools.com/google.com 
 
 Builtwith: Uno de mis favoritos para encontrar dominios asociados al del alcance.
-https://builtwith.com/relationships/google.com
+- https://builtwith.com/relationships/google.com
 
 Whoisology: Otro de los escenciales es buscar el historial y ver que otros dominios pertenecen al mismo propietario.
-https://whoisology.com/amiprecio.com
+- https://whoisology.com/amiprecio.com
 
 
 ### DNS:
