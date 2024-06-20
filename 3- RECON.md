@@ -1,5 +1,5 @@
 # Introducción:
-Aqui estara todo lo relacionado a reconocimiento en resumen de paginas y herramientas, porque ya muchas no son funcionales.
+Aqui estara todo lo relacionado a reconocimiento externo e interno.
 
 ## OSINT WEB:
 Esto es sumamente importante, por ejemplo, lo más clasico es encontrar la pagina web de desarrollo que no tiene protección o versiones antiguas de las paginas que nos dara información como directorios o paginas ocultas.
