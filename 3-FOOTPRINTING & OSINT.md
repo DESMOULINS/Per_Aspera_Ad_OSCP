@@ -1,5 +1,5 @@
 # Introducción:
-Aqui estara todo lo relacionado a reconocimiento externo e interno.
+Aqui estara todo lo relacionado a reconocimiento footprinting & osint.
 
 ## OSINT WEB:
 Esto es sumamente importante, por ejemplo, lo más clasico es encontrar la pagina web de desarrollo que no tiene protección o versiones antiguas de las paginas que nos dara información como directorios o paginas ocultas.
