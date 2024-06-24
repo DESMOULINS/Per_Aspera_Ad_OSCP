@@ -1,12 +1,5 @@
 # Pongamonos serios…
-
-Y lo prometido es deuda, por eso les comparto lo que estaré haciendo el primer mes, para ello en este primer post mostrare el Road Map del primer mes.
-
-		Sí alguien quiere seguir este viaje y hacerlo a la par, que mejor que tener más camaradas ¿No?
-
-En varios de los temas ya se tiene dominio, pero otro de mis objetivos es publicar libros de ayuda a la comunidad mes con mes, entonces publicare desde lo más básico para avanzar a temas más complejos poco a poco.
-
-_**Nota:**_ Me estaré apoyando mucho en libros que me presta la empresa en la cual laboro, además de otros que he comprado así que tratare de hacerlo citando de forma correcta y sin infringir derecho de autor, y claro… por el momento no busco tengan beneficio económico. _**Puro amor por el arte.**_
+_**Nota:**_ Me estaré apoyando mucho en libros que me presta la empresa en la cual laboro, cursos, etc. Además de otros que he comprado. _**Puro amor por el arte.**_
 
 ## SI YA ANDALE DIME QUE SIGUE…
 
@@ -90,7 +83,7 @@ Si puedes resolver los ejercicios, ahora sabes que puedes pasar a ejecutar herra
 
 ## Primeros recorridos en el hacking:
 
-Despues ya puedes pasar a cosas más avanzadas:
+Despues ya puedes pasar a cosas más avanzadas, te recomiendo los veas, aunque no las comprendas trata de hacer los ejercicios, despues cuando leas te hara click más facil la teoria.
 
 Pentest web:
 https://www.youtube.com/watch?v=roG3r5tNWOU&t=91s
