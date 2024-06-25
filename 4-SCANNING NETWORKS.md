@@ -20,11 +20,11 @@ ARP:
 
 NMAP SCAN:
 Nmap tiene varias formas de descubrimiento:
-| TYPE: | FLOW | FLAG |
-|-------|----|----|----|
-| ICMP ECHO | ff | 2  | 1  |
-|    |    |    |    |
-|    |    |    |    |
+| Tipo:     |      Descripción       | Flag: |
+|-----------|------------------------|-------|
+| ICMP ECHO | Envia un echo por icmp | -PE   | 
+|    | a   |    |
+| w   |  2  |    |
 
 
 
