@@ -22,9 +22,23 @@ NMAP SCAN:
 Nmap tiene varias formas de descubrimiento:
 | Tipo:     |      Descripción       | Flag: |
 |-----------|------------------------|-------|
-| ICMP ECHO | Envia un echo por icmp | -PE   | 
+| * ICMP ECHO | Request tipo echo por icmp | -PE | 
 | ICMP TIMESTAMP | Request tipo timestamp por icmp | -PP |
-| w   |  2  |    |
+| ICMP ADDRESS MASK | Request tipo address mask por icmp  | -PM |
+| TCP SYN PING SCAN | Request tipo SYN a top ports esperando respuesta ACK para marcar up host | -PS |
+| TCP ACK PING SCAN | Request tipo ACK a top ports esperando respuesta RST para marcar up host | -PA |
+| UDP PING SCAN | Request por UDP a top ports esperando respuesta ICMP Error para marcar up host | -PU |
+| IP PING SCAN | Request usando varios protocolos sino se especifica uno, por ejemplo ICMP, IGMP, TCP, UDP o SCTP esperando respuesta de uno para marcar up host | -PO |
+
+* Cuando se tiene un alcance definido con este esta bien, los demas son más para cuando no se tiene alcances definidos.
+
+
+
+
+
+
+
+
 
 
 
