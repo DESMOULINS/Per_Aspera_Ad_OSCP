@@ -23,7 +23,7 @@ Nmap tiene varias formas de descubrimiento:
 | Tipo:     |      Descripción       | Flag: |
 |-----------|------------------------|-------|
 | ICMP ECHO | Envia un echo por icmp | -PE   | 
-|    | a   |    |
+| ICMP TIMESTAMP | Request tipo timestamp por icmp | -PP |
 | w   |  2  |    |
 
 
