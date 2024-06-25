@@ -30,7 +30,7 @@ Nmap tiene varias formas de descubrimiento:
 | UDP PING SCAN | Request por UDP a top ports esperando respuesta ICMP Error para marcar up host | -PU |
 | IP PING SCAN | Request usando varios protocolos sino se especifica uno, por ejemplo ICMP, IGMP, TCP, UDP o SCTP esperando respuesta de uno para marcar up host | -PO |
 
-* Cuando se tiene un alcance definido con este esta bien, los demas son más para cuando no se tiene alcances definidos.
+(*) Cuando se tiene un alcance definido con ICMP ECHO esta bien, los demas son más para cuando no se tiene alcances definidos y hay host ocultos.
 
 
 
