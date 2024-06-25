@@ -15,8 +15,10 @@ Por ejemplo para esta parte dependera el tipo de caja:
 
 ## Tecnicas pasivas
 Tecnicas basadas en tocar lo menos posible a los equipos en la red.
-
 ARP:
+
+
+## Tecnicas activas:
 
 NMAP SCAN:
 Nmap tiene varias formas de descubrimiento:
@@ -29,8 +31,14 @@ Nmap tiene varias formas de descubrimiento:
 | TCP ACK PING SCAN | Request tipo ACK a top ports esperando respuesta RST para marcar up host | -PA |
 | UDP PING SCAN | Request por UDP a top ports esperando respuesta ICMP Error para marcar up host | -PU |
 | IP PING SCAN | Request usando varios protocolos sino se especifica uno, por ejemplo ICMP, IGMP, TCP, UDP o SCTP esperando respuesta de uno para marcar up host | -PO |
+| ARP SCAN | Request WHO Has tipo ARP para ver quien responde, recuerda esto solo funciona en tu mismo segmento | -PR |
 
 (*) Cuando se tiene un alcance definido con ICMP ECHO esta bien, los demas son más para cuando no se tiene alcances definidos y hay host ocultos.
+(-sn) Podemos colocarla sí queremos asegurarnos que solo se haga escaneo de host y no ningun tipo de escaneo a puertos por ejemplo -PR si realiza escaneo por defecto, y al reves cuando hagamos escaneo de puertos usamos -Pn para evitar hacer validaciones que el host esta activo.
+
+
+
+
 
 
 
