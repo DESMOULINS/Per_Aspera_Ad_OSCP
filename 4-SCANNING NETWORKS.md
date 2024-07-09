@@ -36,9 +36,10 @@ En la sección de estadisticas > puntos finales, podras ver tanto las peticiones
 ### Host Discovery:
 - NMAP SCAN:
 Nmap tiene varias formas de descubrimiento:
-| Tipo:     |      Descripción       | Flag: |
-|-----------|------------------------|-------|
-| * ICMP ECHO | Request tipo echo por icmp | -PE | 
+
+| Tipo:     |      Descripción           | Flag: |
+|-----------|----------------------------|-------|
+| ICMP ECHO | Request tipo echo por icmp | -PE   | 
 | ICMP TIMESTAMP | Request tipo timestamp por icmp | -PP |
 | ICMP ADDRESS MASK | Request tipo address mask por icmp  | -PM |
 | TCP SYN PING SCAN | Request tipo SYN a top ports esperando respuesta ACK para marcar up host | -PS |
@@ -53,12 +54,14 @@ Nmap tiene varias formas de descubrimiento:
 ALTERNATIVAS A NMAP:
 En algunas ocasiones tendremos que usar un windows al incio porque no habran terminado de montar la vm con kali que se le pidio al cliente, o detalles puntuales como saber el ttl del icmp hacia varios host, para ello se pueden usar alternativas como:
 
-Hping3: Similar a nmap
-- https://www.kali.org/tools/hping3/
-SX: Similar a nmap 
-- https://github.com/v-byte-cpu/sx 
-Zenmap: Versión de nmap para windows
-Metasploit: Tambien util pero para primeras certs, en oscp y otras certs no te dejaran usarlo.
+- Hping3: Similar a nmap
+  - https://www.kali.org/tools/hping3/ 
+- SX: Similar a nmap 
+  - https://github.com/v-byte-cpu/sx 
+- Zenmap:
+  - Versión de nmap para windows
+- Metasploit:
+  - Tambien util pero para primeras certs, en oscp y otras certs no te dejaran usarlo.
 
 El CEH te dice varios pero siendo sincero no los vamos a usar porque simplemente son de paga y no es normal se gaste presupuesto en esto:
 MegaPing.
