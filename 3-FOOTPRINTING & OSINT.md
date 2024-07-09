@@ -213,8 +213,6 @@ https://www.cyotek.com
 Encontrar en que segmento te encuentras asi como información general de tu salida a internet es vital para mapear como esta la red a la que te dieron acceso.
 - tracert: ayudara principalmente a mapear cual es el recorrido hasta la salida de internet así como conocer que otros gateway y subnets tienes acceso.
 
-### 
-
 
 
 
