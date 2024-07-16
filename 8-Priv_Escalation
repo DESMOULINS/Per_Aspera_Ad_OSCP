@@ -1,0 +1,102 @@
+# PRIVILEGE ESCALATION:
+Es el arte de realizar escalaciones tanto verticales u horizontales, ya habiendo teniendo acceso a un usuario.
+
+- Horizontal:
+  - Pasar a otro usuario con un perfil y/o permisos similares, util para obtener más datos, o vulnerabilidades puntuales como un modulo extra.
+- Vertical:
+  - Pasar a otro usuario con un perfil de administrador o con permisores especiales.
+
+Tambien esta etapa varia mucho dependiendo del sistema victima ya sea mac, linux o windows, incluso cuando hablas de escalaciones dentro de un servicio dependera del tipo de lenguaje de la aplicación, sí es web, en lo general existen dos tipos:
+
+- Vulnerabilidad:
+  - Busqueda y explotación de vulnerabildades por la versión y nivel de actualización de un software instalado o del propio sistema.
+- Mala configuración o practica:
+  - Busqueda de malas configuraciones del sistema o servicios, como buscar credenciales guardadas en texto plano, un servicio con dlls inyectables, etc.
+
+Ambos podemos buscarlo por un ejecutable automatizado o realizarlo manual, claro que siempre loa automatizado llamara mucho más la atención de los controles.
+  
+## Windows:
+Aquí es más dificil que en Windows por el tema de que los EDR estan más avanzados aquí, solo como consejo siempre ejecutarlo en lotes por ejemplo los ps1 especificamente ejecutar los modulos que necesites.
+
+### Automatizado:
+
+#### BeRoot:
+Software ejecutable en exe que nos entrega permisos del usuario, permisos sobre StartupKeys, servicios, etc.
+https://github.com/AlessandroZ/BeRoot
+
+#### Seatbelt:
+Software ejecutable en visual studio debes compilarlo, con más opciones que el anterior.
+https://github.com/GhostPack/Seatbelt
+
+#### Meterpreter:
+Esta herramienta tiene tambien un mundo de comandos para escalación de privilegios, pero sí los anteriores hacen ruido este hoy en día no va a funcionar a menos que este apagado windows defender o es un sistema antiguo como un windows server anterior al 2008.
+
+#### getsystem:
+Es el más comun mediante una serie de diferentes de tecnicas realiza la escalación de privilegios locales en un sistema.
+
+#### Bypass UAC:
+Usado cuando estamos dentro de un grupo administrativo, pero tenemos "Medium Mandatory Level" podemos subir a "High Mandatory level" para poder usar tecnicas con más privilegios como mimikatz.
+
+Validemos los siguientes registros esten activos:
+```
+reg query HKLM\Software\Microsoft\Windows\CurrentVersion\Policies\System
+```
+
+Compilamos el siguiente exploit, e incluso podemos hacerlo sin necesidad del exploit usando psexec:
+
+- https://github.com/k4sth4/UAC-bypass
+
+La alternativa es usar metasploit:
+```
+> msfconsole
+> use exploit/windows/local/bypassuac_fodhelper
+```
+
+## Linux:
+En windows es similar los conceptos generales, pero ya la forma de realizarlo cambia.
+
+### Falta parcheo:
+Los sistemas linux usualmente son los que menos se actualizan a diferencia de windows, en algunos casos la existencia de vulnerabilidades del kernel son las más delicadas.
+
+#### PKNKIT:
+Vulnerabilidad muy facil de explotar pasando de usuario sin permisos a root.
+```
+https://github.com/ly4k/PwnKit
+```
+
+## Servicios:
+A diferencia de los puntos anteriores, aqui vas a abusar directamente de un servicio no del sistema operativo.
+
+### NFS:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
