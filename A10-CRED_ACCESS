@@ -63,22 +63,47 @@ La explotación puede ser tanto local y remoto.
 
 ### Local:
 ```
-lsadump::dcsync /user:dcorp\krbtgt <u otro usuario pero en este caso el hash de ntlm de usuario krbtgt es el requerido para emitir golden tickets>
+lsadump::dcsync /user:dcorp o krbtgt(u otro usuario pero en este caso el hash de ntlm de usuario krbtgt es el requerido para emitir golden tickets)
 ```
-5porfc
+
 ### Remoto:
 ```
 > secretsdump.py -just-dc <user>:<password>@<ipaddress> -outputfile dcsync_hashes
 ```
 
-Aquí un escenario que podria pasar es que por ejemplo logremos conseguir un usuario y contraseña del AD con permisos de replicación del AD, donde en base a este usuario logremos emitir goldentickets del domain admin.
+NOTA: un escenario que podria pasar es que por ejemplo, logremos conseguir un usuario y contraseña del AD con solo permisos de replicación, luego consigamos la replicación (HASH NTML) de un usuario como el de krbtgt, y ya en base a este usuario logremos emitir goldentickets del domain admin.
 
 ## Key Skeleton attack:
-En resumen el ataque es "sencillo" lo que se hace es modificar mediante una inyección en memoria a lsass (encargado de la autenticación) haciendo que ademas de permitir la autenticación por medio de la contraseña guardada en el AD, tambien permita la autenticación con una "master key" inyectada.
+En resumen el ataque es "sencillo", lo que se hace es modificar mediante una inyección en memoria a lsass (encargado de la autenticación) haciendo que ademas de permitir la autenticación por medio de la contraseña guardada en el AD, tambien permita la autenticación con una "master key" inyectada.
 Esto hace que el atacante pueda autenticarse con la master key usando cualquier usuario, teniendo permanencia hasta que el AD se reinicie o el proceso inyectado sea matado.
 ```
+mimikatz> privilege::debug
 mimikatz> misc::skeleton
+
+Empire:dc> usemodule powershell/persistence/misc/skeleton_key 
 ```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
