@@ -83,6 +83,27 @@ mimikatz> misc::skeleton
 Empire:dc> usemodule powershell/persistence/misc/skeleton_key 
 ```
 
+## KERBEROS ATTACK:
+
+### Proceso simplificado de emisión de tickets:
+
+- (Usuario) → envía: Credenciales (nombre de usuario y contraseña cifrada) → (Authentication Service, AS parte del Key Distribution Center (KDC))
+- (AS) → emite: Ticket Granting Ticket (TGT) → (Usuario, almacena el ticket localmente)
+- (Usuario) → envía: TGT → al (Ticket Granting Service - TGS, parte del Key Distribution Center (KDC))
+- (TGS) → emite: Service Ticket (ST) → (Usuario, almacena el ticket localmente)
+- (Usuario) → envía: Service Ticket (ST) → (Servidor de servicio unido a dominio)
+
+### Proceso sobre simplificado de emisión de tickets:
+1- (Usuario) → envía: Contraseña → (AS) → emite: TGT
+2- (Usuario) → envía: TGT → (TGS) → emite: Service Ticket (ST)
+3- (Usuario) → envía: Service Ticket (ST) → (Servicio de servidor unido a dominio)
+
+### Terminos comunes:
+- Ticket Granting Ticket = Golden Ticket
+- Service Ticket = Silver Ticket
+- KRBTGT = Usuario interno del Key Distribution Center (KDC) unico que tiene la llave de cifrado valida para firmar los tickets, ni un domain admin puede firmar tickets.
+
+
 
 
 
