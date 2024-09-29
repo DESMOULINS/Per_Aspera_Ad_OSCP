@@ -118,15 +118,7 @@ El proceso puede variar pero basicamente es obtener un ticket de tipo TGT.
 #### Silver ticket attack:
 El proceso se basa en que sí obtienes el hash NTLM de de un servicio, puedes firmar en base a este hash el ticket, creando un servicio de TGS falso, emitiendo un ST con incluso un usuario falso, que cuando se envia al servidor con el servicio, no va y valida con el KDC que el ST sea valido, simplemente lo descifra usando su hash NTLM y acepta la conexión.
 
-¿Y sí ya tenemos el hash ntlm porque no simplemente me autentico usando el hash? Usar un ST tiene ventajas como:
-
-	Usar  Ticket Attack
-Interacción con el KDC	Requiere autenticación con el KDC	No interactúa con el KDC
-Rastro en logs del KDC	Sí, deja registros	No deja rastro en el KDC
-Privilegios	Limitado a los privilegios reales de la cuenta	Control sobre los privilegios en el ticket
-Duración del acceso	Depende de la sesión y autenticación	Puedes generar tickets con larga duración
-Detección	Más fácil de detectar (actividad en los logs)	Más difícil de detectar (sin interacción KDC)
-Reutilización del acceso	Autenticación repetida con credenciales	Ticket persistente, reutilizable
+¿Y sí ya tenemos el hash ntlm porque no simplemente me autentico usando el hash? Usar un ST falsificado tiene ventajas como:
 
 
 | **Aspecto**                        | **Usar Contraseña/Hash NTLM**             | **Silver Ticket Attack**                      |
