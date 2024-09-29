@@ -99,9 +99,11 @@ Empire:dc> usemodule powershell/persistence/misc/skeleton_key
 3- (Usuario) → envía: Service Ticket (ST) → (Servicio de servidor unido a dominio)
 
 ### Terminos comunes:
-- Ticket Granting Ticket = Golden Ticket
-- Service Ticket = Silver Ticket
+- Ticket Granting Ticket = Golden Ticket, ticket que permite emitir Services Tickets.
+- Service Ticket = Silver Ticket, ticket que permite autenticarse en servidores unidos a dominios en un servicio en particular,
 - KRBTGT = Usuario interno del Key Distribution Center (KDC) unico que tiene la llave de cifrado valida para firmar los tickets, ni un domain admin puede firmar tickets.
+- Service Principal Name (SPN) = Nombre que representa a una instancia de un servicio en la red. Se usa en entornos de autenticación Kerberos para identificar el servicio al que quieres acceder, con formato <tipo_de_servicio>/<nombre_servidor>:<puerto>
+  - Ejemplo: HTTP/servidorweb.dominio.com - MSSQLSvc/servidordb.dominio.com:1433
 
 ### Ataques comunes en kerberos:
 
@@ -129,6 +131,13 @@ El proceso se basa en que sí obtienes el hash NTLM de de un servicio, puedes fi
 | **Duración del acceso**            | Depende de la sesión y autenticación       | Puedes generar tickets con larga duración     |
 | **Detección**                      | Más fácil de detectar (actividad en los logs) | Más difícil de detectar (sin interacción KDC) |
 | **Reutilización del acceso**       | Autenticación repetida con credenciales   | Ticket persistente, reutilizable              |
+
+Comando en mimikatz:
+```
+Mimikatz> kerberos::golden /domain:dominio.local /sid:S-1-5-21-xxxxxxxxxx /target:servidorweb.dominio.local /service:HTTP /rc4:hash_ntlm_servicio /user:usuario_falso /id:500
+```
+
+NOTA: No necesitamos acceso al AD ni descifrar el hash ntlm, incluso no es necesario ejecutar el comando en el servidor comprometido, dado que nosotros falsificaremos el TGS, por lo que podemos ejecutarlo en un windows que no este unido a dominio, solo se requiere conexión al servicio, que en este caso es **servidorweb.dominio.local** 
 
 
 
