@@ -103,6 +103,41 @@ Empire:dc> usemodule powershell/persistence/misc/skeleton_key
 - Service Ticket = Silver Ticket
 - KRBTGT = Usuario interno del Key Distribution Center (KDC) unico que tiene la llave de cifrado valida para firmar los tickets, ni un domain admin puede firmar tickets.
 
+### Ataques comunes en kerberos:
+
+#### Golden ticket attack:
+El proceso puede variar pero basicamente es obtener un ticket de tipo TGT.
+
+1- Obtener el hash de krbtgt:
+- lsadump::dcsync /domain:domain name /user:krbtgt
+
+2- Usar pass the hash a la cuenta de krbtgt para emitir TGT:
+- kerberos::golden /domain:domain name /aes256:SID /rc4:KRBTGT-hash-value /id:value /user:username
+- se guardara el ticket como ticket.kirbi
+
+#### Silver ticket attack:
+El proceso se basa en que sí obtienes el hash NTLM de de un servicio, puedes firmar en base a este hash el ticket, creando un servicio de TGS falso, emitiendo un ST con incluso un usuario falso, que cuando se envia al servidor con el servicio, no va y valida con el KDC que el ST sea valido, simplemente lo descifra usando su hash NTLM y acepta la conexión.
+
+¿Y sí ya tenemos el hash ntlm porque no simplemente me autentico usando el hash? Usar un ST tiene ventajas como:
+
+	Usar  Ticket Attack
+Interacción con el KDC	Requiere autenticación con el KDC	No interactúa con el KDC
+Rastro en logs del KDC	Sí, deja registros	No deja rastro en el KDC
+Privilegios	Limitado a los privilegios reales de la cuenta	Control sobre los privilegios en el ticket
+Duración del acceso	Depende de la sesión y autenticación	Puedes generar tickets con larga duración
+Detección	Más fácil de detectar (actividad en los logs)	Más difícil de detectar (sin interacción KDC)
+Reutilización del acceso	Autenticación repetida con credenciales	Ticket persistente, reutilizable
+
+
+| **Aspecto**                        | **Usar Contraseña/Hash NTLM**             | **Silver Ticket Attack**                      |
+|------------------------------------|-------------------------------------------|-----------------------------------------------|
+| **Interacción con el KDC**         | Requiere autenticación con el KDC         | No interactúa con el KDC                      |
+| **Rastro en logs del KDC**         | Sí, deja registros                        | No deja rastro en el KDC                      |
+| **Privilegios**                    | Limitado a los privilegios reales de la cuenta | Control sobre los privilegios en el ticket    |
+| **Duración del acceso**            | Depende de la sesión y autenticación       | Puedes generar tickets con larga duración     |
+| **Detección**                      | Más fácil de detectar (actividad en los logs) | Más difícil de detectar (sin interacción KDC) |
+| **Reutilización del acceso**       | Autenticación repetida con credenciales   | Ticket persistente, reutilizable              |
+
 
 
 
