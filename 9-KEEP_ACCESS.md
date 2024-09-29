@@ -8,8 +8,6 @@ Mantener el acceso es importante porque los pentest duran dias, no es funcional 
 ### Start Up folder:
 
 
-
-
 ## Active Directory:
 
 ### Domain Dominance:
@@ -23,4 +21,29 @@ Agregando un usuario que conozcamos la contraseña para poder ejecutar por CLI c
 Add the user to the “Admins” group.
 - PsExec.exe \\< DomaincontrollerName> -accepteula net localgroup "Admins" PiratedProcess /add
 
+### AdminSDHolder:
+Función de AD que hace que cada cierto tiempo (1 min por defecto) se asigen de nuevo los permisos de "domain admin" a los usuarios adminsitradores del AD, con la finalidad que sí un usuario es modificado maliciosamente o por error vuelva a su estado normal.
+Pero esta misma función puede ser util para que en caso de que se eliminen permisos a un usuario agregado maliciosamente, se resetee a domain admin por el objeto AdminSDHolder.
+
+```
+Add-ObjectAcl-TargetADSprefix 'CN=AdminSDHolder,CN=System' PrincipalSamAccountName Martin -Verbose -Rights All 
+```
+
+
 ### Power-tools
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
