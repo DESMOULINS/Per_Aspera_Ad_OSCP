@@ -61,20 +61,34 @@ Siempre es bueno revisar en lo general el estado, con el tiempo sabras identific
 ### Reconocimiento general:
 Primero siempre es bueno reconocer el panorama general:
 ```
-ps -ef : Tabla de procesos con el respectivo ID
+ps -ef #Tabla de procesos con el respectivo ID
 ```
 ```
-mount -l : Muestra los dispositivos (/dev) o archivos montados en carpetas del sistemas
+mount -l #Muestra los dispositivos (/dev) o archivos montados en carpetas del sistemas
 ```
 ```
-route -n : Tabla de ruteo
-/sbin/ifconfig -a : All ifconfig
-cat /etc/crontab o ls -la /etc/cron.d o crontab -l : Mostrar los cron que esta corrriendo
-cat /etc/exports : Archivos exportables a NFS
-cat /etc/redhat* /etc/debian* /etc/*release : version de OS
-ls /etc/rc* : Lista inicios de Bootup
-egrep -e '/bin/(ba)?sh' /etc/passwd : Usuarios con shell
-cat ~/.ssh/ : buscar las key de ssh
+route -n #Tabla de ruteo
+```
+```
+/sbin/ifconfig -a #All ifconfig
+```
+```
+cat /etc/crontab o ls -la /etc/cron.d o crontab -l #Mostrar los cron que esta corrriendo
+```
+```
+cat /etc/exports #Archivos exportables a NFS
+```
+```
+cat /etc/redhat* /etc/debian* /etc/*release #version de OS
+```
+```
+ls /etc/rc* #Lista inicios de Bootup
+```
+```
+egrep -e '/bin/(ba)?sh' /etc/passwd #Usuarios con shell
+```
+```
+cat ~/.ssh/ #buscar las key de ssh
 ```
 
 ### Abusar de caracteristicas especiales:
