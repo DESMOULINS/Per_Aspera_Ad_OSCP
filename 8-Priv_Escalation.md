@@ -55,6 +55,17 @@ La alternativa es usar metasploit:
 ## Linux:
 En windows es similar los conceptos generales, pero ya la forma de realizarlo cambia.
 
+## Discovery:
+Siempre es bueno revisar en lo general el estado, con el tiempo sabras identificar que malas practicas podria tener el SO más rapido.
+
+### Uses Full Commands:
+
+```
+- > sudo -l
+  - 
+find / -perm -3000 -ls 2> /dev/null
+```
+
 ### Falta parcheo:
 Los sistemas linux usualmente son los que menos se actualizan a diferencia de windows, en algunos casos la existencia de vulnerabilidades del kernel son las más delicadas.
 
@@ -68,6 +79,8 @@ https://github.com/ly4k/PwnKit
 A diferencia de los puntos anteriores, aqui vas a abusar directamente de un servicio no del sistema operativo.
 
 ### NFS:
+
+## 
 
 
 
