@@ -27,8 +27,8 @@ En las primeras etapas siempre que ya tengamos acceso inicial debemos hacer un r
 | Command                 | Description                                          |
 |-------------------------|------------------------------------------------------|
 | cmd> dir /a:h           | Retrieves the directory names with hidden attributes |
-| cmd> dfindstr /E ".txt" | Retrieves all the text files |
-| cmd> dfindstr /E ".log" | Retrieves all the log files |
+| cmd> dfindstr /E ".txt" | Retrieves all the text files                         |
+| cmd> dfindstr /E ".log" | Retrieves all the log files                          |
 
 - Hash Computing Commands:
 | Command     | Description |
