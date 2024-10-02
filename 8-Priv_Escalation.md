@@ -88,8 +88,8 @@ En las primeras etapas siempre que ya tengamos acceso inicial debemos hacer un r
 | Command     | Description |
 |-------------|-------------|
 | wmic /node:<IP-address> /user:administrator /password:$PASSWORD bios get serialnumber | Retrieves the PC’s serial number |
-| taskkill.exe /S <IP address> /U domain\username /F /FI "eset" | Terminate process associated to eset |
-| tasklist.exe /S <IP address> /U domain\username /FI "USERNAME eq NT AUTHORITY\SYSTEM" /FI "STATUS eq running" | Retrieves all the processes running on the system that are not actually “SYSTEM |
+| taskkill.exe /S <IP-address> /U domain\username /F /FI "eset" | Terminate process associated to eset |
+| tasklist.exe /S <IP-address> /U domain\username /FI "USERNAME eq NT AUTHORITY\SYSTEM" /FI "STATUS eq running" | Retrieves all the processes running on the system that are not actually “SYSTEM |
 
 - Sysinternals Command
   
