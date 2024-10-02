@@ -100,6 +100,12 @@ En las primeras etapas siempre que ya tengamos acceso inicial debemos hacer un r
 | psexec -i -d -s c:\windows\regedit.exe | Retrieves the contents of security keys and SAM |
 | psexec -i \\<RemoteSystem> ipconfig /al | CMD commands |
 
+- Authenticated WMI Exec via PowerShell:
+
+| Command     | Description |
+|-------------|-------------|
+| msf > use exploit/windows/local/ps_wmi_exec | Launches a suitable local exploit |
+
 ### Automatizado:
 
 #### BeRoot:
