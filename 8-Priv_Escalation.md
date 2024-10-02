@@ -18,6 +18,79 @@ Ambos podemos buscarlo por un ejecutable automatizado o realizarlo manual, claro
 ## Windows:
 Aquí es más dificil que en Windows por el tema de que los EDR estan más avanzados aquí, solo como consejo siempre ejecutarlo en lotes por ejemplo los ps1 especificamente ejecutar los modulos que necesites.
 
+### Discovery:
+En las primeras etapas siempre que ya tengamos acceso inicial debemos hacer un reconocimiento por lo que siempre es bueno hacerlo más bajo perfil posible con comandos nativos de sistema:
+
+#### CMD Commands:
+
+- File System:
+| Command     | Description |
+|-------------|-------------|
+| cmd> dir /a:h    | Retrieves the directory names with hidden attributes |
+| cmd> dfindstr /E ".txt" | Retrieves all the text files |
+| cmd> dfindstr /E ".log" | Retrieves all the log files |
+
+- Hash Computing Commands:
+| Command     | Description |
+|-------------|-------------|
+| powershell> Get-FileHash <file-name> -a md5 | Generates MD5 hashes |
+
+- Registry Commands:
+| Command     | Description |
+|-------------|-------------|
+| cmd> reg query HKLM /f credential /t REG_SZ /s | Extract reg using key words |
+| cmd> reg query HKLM\SOFTWARE\Policies\Microsoft\Windows\Installer /v AlwaysInstallElevated | Installs a package with elevated privileges |
+| cmd> reg query HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Uninstall | Provides a list of programs installed |
+
+- Task List / Services:
+| Command     | Description |
+|-------------|-------------|
+| schtasks /query /fo LIST | Retrieves the scheduled task list |
+| tasklist /SVC | List of services in execution |
+
+- Net:
+| Command     | Description |
+|-------------|-------------|
+| net config rdr | Shows domain connection details |
+| net computer \\computername /add | Add computer to the domain |
+| net view | Show users and computers in the domain |
+| net view \\host  | Display name of the host computer |
+| net shares | Show shared resources |
+
+- Network:
+| Command     | Description |
+|-------------|-------------|
+| route print or netstat -r command | Displays routing tables for the destination |
+| arp -a | Shows the ARP table for a specific IP address |
+| ipconfig /all | Displays IP configuration details |
+| getmac | Show MAC ADDRESS information |
+
+- Service Commands
+| Command     | Description |
+|-------------|-------------|
+| sc queryex type=service state=all | Lists all the available services | 
+| sc queryex type=service state=all | find /i "Name of the service: myService" | Lists details about the specified service |
+| net start or stop | Starts/stops a network service |
+| netsh firewall show state | Displays the current firewall state |
+| netsh firewall show config | Displays firewall settings |
+| netsh advfirewall set currentprofile state off | Turn off the firewall service for the current profile |
+| netsh advfirewall set allprofiles state of | Turn off the firewall service for all profiles |
+
+- Remote Execution Commands:
+| Command     | Description |
+|-------------|-------------|
+| wmic /node:<IP-address> /user:administrator /password:$PASSWORD bios get serialnumber | Retrieves the PC’s serial number |
+| taskkill.exe /S <IP address> /U domain\username /F /FI "eset" | Terminate process associated to eset |
+| tasklist.exe /S <IP address> /U domain\username /FI "USERNAME eq NT AUTHORITY\SYSTEM" /FI "STATUS eq running" | Retrieves all the processes running on the system that are not actually “SYSTEM |
+
+- Sysinternals Command
+| Command     | Description |
+|-------------|-------------|
+| psexec -i \\<RemoteSystem> cmd | Establishes an interactive CMD with a remote system |
+| psexec -i \\<RemoteSystem> -c file.exe | Copies file.txt from the local machine to a remote computer |
+| psexec -i -d -s c:\windows\regedit.exe | Retrieves the contents of security keys and SAM |
+| psexec -i \\<RemoteSystem> ipconfig /al | CMD commands |
+
 ### Automatizado:
 
 #### BeRoot:
