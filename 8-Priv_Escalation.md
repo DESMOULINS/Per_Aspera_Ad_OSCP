@@ -24,6 +24,7 @@ En las primeras etapas siempre que ya tengamos acceso inicial debemos hacer un r
 #### CMD Commands:
 
 - File System:
+  
 | Command                 | Description                                          |
 |-------------------------|------------------------------------------------------|
 | cmd> dir /a:h           | Retrieves the directory names with hidden attributes |
@@ -31,11 +32,13 @@ En las primeras etapas siempre que ya tengamos acceso inicial debemos hacer un r
 | cmd> dfindstr /E ".log" | Retrieves all the log files                          |
 
 - Hash Computing Commands:
+  
 | Command     | Description |
 |-------------|-------------|
 | powershell> Get-FileHash <file-name> -a md5 | Generates MD5 hashes |
 
 - Registry Commands:
+  
 | Command     | Description |
 |-------------|-------------|
 | cmd> reg query HKLM /f credential /t REG_SZ /s | Extract reg using key words |
@@ -43,12 +46,14 @@ En las primeras etapas siempre que ya tengamos acceso inicial debemos hacer un r
 | cmd> reg query HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Uninstall | Provides a list of programs installed |
 
 - Task List / Services:
+  
 | Command     | Description |
 |-------------|-------------|
 | schtasks /query /fo LIST | Retrieves the scheduled task list |
 | tasklist /SVC | List of services in execution |
 
 - Net:
+  
 | Command     | Description |
 |-------------|-------------|
 | net config rdr | Shows domain connection details |
@@ -58,6 +63,7 @@ En las primeras etapas siempre que ya tengamos acceso inicial debemos hacer un r
 | net shares | Show shared resources |
 
 - Network:
+  
 | Command     | Description |
 |-------------|-------------|
 | route print or netstat -r command | Displays routing tables for the destination |
@@ -66,6 +72,7 @@ En las primeras etapas siempre que ya tengamos acceso inicial debemos hacer un r
 | getmac | Show MAC ADDRESS information |
 
 - Service Commands
+  
 | Command     | Description |
 |-------------|-------------|
 | sc queryex type=service state=all | Lists all the available services | 
@@ -77,6 +84,7 @@ En las primeras etapas siempre que ya tengamos acceso inicial debemos hacer un r
 | netsh advfirewall set allprofiles state of | Turn off the firewall service for all profiles |
 
 - Remote Execution Commands:
+  
 | Command     | Description |
 |-------------|-------------|
 | wmic /node:<IP-address> /user:administrator /password:$PASSWORD bios get serialnumber | Retrieves the PC’s serial number |
@@ -84,6 +92,7 @@ En las primeras etapas siempre que ya tengamos acceso inicial debemos hacer un r
 | tasklist.exe /S <IP address> /U domain\username /FI "USERNAME eq NT AUTHORITY\SYSTEM" /FI "STATUS eq running" | Retrieves all the processes running on the system that are not actually “SYSTEM |
 
 - Sysinternals Command
+  
 | Command     | Description |
 |-------------|-------------|
 | psexec -i \\<RemoteSystem> cmd | Establishes an interactive CMD with a remote system |
