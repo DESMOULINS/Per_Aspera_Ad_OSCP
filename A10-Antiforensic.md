@@ -1,5 +1,5 @@
 # ANTIFORENSICS:
-Son tecnicas para evadir la detección y futuros escenarios donde se realicen auditorias a los logs de los sistemas donde ingresamos.
+Son tecnicas para evadir la detección y escenarios donde se realicen auditorias a los logs de los sistemas donde ingresamos.
 
 No es necesariamente estricto realizarlo porque el cliente nos va a pedir que expliquemos todo lo que realizamos, y esto puede ser un problema porque no solo borrariamos lo de nosotros sino que podriamos borrar otros logs de otros incidentes.
 
