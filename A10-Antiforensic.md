@@ -34,12 +34,15 @@ Aún asi veremos que esto genere un evento de modificación de logs, el evento e
 ```
 ```
 powershell> Clear-EventLog –LogName Security,System
+powershell> Clear-EventLog “Windows PowerShell”
+powershell> Clear-EventLog -LogName ODiag, OSession -ComputerName localhost, Server02
 ```
 
 ### Scripts de borrado de logs:
 Tambien se puede realizar mediante un powershell, pero hacerlo por este medio vale la pena personalizarlo para que no borre todo, porque ademas es más facil que el antimalware te lo detecte.
 - https://gist.github.com/amnweb/0ddb3fdb7ec5da0f0c39f0e9aa9fdd56
 
+### Meterpreter:
 ```
 meterpreter> clearev
 ```
@@ -80,11 +83,25 @@ En este sistema operativo es un poco diferente porque los logs comunmente no est
 ### History:
 La forma más rapida de saber el historial de comandos es con el comando history, el cual podemos evitar su registro con:
 
+#### Deshabilitar:
 ```
-history -w (borrado del history)
-shred ~/.bash_history (rellena el archivo con caracteres random, haciendo un "borrado" seguro del archivo history) * no siempre es el mismo depende del tipo de /bin/*sh que uses.
-shred ~/.bash_history && cat /dev/null > .bash_history && history -c && exit (combinación de varias tecnicas)
+> export HISTSIZE=0
 ```
+
+#### Borrado:
+```
+> history -w (borrado del history de la sesión actual)
+> history -c (borrado de todo el history)
+> shred ~/.bash_history (rellena el archivo con caracteres random, haciendo un "borrado" seguro del archivo history) * no siempre es el mismo depende del  tipo de /bin/*sh que uses.
+> shred ~/.bash_history && cat /dev/null > .bash_history && history -c && exit (combinación de varias tecnicas)
+```
+
+### /Var/log
+Carpeta donde normalmente se guardan los logs de los servicios y software instalado.
+
+Examples:
+- /var/log/apache2/access.log
+- /var/log/postgresql-#-main.log.#
 
 ### Ocultar archivos:
 En linux es un poco más complicado porque es tipico los usuarios tengan más experiencia, pero para ocultarlos simplemente agrega un "." al inicio del nombre del fichero.
