@@ -62,6 +62,12 @@ attrib +h +s +r Test (ocultar la carpeta test)
 attrib -h -s -r Test (mostrar la carpeta test)
 ```
 
+### Modificar fecha de modificación:
+Reducir horas en la modificación de archivos, util para evadir analisis de herramientas forenses, **claro** borra el evento de powershell...
+```
+powershell -Command "(Get-Item $File_name).LastWriteTime = $(Get-Date).AddHours(-10)"
+```
+
 ### Ocultar usuarios:
 Importantante paso tambien sí no queremos ser muy obvios cuando agregues usuarios para persistencia.
 ```
@@ -70,12 +76,46 @@ net user Test /active:yes
 net user Test /active:no (no lo mostrara en los tipicos lugares como al inciar sesión)
 ```
 
-### Borrar artefactos:
+### Borrado seguro:
 Un punto tambien importante es borrar de forma segura los artefactos que usemos, por ejemplo, en los pentest no forma parte del proyecto dejar artefactos o tareas programadas, es peligroso y poco etico dejarlas dentro de los equipos, no dejan de ser herramientas que en otro contexto un atacante real puede abusar de ellas.
 
 ```
-cipher /w:c/Users/shells (borrado de seguro de archivos, primero da una pasada con 0x00 despues con 0xFF y al final con valores random)
+cipher /w:C\temp\shells (borrado de seguro de archivos, primero da una pasada con 0x00 despues con 0xFF y al final con valores random)
 ```
+
+### Windows Artifacts:
+No solo los logs permiten dar seguimiento, windows tiene ficheros que se usan para optimización y otras tareas, y que tambien pueden ser usados para identificar que fue lo que se hizo en un equipo:
+
+#### Timestamp:
+Esto deshabilitara la función de windows de registrar el ultimo acceso o modificación de ficheros.
+```
+fsutil behavior set disablelastaccess 1
+```
+
+#### Hibernación:
+El fichero hiberfil.sys contiene información de sistema para la hibernación, por lo que puede ser usado con fines forenses, para deshabilitarlo:
+```
+reg> Computer\HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Power > HibernateEnabledDefault > SET DWORD (32-bit) = 0
+cmd> powercfg.exe /hibernate off
+```
+
+#### Windows Virtual Memory: (Paging File)
+Archivo de memoria virtual que se usa cuando la RAM fisica se llena.
+
+Control Panel > System and Security > System > Advanced system settings > Settings > Performance > Advanced > Virtual Memory > Automatically manage paging file size for all drives (uncheck)
+
+#### Puntos de restauración:
+Control Panel > System and Security > System > System protection > Configure > Disable system protection
+
+#### Thumbnail cache:
+Windows guarda "miniaturas" de archivos como cache, dejando registro de su uso en el archivo thumbs.db
+
+Windows + R > gpedit.msc > User Configuration > Administrative Templates > Windows Components > File Explorer > Turn off the caching of thumbnails in hidden thumbs.db files (Enabled)
+
+#### Prefetch:
+Windows para hacer más rapido la apertura de ejecutables guarda datos de aplicaciones, este es un muy buen lugar para encontrar ejecutables de los que se haya borrado WinEvents.
+
+Windows + R > services.msc > SysMain (Superfetch) >  SysMain Properties (Local Computer) >  SysMain Properties (Local Computer) (Disabled)
 
 ## Linux
 En este sistema operativo es un poco diferente porque los logs comunmente no esta centralizados como en windows con "win events", aqui usualmente no encontraremos con ficheros individuales.
@@ -94,6 +134,12 @@ La forma más rapida de saber el historial de comandos es con el comando history
 > history -c (borrado de todo el history)
 > shred ~/.bash_history (rellena el archivo con caracteres random, haciendo un "borrado" seguro del archivo history) * no siempre es el mismo depende del  tipo de /bin/*sh que uses.
 > shred ~/.bash_history && cat /dev/null > .bash_history && history -c && exit (combinación de varias tecnicas)
+```
+
+### Modificar fecha de modificación y acceso:
+```
+touch -a -d '<date> <time>' $File_name (acceso)
+touch -m -d '<date> <time>' $File_name (modificación)
 ```
 
 ### /Var/log
