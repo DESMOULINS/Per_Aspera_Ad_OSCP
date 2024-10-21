@@ -46,23 +46,29 @@ Siempre que comprometamos una capa del modelo OSI, por ejemplo sí la capa compr
  
 #### ARP process:
 - 0 - Initial CAM:
+
 |-MAC-|-PORT-|
 | AA  | 1    |
 | CC  | 3    |
+
 - 1 - IP 1.2 - ARP Request "who has 1.3?"
 - 2 - SWITCH - Brodcast the request
 - 3 - IP 1.3 - ARP Anwer "I'm 1.3 and my mac add is BB"
 - 4 - SWITCH - Learn MAC ADD
+  
 |-MAC-|-PORT-|
 | AA  | 1    |
 | BB  | 2    | <- WRITE
 | CC  | 3    |
+
 - 5 - IP 1.2 - Send tcp request to 1.3 - BB (Con la mac en una trama "encapsulada")
 - 6 - SWITCH - Read MAC ADD BB and his CAM
+  
 |-MAC-|-PORT-|
 | AA  | 1    |
 | BB  | 2    | <- HERE!
 | CC  | 3    |
+
 - 7 - SWITCH - Send packet to port 2
 
 
