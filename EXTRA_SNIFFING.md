@@ -71,11 +71,49 @@ Siempre que comprometamos una capa del modelo OSI, por ejemplo sí la capa compr
 
 - 7 - SWITCH - Send packet to port 2
 
+#### MAC Flooding 
+En pocas palabras es llenar la tabla CAM para que el switch funcione como HUB,
 
+- 1 - Enviando multiples "I'm ip 1.3 and my mac add is BB"... "I'm ip 1.3 and my mac add is CC"... 
 
+|-MAC-|-PORT-|
+| AA  | 1    |
+| BB  | 2    |
+| CC  | 2    |
 
+- 2 - Se pone la NIC en modo promiscuo.
 
+#### SWITCH Port steal:
+En este caso lo que se hara sera spoofear la mac e ip de la victima enviando ARP Answers diciendo que nosotros somos la IP y MAC victima:
 
+|-MAC-|-PORT-|
+| AA  | 1    |
+| BB  | 2    |
+| BB  | 2    |
+
+Al tener dos MAC iguales cuando llegue la trama el switch simplemente enviara el trafico a ambos puertos, o hara brodcast del trafico.
+
+- Protección:
+  - Port Security, permite asociar de forma fija una mac a un puerto, o limitar la cantidad de mac add permitidas dentro de un nodo.
+```
+cisco> switchport port-security
+cisco> switchport port-security maximum 1 vlan access (cantidad maxima de mac add en el puerto)
+cisco> switchport port-security violation restrict
+cisco> switchport port-security aging time 2
+cisco> switchport port-security aging type inactivity
+cisco> snmp-server enable traps port-security trap-rate 5
+```
+
+### DHCP Attacks:
+Los ataques de DHCP estan orientados a controlar la asignación de IP, para bypassear ACL por ejemplo, el ataque más comun es hacerle DOS a un DHCP para despues levantar uno propio.
+
+#### DHCP Process:
+El proceso se puede aprender por el acronimo de DORA.
+
+DHCP CLIENT -> Discovery      -> DHCP SERVER
+DHCP CLIENT <- Offers         <-  DHCP SERVER
+DHCP CLIENT -> Request        ->  DHCP SERVER
+DHCP CLIENT <- Acknowledgment <- DHCP SERVER
 
 
 
