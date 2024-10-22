@@ -71,7 +71,10 @@ lsadump::dcsync /user:dcorp o krbtgt(u otro usuario pero en este caso el hash de
 > secretsdump.py -just-dc <user>:<password>@<ipaddress> -outputfile dcsync_hashes
 ```
 
-NOTA: un escenario que podriamos toparnos en un pentest es... 1- Conseguir un usuario y contraseña del AD con solo permisos de replicación, luego con estos permisos obtengamos la replicación (HASH NTML) de un usuario elevador como el de krbtgt, y ya en base a este usuario krbtgt logremos emitir goldentickets del domain admin.
+NOTA: un escenario que podriamos toparnos en un pentest es... 
+1- Conseguir un usuario y contraseña del AD con solo permisos de replicación.
+2- Con estos permisos obtengamos la replicación (HASH NTML) de un usuario elevador como el de krbtgt.
+3- En base a este usuario krbtgt logremos emitir goldentickets del domain admin.
 
 ## Key Skeleton attack:
 En resumen el ataque es "sencillo", lo que se hace es modificar mediante una inyección en memoria a lsass (encargado de la autenticación) haciendo que ademas de permitir la autenticación por medio de la contraseña guardada en el AD, tambien permita la autenticación con una "master key" inyectada.
