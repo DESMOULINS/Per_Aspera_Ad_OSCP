@@ -110,12 +110,69 @@ Los ataques de DHCP estan orientados a controlar la asignación de IP, para bypa
 #### DHCP Process:
 El proceso se puede aprender por el acronimo de DORA.
 ```
-DHCP CLIENT -> Discovery (Brodcast)      -> DHCP SERVER
-DHCP CLIENT <- Offers (Unicast)          <- DHCP SERVER
-DHCP CLIENT -> Request (Brodcast)        -> DHCP SERVER
-DHCP CLIENT <- Acknowledgment (Unicast)  <- DHCP SERVER
+DHCP CLIENT -> Discovery       (Brodcast - 255.255.255.255:port 67)              -> DHCP SERVER
+  -> QUIEN ME ASIGNA UNA IP?
+DHCP CLIENT <- Offers          (Unicast or brodcast - 255.255.255.255:port 68)   <- DHCP SERVER
+  <- TE INTERESA LA IP X.X.X.X CON GATEWEY ... DNS... ETC?
+DHCP CLIENT -> Request         (Brodcast - 255.255.255.255:port 67)              -> DHCP SERVER
+  -> SI ME INTERESA, PUEDO TOMARLA?
+DHCP CLIENT <- Acknowledgment  (Unicast or brodcast - 255.255.255.255:port 68)   <- DHCP SERVER
+  -> SI
 ```
 
+#### DHCP Starvation:
+Basicamente es realizar un DOS de request de IP con diferentes MAC Address para dejar al servidor DHCP sin IP disponibles para repartir.
+
+Pero previo a esto debemos llenar la tabla CAM con multiples MAC en uno o varios nodos del switch, para que justamente podamos mandar a pedir más IP para las multiples MAC que tenemos.
+
+```
+DHCP CLIENT -> Discovery  (Brodcast - 255.255.255.255:port 67)  -> DHCP SERVER
+  -> QUIEN ME ASIGNA UNA IP?
+DHCP CLIENT -> Discovery  (Brodcast - 255.255.255.255:port 67)  -> DHCP SERVER
+  -> QUIEN ME ASIGNA UNA IP?
+DHCP CLIENT -> Discovery  (Brodcast - 255.255.255.255:port 67)  -> DHCP SERVER
+  -> QUIEN ME ASIGNA UNA IP?
+DHCP CLIENT -> Discovery  (Brodcast - 255.255.255.255:port 67)  -> DHCP SERVER
+  -> QUIEN ME ASIGNA UNA IP?
+```
+
+#### DHCP Rogue:
+Aqui es levantar un Servidor DHCP gemelo malicioso, donde las respuestas que debemos vamos a asignar que nosotros somos el gateway, DNS, etc.
+
+- Tools: mitm6, DHCPwn, DHCPig.
+
+#### Mitigaciones:
+- port security: limitara que no podamos tener varias mac address y por defecto no podemos pedir más ips.
+- DHCP Snooping: Permite asociar VLANs exclusivas de donde deben provenir y enviarse el trafico de DHCP.
+```
+cisco> ip dhcp snooping → this turns on DHCP snooping
+cisco> ip dhcp snooping vlan 4,104 → this configures VLANs to snoop
+cisco> ip dhcp snooping trust → this configures interface as trusted
+```
+  - Otra caracteristica que tiene es que crea una tabla donde relaciona:
+    - | IP | MAC ADD | PORT | DURACIÓN DE ARRENDAMIENTO |
+    - Esta tabla es usada por otras medidas de seguridad como DAI (Dynamic ARP Inspection), explicado más adelante.
+
+### ARP Spoofing:
+Es algo similar a "switch port stealing" pero aqui solo spoofeamos la IP, y la mac address la mantenemos porque no intentamos modificar la tabla CAM, nuestro objetivo es modificar la tabla ARP cache de los dispositivos de la red.
+
+- Esto ocurre aunque no se hayan pedido un "who has?".
+- Y se basa en mandar una mayor cantidad de "I'm x.x.x.x" que la ip autentica.
+
+#### Mitigaciones:
+El principal metodo es DAI (Dynamic ARP Inspection), por lo que usando la tabla creada con DHCP Snopping vemos sí es una mac address usando la IP asignada por el DHCP.
+
+- Nota: Cuando uses ip estaticas, no es viable usar DAI, su uso esta enfocado para cuando existe un DHCP en la red.
+```
+cisco> ip arp inspection vlan 10
+```
+
+#### Detección:
+Veremos una inundación de "I'am" visibles en herramientas de monitoreo de red como:
+
+- Capsa Portable Network Analyzer
+- Wireshark
+- ARP Antispoofer
 
 
 
