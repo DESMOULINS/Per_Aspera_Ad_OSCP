@@ -51,13 +51,13 @@ Despues ya teniendo la masterkey podemos descrifrar los datos aparte, o con el m
 # CREDENTIAL ACCESS (DOMAIN):
 
 ## DCSYNC:
-Proceso de replicación nativa de windows, donde se requieren los permisos:
+Proceso de replicación nativa de servidores AD en windows, donde se requieren un usario con permisos:
 
 - DS-Replication-Get-Changes
 - Replicating Directory Changes All
 - Replicating Directory Changes In Filtered Set
 
-Ya sea para un usuario, o para un AD que este dentro de un grupo con los permisos asignados.
+Ya sea para un usuario, o para un servidor AD que este dentro de un grupo con permisos asignados.
 
 La explotación puede ser tanto local y remoto.
 
@@ -71,7 +71,7 @@ lsadump::dcsync /user:dcorp o krbtgt(u otro usuario pero en este caso el hash de
 > secretsdump.py -just-dc <user>:<password>@<ipaddress> -outputfile dcsync_hashes
 ```
 
-NOTA: un escenario que podria pasar es que por ejemplo, logremos conseguir un usuario y contraseña del AD con solo permisos de replicación, luego consigamos la replicación (HASH NTML) de un usuario como el de krbtgt, y ya en base a este usuario logremos emitir goldentickets del domain admin.
+NOTA: un escenario que podriamos toparnos en un pentest es... 1- Conseguir un usuario y contraseña del AD con solo permisos de replicación, luego con estos permisos obtengamos la replicación (HASH NTML) de un usuario elevador como el de krbtgt, y ya en base a este usuario krbtgt logremos emitir goldentickets del domain admin.
 
 ## Key Skeleton attack:
 En resumen el ataque es "sencillo", lo que se hace es modificar mediante una inyección en memoria a lsass (encargado de la autenticación) haciendo que ademas de permitir la autenticación por medio de la contraseña guardada en el AD, tambien permita la autenticación con una "master key" inyectada.
