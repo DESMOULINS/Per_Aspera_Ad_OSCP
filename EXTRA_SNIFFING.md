@@ -109,12 +109,12 @@ Los ataques de DHCP estan orientados a controlar la asignación de IP, para bypa
 
 #### DHCP Process:
 El proceso se puede aprender por el acronimo de DORA.
-
+```
 DHCP CLIENT -> Discovery      -> DHCP SERVER
 DHCP CLIENT <- Offers         <-  DHCP SERVER
 DHCP CLIENT -> Request        ->  DHCP SERVER
 DHCP CLIENT <- Acknowledgment <- DHCP SERVER
-
+```
 
 
 
