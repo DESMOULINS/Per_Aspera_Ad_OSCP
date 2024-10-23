@@ -1,9 +1,9 @@
 # Social Engineering
 Es el arta de abusar la parte más manipulable del modelo OSI, el ser humano.
 
-## Metodos basicos de abuso:
-- Autoridad: Hacerse pasar por alguien que tiene poder o alto rango.
-- Intimidación: Hacer menos a la otra persona.
+## Se abusa de:
+- Authority: Hacerse pasar por alguien que tiene poder o alto rango.
+- Intimidation: Hacer menos a la otra persona.
 - Consensus of Social Proof: La aceptación social y opiniones de otras personas, puede hacer que la persona entre en confianza, aunque la opinion sea de fuentes no validadas.
 - Scarcity: La sensación de sentir que algo se esta terminando, hace que la gente se apure para tomarlo sin revisar.
 - Urgency: Facil de entender.
@@ -17,7 +17,35 @@ Es el arta de abusar la parte más manipulable del modelo OSI, el ser humano.
 - Develop a relationship: Create a relation with employees.
 - Exploit a relationship: Collect sensitive data.
 
+## Tecnicas:
 
+### Humanas:
+- Impersonation
+- Vishing
+- Eavesdropping
+- Shoulder Surfing
+- Dumpster Diving
+- Reverse Social Engineering
+- Piggybacking
+- Tailgating
+- Diversion Theft
+- Honey Trap
+- Baiting
+- Quid Pro Quo
+- Elicitation
+
+### Computer:
+- Phishing
+- Spam mail
+- Instant chat messenger
+- Pop-up window attacks
+- Scareware
+
+### Mobile:
+- Publishing malicious apps
+- Repackaging legitimate apps
+- Using fake security applications
+- SMiShing (SMS Phishing)
 
 
 
