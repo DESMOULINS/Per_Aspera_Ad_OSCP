@@ -2,14 +2,23 @@
 El proceso de ingreso o conexión es.
 
 Inicio de conexión ->
+
 <- Acepta conexión
+
 Envia credenciales ->
+
 <- Acepta credenciales
+
 Configuración de la sesión ->
+
 <- Configuración de la sesión (Asigna Sessión ID)
+
 Pide información ->
+
 <- Transmite comunicación
+
 <- Transmite comunicación
+
 <- Transmite comunicación
 
 ## Principales vulnerabilidades:
