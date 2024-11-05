@@ -15,11 +15,13 @@
 - Snort:
 
 -----"rule
+
 -----protocol"-----"rule ip add"---------------------------------"alert message"
   
 alert tcp any any -> 192.168.1.0/24 111(content:"|00 01 86 a5|"; msg: "mountd access";)
 
 "alert-------"direction"-----"rule port"
+
 Rule"
 
 ## IPS:
