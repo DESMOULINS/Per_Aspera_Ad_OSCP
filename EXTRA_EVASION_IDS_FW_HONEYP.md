@@ -11,6 +11,14 @@
 - NIDS: Basado en comportamiento de la red por medio de sniffing.
 - HIDS: Basado en el comportamiento local de un equipo.
 
+### Herramientas:
+- Snort:
+      "rule
+      protocol"        "rule ip add"                            "alert message"
+alert tcp any any -> 192.168.1.0/24 111(content:"|00 01 86 a5|"; msg: "mountd access";)
+"alert           "direction"      "rule port"
+Rule"
+
 ## IPS:
 Lo mismo que el IDS, pero este si bloquea no solo sniffea el trafico.
 
@@ -52,9 +60,13 @@ Example:
 ```
 {
 meta:
-description = "This is just an example" threat_level = 3 in_the_wild = true
+description = "This is just an example"
+threat_level = 3
+in_the_wild = true
 strings:
-$a = {6A 40 68 00 30 00 00 6A 14 8D 91} $b = {8D 4D B0 2B C1 83 C0 27 99 6A 4E 59 F7 F9} $c = "UVODFRYSIHLNWPEJXQZAKCBGMT"
+$a = {6A 40 68 00 30 00 00 6A 14 8D 91}
+$b = {8D 4D B0 2B C1 83 C0 27 99 6A 4E 59 F7 F9}
+$c = "UVODFRYSIHLNWPEJXQZAKCBGMT"
 condition: $a or $b or $c 
 }
 ```
