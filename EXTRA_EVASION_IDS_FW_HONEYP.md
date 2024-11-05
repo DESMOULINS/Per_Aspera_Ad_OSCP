@@ -49,6 +49,10 @@ Lo mismo que el IDS, pero este si bloquea no solo sniffea el trafico.
 - High Interaction: Se simula por completo el sistema y servicios.
 - Pure: Se simula por completo el ambiente de producto.
 
+### Herramientas:
+- KFSensor:
+- HoneyBOT:
+
 ## YARA:
 YARA is a malware research tool that allows security analysts to detect and classify malware or other malicious codes through a rule-based approach.
 
@@ -75,6 +79,7 @@ $c = "UVODFRYSIHLNWPEJXQZAKCBGMT"
 condition: $a or $b or $c 
 }
 ```
+
 
 
 
