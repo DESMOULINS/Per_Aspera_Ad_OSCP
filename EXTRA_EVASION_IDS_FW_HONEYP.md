@@ -146,6 +146,13 @@ Control de acceso seguro y autenticado para usuarios a la red.
 - KFSensor:
 - HoneyBOT:
 
+### Detection:
+La presencia de servicios que nos respondan con banners de servicio, pero no permitan completar un "three way hand shake" es porque posiblemente es un servicio falso, otra opción que en lo personal noto mucho es la presencia de servicios que se repiten en varios equipos en la red y que no es normal los tengan.
+
+Tools:
+- Send-safe Honeypot Hunter
+- kippo_detect 
+
 ## YARA:
 YARA is a malware research tool that allows security analysts to detect and classify malware or other malicious codes through a rule-based approach.
 
