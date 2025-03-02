@@ -57,6 +57,14 @@
 - Post Incident Activity
 
 
+## Defend against reconnaisance:
+
+- Hide Whois 
+- Hide information on the SSL certificates 
+- Reduce public information on websites
+- Raise employee awareness of the consequences of sharing company information on social networks.
+- Reduce "zone transfer" rights
+- 
 
 
 
