@@ -1,5 +1,4 @@
 # Practical Incident Handling 
-
 "Only events whit negatives consequences are consired security incidents" NIST Incident Handling Guide
 
 - Examples:
