@@ -64,7 +64,55 @@
 - Reduce public information on websites
 - Raise employee awareness of the consequences of sharing company information on social networks.
 - Reduce "zone transfer" rights
-- 
+- Split DNS:
+  - If the origin of the request is x, the answer is y, if the origin is z then the aswer is a.
+- Outlook web access:
+  - Mailsniper: Fuzz domain names
+  - NTLM over http auth: IIS send "base64" answers that contain AD domain name
+    - /autodiscover/autodiscover.xml
+    - /EWS/Exchange.asmx
+  - XSS
+ 
+  ## Defending against scanning:
+
+  - War dialing:
+  - War driving:
+    - Generic SSID
+    - Use AES in WPA2
+    - Wireless IDS
+  - Port scan:
+    - TCP wrapped
+    - IDS/IPS
+  - WebRTC-based scans:
+    - FIREFOX | about:config and tooggle media.peerconnection.enable = false
+    - WEBRTC network limiter
+   
+  ## Defending against explotation:
+  - BGP hijacking
+    - Access to router and change the priotity of the traffic.
+  - Passive & active sniffing
+    - SSL Strip: Redirect https traffic to http, and also exist sslstrip+, use a dns hijacking to change the domain and evade HSTS
+  - Remote exploits
+    - IDS/IPS
+  - NetNTLM hash capturing & relaying
+    - Block outbound SMB connections on the border firewall
+    - Incrise password complexity
+    - Use kerberos
+  - Remote linux host attacks
+  - Remote denial of service attacks
+  - Malicious macros
+ 
+## Defending against post-explotation:
+  - Stored credentials:
+    - Honey files, create fake credentials like unnatende.xml and monitor his access.
+  - Writable registry keys:
+    - Monitor Sysmon event 1 and event 13
+  - 
+ 
+
+   
+
+  
 
 
 
