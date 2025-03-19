@@ -58,7 +58,6 @@
 
 
 ## Defend against reconnaisance:
-
 - Hide Whois 
 - Hide information on the SSL certificates 
 - Reduce public information on websites
@@ -74,7 +73,6 @@
   - XSS
  
   ## Defending against scanning:
-
   - War dialing:
   - War driving:
     - Generic SSID
@@ -104,14 +102,63 @@
  
 ## Defending against post-explotation:
   - Stored credentials:
-    - Honey files, create fake credentials like unnatende.xml and monitor his access.
+    - Honey files, create fake credentials like unnatended.xml and monitor his access.
   - Writable registry keys:
     - Monitor Sysmon event 1 and event 13
-  - 
+
+## Network basics:
  
+### OSI/TCP MODEL:
 
+Basic concepts:
+- 1 | Physical
+  - IEEE 802.x | Bites
+- 2 | Data link
+  - MAC Address | Frames
+- 3 | Network
+  - IP | Packets
+- 4 | Transport
+  - TCP/UDP/SCTP | Segments
+- 5 | Session
+- 6 | Presentation
+- 7 | Application
+  - HTTP/HTTPS/DNS | Data
+ 
+Encapsulation:
+- 1 | Data 
+- 2 | Data + App header
+- 3 | Data + App header + Tcp header
+- 4 | Data + App header + Tcp header + IP header
+- 5 | Ethernet trail + Data + App header + Tcp header + IP header + Ethernet header
+
+### Data link basics:
+- Ethernet trail: 4 bytes used for identify frame corruption
+- Max fram size is 1564 bytes.
+- MAC = 6 bytes = 3 OUI bytes and 3 NISI
+
+### IP basics:
+- IPv4 = 32 bytes and IPv6 = 128 bytes 
+
+#### ARP attack:
+- ARP for IPv4:
+  - Not validate source
+  - Is stateless
+- NDP for ipv6:
+  - Implement cryptography and source validation.
+
+- Gratuitous ARP:
+  - Request: Is like a announce, is not the same like "who has" this method is just to announce a new ip on the network... so you send:
+    - Sender IP: X.X.X.X IP victim
+    - MAC Source: 11:00... Malicious MAC add
+    - Source IP: X.X.X.X IP Victim
+    - MAC Target: 00:00... Pseudo-broadcast (Not use broadcast, but annouce than he dosnt know the MAC add target)
+  - Replay: Is a response to force the change on the arp table.
+    - Sender IP: X.X.X.X IP victim
+    - MAC Source: 11:00... Malicious MAC add
+    - Source IP: X.X.X.X IP Victim
+    - MAC Target: ff:ff... broadcast (is not waiting for response)
    
-
+  - 
   
 
 
