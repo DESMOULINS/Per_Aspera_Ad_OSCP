@@ -136,8 +136,15 @@ Encapsulation:
 - Max fram size is 1564 bytes.
 - MAC = 6 bytes = 3 OUI bytes and 3 NISI
 
-### IP basics:
-- IPv4 = 32 bytes and IPv6 = 128 bytes 
+### WIFI basics:
+- The header have aditional information:
+  - Management: (Connectivity at layer 2)
+    - Auth | Association
+    - Beacon: Send the SSID and requirements
+  - Control: (Delivery)
+    - Request to send packets
+    - Clear to send packets
+  - Data (Data container)
 
 #### ARP attack:
 - ARP for IPv4:
@@ -158,9 +165,43 @@ Encapsulation:
     - Source IP: X.X.X.X IP Victim
     - MAC Target: ff:ff... broadcast (is not waiting for response)
    
-  - 
-  
+- Detection:
+  - Duplicated MAC for same IP address.
 
+### Mac attack:
+- MAC Flooding:
+  - Overflow the switch and its table CAM.
+  - Empty request impersonating different IP address on the same node.
+
+### IP basics:
+- IPv4 = 32 bytes and IPv6 = 128 bytes
+
+- Keys to detect scan:
+  - Random source IP
+  - Empty request for transport protocols (ICMP,ICMPv6,GMTP, MFE NSP) and also for ports (UDP,HTTP,SMB...)
+ 
+- keys to detect Teredo (IPv6 tunneling over IPv4):
+  - Teredo use UDP protocol for tunneling the traffic.
+  - First the local IP negociate using ICMPv6 to create a tunnel.
+    - Router solicitation
+    - Router advertisement
+  - If you "follow" the traffic using wireshark, you will see the real traffic, like SMB, HTTP, ETC.
+
+- ICMPv6:
+  - Error messages (1-127)
+  - Info messages (128-129) Echo request / Echo replay
+  - Multicast listener discovery MLD / MLD2
+  - Neighbor discovery (NDP)
+    - NS neighbor solicitation -> Multicast FF02::2
+    - ND neighbor advertisement <- Router response with configuration
+    - Generate IPv6
+    - Duplicate address detection
+  - Stateless autoconfiguration (SLAAC)
+    - Gateway and IP solicitation:
+      - RS Router solicitation
+      - RA Router advertismenet
+  - Other (Router numbering, Mobile ipv6)
+    
 
 
 
