@@ -202,6 +202,53 @@ Encapsulation:
       - RA Router advertismenet
   - Other (Router numbering, Mobile ipv6)
     
+### TCP Basics:
+- TCP Header:
+  - Content:
+    - Src port - Dst port
+    - Sequence number: Identify the TCP segment
+    - Ack num: Expected Sequence number of the next pack
+    - Flags: URG,SYN,ACK,RST...
+    - Window size: TCP buffer size
+    - Checksum: Integrity of TCP header and data
+    - Urgent Pointer: For URG, Where reading data should start
+    - Options: Optional
+  - Caracteristics:
+    - 20 bytes size, where options is not set.
+  - SeqNum and AckNum:
+    - SYN:     SEQ = 1000 | ACK = 0
+    - SYN-ACK:     SEQ = 2000 | ACK = 1001
+    - ACK: SEQ = 1001 | ACK = 2001
+  - * Wireshark use "relative numbers"
+    - SYN:     SEQ = 0 | ACK = 0
+    - SYN-ACK: SEQ = 0 | ACK = 1
+    - ACK:     SEQ = 1 | ACK = 1
+    - ACK:     SEQ = 1 | ACK = 726
+    - ACK:     SEQ = 726 | ACK = 1449
+    - ACK:     SEQ = 1449 | ACK = 726
+    - ACK:     SEQ = 726 | ACK = 2879
+    - ACK:     SEQ = 2879 | ACK = 726 ...
+
+- TCP Basic detection:
+  - Excessive SYN (scanning)
+  - Usage of diffente flags
+  - Multiple ports o host
+- NMAP Detection:
+  - Nmap use similar o same SeqNum in SYN
+  - Use a base number for source port
+  - Scanning over destination port 0, is to find live host, responding RTS-ACK
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
