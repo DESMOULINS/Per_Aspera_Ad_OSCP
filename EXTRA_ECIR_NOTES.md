@@ -237,6 +237,12 @@ Encapsulation:
   - Nmap use similar o same SeqNum in SYN
   - Use a base number for source port
   - Scanning over destination port 0, is to find live host, responding RTS-ACK
+- Reset attack:
+  - Usually the IP origin consistent, but the macaddress is different.
+- Hikacking Session:
+  - This attack share similarities with the reset attack, but involves data injection, in the telnet case you are able to send commands, but the response is will be sent to the correct MAC Address origin.
+ 
+
 
 
 
