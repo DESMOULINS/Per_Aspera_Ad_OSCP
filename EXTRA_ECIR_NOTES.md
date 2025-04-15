@@ -241,6 +241,16 @@ Encapsulation:
   - Usually the IP origin consistent, but the macaddress is different.
 - Hikacking Session:
   - This attack share similarities with the reset attack, but involves data injection, in the telnet case you are able to send commands, but the response is will be sent to the correct MAC Address origin.
+- TCP Timestamp option:
+  - Timestamp value field: Current value of the timestamp clock of the TCP sending.
+  - Timestamp replay field: Only valid if is a ACK packet
+    - TCP Attacks:
+      - Host identification (clock skew) Some systems do not support the feature, others increment the value at frequencies of 2HZ, 100HZ, or 1000HZ, and still others return 0
+
+### ICMP:
+- ICMP attacks:
+  - ICMP tunneling: ICMP allows encapsulation of traffic, for example, ptunnel is a tool for tunelling data over ICMP.
+    - Detection: Two or more responses for each request, abnormal packet size, if you dump the strings you will see the exfiltration.
  
 
 
