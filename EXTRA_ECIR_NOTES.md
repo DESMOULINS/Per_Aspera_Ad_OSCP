@@ -251,6 +251,44 @@ Encapsulation:
 - ICMP attacks:
   - ICMP tunneling: ICMP allows encapsulation of traffic, for example, ptunnel is a tool for tunelling data over ICMP.
     - Detection: Two or more responses for each request, abnormal packet size, if you dump the strings you will see the exfiltration.
+  - ICMP Redirect: ICMP allows send packets to redirect traffic, if the gateway detect a better route, it sends a new route to clients.
+    - Detection: Recive "redirect traffic" from different a different mac than the original.
+ 
+### TCP:
+- Netbios Basics:
+  - Port 137: Name resolution, similar to ""DNS"".
+  - Port 138: Datagram distribution service, Announcement between clients and servers.
+  - Port 139: Session negociation, Access files, open directories, etc.
+- SMB Basics:
+  - Port 445: Share printers, files, directories, etc.
+  - Versions:
+    - 2.0: 2006 - Windows Vista
+    - 2.1: Win 7 - server 2008
+    - 3.0: Win 8 - server 2012
+  - Attacks:
+    - NULL session: Allow execute sessions without a user, like $IPC.
+- RPC Basic:
+  - ONC RPC: Basic implementation and basic auth.
+    - Use PortMapper: port 111.
+    - For use in linux.
+    - Implemented in NFS.
+      - Request 111 ->
+      - Response <- Mountd on #dynamic-port, NFS on #dynamic-port
+      - Request #mountd-port ->
+  - DCE RPC: Professional use and robust auth.
+    - Use Endpointmapper: Port 135.
+    - For use in windows and unix
+    - Implemented in:
+      - RPC over SMB:
+        - For use in SMB connection using "name pipes", for example "user enumeration", "psexec", etc.
+      - RPC over HTTP/HTTPS:
+        - For allow RCP calls over firewalls, nat, proxyes, etc.
+        - rpcclient -U user //target
+      - DCOM:
+        - Communication to COM Classes/Objects, for example WMI classes on DYNAMIC ports.
+        - wmic /node:target process call create "cmd.exe"
+  - 
+
  
 
 
