@@ -287,7 +287,20 @@ Encapsulation:
       - DCOM:
         - Communication to COM Classes/Objects, for example WMI classes on DYNAMIC ports.
         - wmic /node:target process call create "cmd.exe"
-  - 
+  - SSL/TLS:
+    - Renegotiation attack:
+      - Send multiple renegotiation connections.
+      - Negotiation consume high CPU.
+        - Detection:
+          - Multiple "Client Hello" request, open and exit connection with out data.
+  - SMPT:
+    - Basic messages:
+      - HELO/EHLO: Identify itself.
+      - MAIL FROM: Identify the sender of the message.
+      - RCPT TO: Identifies the messages recipients.
+      - VRFY: Verify that the mailbox is available for message.
+    - User enumeration:
+      - VRFY, EXPN & RCPT TO.
 
  
 
