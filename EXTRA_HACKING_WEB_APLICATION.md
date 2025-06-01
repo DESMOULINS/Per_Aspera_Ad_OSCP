@@ -66,6 +66,7 @@ Host: example.com
 ## Tipos de request de API a BD:
 CRUD Api y REST Api usan los tipos de acciones a realizar sobre la BD en base del tipo de Request por ejemplo:
 
+
 | Operation	| HTTP Method	| Description |
 -----------------------------------------
 | Create | POST	| Adds the specified data to the database table |
