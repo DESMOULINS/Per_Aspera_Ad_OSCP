@@ -1,6 +1,7 @@
 # HACKING WEB APPLICATION:
 
-## Web Service Architecture:
+## APIs:
+### Web Service Architecture:
 Arquitecture SOA:
 - Service provider: Manejador de la pagina web.
 - Service requester: Quien manda a pedir la información.
@@ -63,15 +64,29 @@ Host: example.com
 }
 ```
 
-## Tipos de request de API a BD:
+### Tipos de request de API a BD:
 CRUD Api y REST Api usan los tipos de acciones a realizar sobre la BD en base del tipo de Request por ejemplo:
 
 | Operation	| HTTP Method	| Description |
 | ----------| ------------|-------------|
 | Create | POST	| Adds the specified data to the database table |
+| Create | POST	| Only adds the specified data to the database table if the registry dosn't exist |
 | Read | GET	| Reads the specified entity from the database table |
 | Update	| PUT	| Updates the data of the specified database table |
+| Patch	| PUT	| Updates partially the data of the specified database table |
 | Delete	| DELETE	| Removes the specified row from the database table |
+
+## JavaScript:
+Es el motor de accionables de las paginas web, por llamarlo de una forma burda.
+
+### Ofuscation:
+Proceso en hacer más complicado la lectura del codigo de javascript, basado en herramientas que en automatico alteran la estructura del codigo.
+NOTA: Aunque en realida mayormente es usado para realizar evasión, dado que al final de cuentas al estar del lado del cliente puede ser des-ofuscado por lo que no es 100% su uso para ocultar información sensible.
+* 
+  
+-Ejemplo:
+
+-Ofuscado:
 
 ## Common Web Vulnerability:
 OWASP Top Ten:
