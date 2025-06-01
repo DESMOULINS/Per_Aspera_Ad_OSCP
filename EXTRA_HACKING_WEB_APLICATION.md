@@ -13,7 +13,8 @@ Más sin embargo existen dos estructuras basicas:
   - WS-Security: Encargado de mantener segura la conexión, como el manejo de sesiones.
 - RESTFul: Son mas simples, no requieren Service Registry, y pueden ser XML y JSON (más comun).
 
-EJEMPLOS REQUEST SOAP:
+- EJEMPLOS REQUEST SOAP:
+```
 POST /currencyConversionService HTTP/1.1
 Host: example.com
 Content-Type: text/xml; charset=utf-8
@@ -30,8 +31,9 @@ SOAPAction: "ConvertCurrency"
         </cur:ConvertCurrencyRequest>
     </soapenv:Body>
 </soapenv:Envelope>
-
-RESPUESTA SOAP:
+```
+- RESPUESTA SOAP:
+```
 <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"
                   xmlns:cur="http://example.com/currency">
     <soapenv:Header/>
@@ -44,19 +46,32 @@ RESPUESTA SOAP:
         </cur:ConvertCurrencyResponse>
     </soapenv:Body>
 </soapenv:Envelope>
+```
 
-EJEMPLO REQUEST RESTFUL:
+- EJEMPLO REQUEST RESTFUL:
+```
 GET /api/convert?from=USD&to=EUR&amount=100 HTTP/1.1
 Host: example.com
-
-RESPUESTA RESTFUL:
+```
+- RESPUESTA RESTFUL:
+```
 {
   "fromCurrency": "USD",
   "toCurrency": "EUR",
   "amount": 100,
   "convertedAmount": 85
 }
+```
 
+## Tipos de request de API a BD:
+CRUD Api y REST Api usan los tipos de acciones a realizar sobre la BD en base del tipo de Request por ejemplo:
+
+| Operation	| HTTP Method	| Description |
+-----------------------------------------
+| Create | POST	| Adds the specified data to the database table |
+| Read | GET	| Reads the specified entity from the database table |
+| Update	| PUT	| Updates the data of the specified database table |
+| Delete	| DELETE	| Removes the specified row from the database table |
 
 ## Common Web Vulnerability:
 OWASP Top Ten:
