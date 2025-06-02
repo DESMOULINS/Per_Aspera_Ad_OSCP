@@ -47,6 +47,27 @@ En la primera etapa lo más facil es revisar los puertos abiertos, los cerrados 
 ## Reconocimiento de servicios estandar:
 Cada servicio estandar tiene peculiaridades muy comunes de las cuales podemos abusar para obtener información interna.
 
+### Scripts NMAP:
+RECOMENDADOS:
+- Default: Default scripts executed by using the -sC option.*
+- Auth: Determination of authentication credentials.
+- Discovery: Evaluation of accessible services.
+- External: Scripts that use external services for further processing.
+- Safe: Defensive scripts that do not perform intrusive and destructive access.
+- Version: Extension for service detection.
+- Vuln: Identification of specific vulnerabilities.
+
+NO TAN USADOS:
+- Broadcast: Scripts, which are used for host discovery by broadcasting and the discovered hosts, can be automatically added to the remaining scans.
+- Malware: Checks if some malware infects the target system.
+
+PELIGROSOS:
+- Brute: Executes scripts that try to log in to the respective service by brute-forcing with credentials.
+- Dos: These scripts are used to check services for denial of service vulnerabilities and are used less as it harms the services.
+- Exploit: This category of scripts tries to exploit known vulnerabilities for the scanned port.
+- Fuzzer: This uses scripts to identify vulnerabilities and unexpected packet handling by sending different fields, which can take much time.
+- Intrusive: Intrusive scripts that could negatively affect the target system.
+
 ### NETBIOS:
 Conjunto de servicios y una API que permite la comunicación entre aplicaciones en diferentes computadoras dentro de una red local (LAN). Facilita el nombrado, descubrimiento de recursos y administración de sesiones. Aunque ha sido reemplazado en gran medida por protocolos más modernos, sigue siendo utilizado para compartir archivos e impresoras en redes Windows.
 
