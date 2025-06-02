@@ -79,14 +79,76 @@ CRUD Api y REST Api usan los tipos de acciones a realizar sobre la BD en base de
 ## JavaScript:
 Es el motor de accionables de las paginas web, por llamarlo de una forma burda.
 
+* Herramienta para correr javascript: https://jsconsole.com/
+
 ### Ofuscation:
 Proceso en hacer más complicado la lectura del codigo de javascript, basado en herramientas que en automatico alteran la estructura del codigo.
-NOTA: Aunque en realida mayormente es usado para realizar evasión, dado que al final de cuentas al estar del lado del cliente puede ser des-ofuscado por lo que no es 100% su uso para ocultar información sensible.
-* 
-  
--Ejemplo:
 
--Ofuscado:
+NOTA: Aunque en realida mayormente es usado para realizar evasión, dado que al final de cuentas al estar del lado del cliente puede ser des-ofuscado por lo que no es 100% su uso para ocultar información sensible.
+
+* Herramienta: https://beautifytools.com/javascript-obfuscator.php
+  
+-Ejemplo: 
+```
+console.log('HTB JavaScript Deobfuscation Module');
+```
+-Ofuscado: 
+```
+eval(function(p,a,c,k,e,d){e=function(c){return c};if(!''.replace(/^/,String)){while(c--){d[c]=k[c]||c}k=[function(e){return d[e]}];e=function(){return'\\w+'};c=1};while(c--){if(k[c]){p=p.replace(new RegExp('\\b'+e(c)+'\\b','g'),k[c])}}return p}('1.0(\'2 3 4 5\');',6,6,'log|console|HTB|JavaScript|Deobfuscation|Module'.split('|'),0,{}))
+```
+
+Pero sí notamos aún podemos leer ciertos strings, para hacerlo más avanzando podemos usar otros metodos:
+* Herramienta: https://obfuscator.io/
+
+-Ejemplo: 
+```
+function hi() {
+  console.log("Hello World!");
+}
+hi();
+```
+-Ofuscado: 
+```
+function _0x15e5(){var _0x515653=['67005aTWsQS','1565285NYTRGL','Hello\x20World!','182388LLwVFH','291882PwzBRj','12vNdABm','8ZcDJJv','log','10327009vSgTVQ','2VtJPZV','698362NTltuH','315430nnFMBQ','160qkLRFj','4YJBzfZ'];_0x15e5=function(){return _0x515653;};return _0x15e5();}(function(_0x5abee1,_0x312ba7){var _0x405874=_0x2642,_0x194f40=_0x5abee1();while(!![]){try{var _0x36b8f9=parseInt(_0x405874(0xf9))/0x1*(-parseInt(_0x405874(0xfb))/0x2)+-parseInt(_0x405874(0xf3))/0x3*(parseInt(_0x405874(0xfd))/0x4)+-parseInt(_0x405874(0xf1))/0x5+-parseInt(_0x405874(0xf4))/0x6+parseInt(_0x405874(0xfa))/0x7*(parseInt(_0x405874(0xf6))/0x8)+-parseInt(_0x405874(0xfe))/0x9*(parseInt(_0x405874(0xfc))/0xa)+parseInt(_0x405874(0xf8))/0xb*(parseInt(_0x405874(0xf5))/0xc);if(_0x36b8f9===_0x312ba7)break;else _0x194f40['push'](_0x194f40['shift']());}catch(_0x1ed409){_0x194f40['push'](_0x194f40['shift']());}}}(_0x15e5,0x2c51f));function hi(){var _0x407016=_0x2642;console[_0x407016(0xf7)](_0x407016(0xf2));}function _0x2642(_0x496bea,_0x2dc7c){var _0x15e568=_0x15e5();return _0x2642=function(_0x2642a3,_0x473985){_0x2642a3=_0x2642a3-0xf1;var _0x40f79e=_0x15e568[_0x2642a3];return _0x40f79e;},_0x2642(_0x496bea,_0x2dc7c);}hi();
+```
+
+Hay metodos cada vez más complicados y rebuscados, que claro terminaria afectando demasiado el performance de una aplicación como:
+
+https://jsfuck.com/
+https://utf-8.jp/public/jjencode.html
+https://utf-8.jp/public/aaencode.html
+
+Estos ya son metodos que son más dirigidos a evadir controles y realizar ataques de javascript.
+
+### Deofuscation:
+Proceso de reversing de la ofuscation:
+
+* Herramienta para acomodar el codigo: https://prettier.io/playground/
+* Directamente trata de desofuscar: https://matthewfl.com/unPacker.html
+
+### Minify:
+Metoodo más popular que la "ofuscation" dado que es usado para reducir el tamaño del codigo, es más util cuando se trata de codigo muy largo.
+El estandar para avisar que un archivo esta em minify es colocar .min.js al final del fichero.
+
+* Herramienta: https://www.toptal.com/developers/javascript-minifier
+
+- Ejemplo:
+```
+function log(){
+console.log('HTB JavaScript Deobfuscation Module');
+}
+```
+- Minified:
+```
+function log(){console.log("HTB JavaScript Deobfuscation Module")}
+```
+
+### Encoding:
+Recuerda encoding no es cifrado :) es solo encodear.
+
+- Base64: Su caracteristica principal es que debe estar en grupos de 4, sino rellena con =, por eso a veces vemos al final este caracter
+- HEX: Anotación de hexadecimal equivalente a una letra, que dependera de que encoding estemos usando como ASCCI o UTF8
+- rot13: No tan usado, pero es una variación del viejo cifrado cesar
 
 ## Common Web Vulnerability:
 OWASP Top Ten:
