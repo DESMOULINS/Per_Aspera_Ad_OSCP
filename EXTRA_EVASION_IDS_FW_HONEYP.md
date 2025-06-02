@@ -79,6 +79,8 @@ Lo mismo que el IDS, pero este si bloquea no solo sniffea el trafico.
   - A traves del TTL se va incrementando uno por uno, hasta que se vea en que salto hay un bloqueo, o sí se puede llegar hasta un salto despues del firewall.
 - Banner Grabbing
   - Identificar servicios por la respuesta que nos de al conectarnos a unos puertos, para conocer tipo de firewall.
+- Source port:
+  - --source-port modificar el origen de los request tanto en nmap o ncat puede permitir ver puertos como usar el puerto origen 53 
 
 #### Evasión de trafico entrante:
 - IP Address Spoofing:
