@@ -189,7 +189,9 @@ A09 – Security Logging and Monitoring Failures
 A10 – Server-Side Request Forgery (SSRF)
 - Abusar de que se permita enviar peticiones desde un servidor a otros.
 
-
+## Herramientas automatizadas:
+- NIKTO:
+  - nikto -h inlanefreight.com -Tuning b (Modulo de reconocimiento)
 
 
 
