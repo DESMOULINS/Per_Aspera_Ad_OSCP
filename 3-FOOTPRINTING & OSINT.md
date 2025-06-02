@@ -68,7 +68,8 @@ Builtwith: Uno de mis favoritos para encontrar dominios asociados al del alcance
 
 Whoisology: Otro de los escenciales es buscar el historial y ver que otros dominios pertenecen al mismo propietario.
 - https://whoisology.com/amiprecio.com
-
+- https://whoisfreaks.com/tools/dns/history/lookup
+- https://virustotal.com/
 
 ### DNS:
 Este tambien es otro de los puntos más importantes y que es vital porque amplia nuestro punto de vista de el alcance:
@@ -81,11 +82,12 @@ Este tambien es otro de los puntos más importantes y que es vital porque amplia
 ```
 - dig: comando más completo pero requieres instalarlo de la https://www.isc.org/download/
 ```
-> dig Hostname
+> dig Hostname ANY
 > dig DomaiNameHere
 > dig @DNS-server-name Hostname
 > dig @DNS-server-name IPAddress
 > dig @DNS-server-name Hostname|IPAddress type
+> dig +trace domain.com
 > dig any victim.com @<DNS_IP>
 > dig version.bind CHAOS TXT @DNS (Banner grabbing)
 > dig -x 192.168.0.2 @<DNS_IP> (Busqueda inversa muy util para encontrar virtual hosting)
@@ -161,8 +163,6 @@ Maltego: Herramienta grafica similar a recon-ng pero con mas poder pero... claro
 
 BillCipher: Tiene varias herramientas para website o ip.
 - https://github.com/bahatiphill/BillCipher
-
-
 
 ### Información de usuarios:
 sherlock: Buscador de usuarios
