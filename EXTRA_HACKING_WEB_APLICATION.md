@@ -189,8 +189,18 @@ A09 – Security Logging and Monitoring Failures
 A10 – Server-Side Request Forgery (SSRF)
 - Abusar de que se permita enviar peticiones desde un servidor a otros.
 
-## Herramientas automatizadas:
-- NIKTO:
+## Reconocimiento:
+- Scrap:
+  - python3 ReconSpider.py http://domain.com
+- Burpsuite:
+  - Discovery content module.
+- spiderfoot:
+  - https://github.com/smicallef/spiderfoot
+  - sudo apt install spiderfoot
+  - spiderfoot -l localhost:50001
+- finalrecon:
+  - ./finalrecon.py --headers --whois --url http://inlanefreight.com
+- Nikto: 
   - nikto -h inlanefreight.com -Tuning b (Modulo de reconocimiento)
 
 
