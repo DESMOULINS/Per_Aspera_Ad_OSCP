@@ -1,5 +1,20 @@
 # HACKING WEB APPLICATION:
 
+## Tipos:
+Web application security testing:
+  - Vulnerability scanning
+  - Pentesting
+  - Code review and static analysis
+
+# Tecnologias:
+
+## HTML:
+- Etiquetado sin estado.
+- HTTP 1.0:
+  - Antiguo y con menos ventajas
+- HTTP 1.1:
+  - Más mordeno y permite enviar más "request" o información sobre la misma conexión.
+
 ## APIs:
 ### Web Service Architecture:
 Arquitecture SOA:
