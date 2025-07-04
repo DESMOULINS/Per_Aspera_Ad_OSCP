@@ -6,6 +6,14 @@ Web application security testing:
   - Pentesting
   - Code review and static analysis
 
+# Requests and responses:
+## cache-control directives:
+- public: the response can be cached by anu intermediary, such as proxy.
+- private: specificies that the response is intended for a specific user and not be cached.
+- non-cache: instructs the client to revalidate the response.
+- no-store: directs the client and intermediate caches not to store any version of the response
+- max-age=<seconds>: maximoum amount of time in seconds that the response can be cached by the client, after must be revalidated with the server
+
 # Tecnologias:
 
 ## HTML:
@@ -205,6 +213,32 @@ A10 – Server-Side Request Forgery (SSRF)
 - Abusar de que se permita enviar peticiones desde un servidor a otros.
 
 ## Reconocimiento:
+- Whois:  
+  -  REVERSE WHOIS: Lo más importabte es correlacionar el owner, y del owner saber que otro sitios a registrado en caso de ser publica la información
+    -  https://viewdns.info/reversewhois
+    -  https://www.whoxy.com/
+- DNS Pasivo:
+  - https://dnsdumpster.com/
+- Google dorks:
+  - Siempre revisar google, yahoo, duckduckgo y bing, google hoy en día ya casi no guarda mucho, no todos soportan filtros
+
+> site: – Restringe la búsqueda a un dominio específico.
+> intitle: – Busca palabras clave en el título de la página.
+> inurl: – Busca palabras clave en la URL.
+> filetype: – Busca archivos de un tipo específico.
+> ext: – Alternativa a filetype:, también busca extensiones de archivo.
+> intext: – Busca texto dentro del contenido de la página.
+> allinurl: – Busca todas las palabras especificadas en la URL.
+> allintitle: – Busca todas las palabras especificadas en el título. Ejemplo: allintitle:index of
+> allintext: – Busca todas las palabras especificadas en el contenido. Ejemplo: allintext:username password
+> cache: – Muestra la versión en caché de una página por Google. Ejemplo: cache:example.com
+> link: – Muestra páginas que enlazan a una URL específica (limitado por Google). Ejemplo: link:example.com
+> related: – Muestra sitios similares a uno especificado. Ejemplo: related:example.com
+> define: – Busca definiciones de palabras (más útil para análisis semántico que pentest). Ejemplo: define:token
+> AROUND(X) – Busca dos términos separados por X palabras. Ejemplo: "password" AROUND(5) "username"
+
+" (comillas dobles) – Busca una frase exacta. Ejemplo: "Welcome to admin panel"
+
 - Scrap:
   - python3 ReconSpider.py http://domain.com
 - Burpsuite:
