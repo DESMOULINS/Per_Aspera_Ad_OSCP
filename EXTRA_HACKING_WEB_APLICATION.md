@@ -106,7 +106,7 @@ Es el motor de accionables de las paginas web, por llamarlo de una forma burda.
 
 ### Basics:
 - Nota clave:
-  - Interactuar con el DOM, crear y enviar request.
+  - Interactua con el DOM, crear y enviar request.
   - Corre usualmente en una sandbox dentro del navegador.
   - JS es usado a nivel cliente, pero tambien existe Node.JS creado para tambien ser usado del lado del servidor.
   - Es sensible a mayusculas, y es secuencial, es decir que solo se ejecuta cuando se manda a llamar por un evento o que el navegador se encuentra con el durante la ejecución.
@@ -118,6 +118,41 @@ Es el motor de accionables de las paginas web, por llamarlo de una forma burda.
 
 - payloads:
   - https://github.com/payloadbox/xss-payload-list
+ 
+### JQuery:
+- Usualmente las paginas usan frameworks de desarrollo que ayudan a hacer más intuitivo el desarrollo de las aplicaciones, en este caso existe jquery que facilitan el desarrollo. JQuery estandariza la forma en la que interacturamos con los objetos.
+- Ejemplo:
+```
+<html>
+  <head>
+  </head>
+  <body>
+      <script src=https://code.jquery.com/jquery-3.7.1.min.js></script> //Importamos la libreria
+      <script src=main.js></script> //Importamos el script de nosotros que va a trabajar con jquery
+      <h1>Hola</h1>
+      <p id="parrafo-primero">Como estas?</p>
+      <a href="/previo">regresar</a>
+      <button id="primer-boton">Haz click</button>
+  </body>
+</html>
+```
+```
+$(document).ready(function(){ // Esto hace que el codigo se ejecute hasta que finalice la carga de la pagina
+  // su manejo es similar a css
+    // $(p) hara referencia a todas los parrafos de html
+    // $(#parrafo-primero) hara referencia al objeto con el id parrafo-primero
+    // $(.clase-primera) hace referencia a las clases llamadas clase-primero
+
+  // ejemplo de como se colorea los parrafos
+    $(p).css({background-color:"red"});
+  // ejemplo de manejo de eventos
+    $(#primer-boton).click(function(){
+      alert(hola!)
+    }
+  // ejemplo de como js recibe un parametro lo lee del get y lo imprime en el atributo href
+    $('#parrafo-primero').attr("href", (new URLSearchParams(window.location.search)).get('returnPath'));
+)}
+```
 
 ### Ofuscation:
 Proceso en hacer más complicado la lectura del codigo de javascript, basado en herramientas que en automatico alteran la estructura del codigo.
@@ -187,33 +222,6 @@ Recuerda encoding no es cifrado :) es solo encodear.
 - Base64: Su caracteristica principal es que debe estar en grupos de 4, sino rellena con =, por eso a veces vemos al final este caracter
 - HEX: Anotación de hexadecimal equivalente a una letra, que dependera de que encoding estemos usando como ASCCI o UTF8
 - rot13: No tan usado, pero es una variación del viejo cifrado cesar
-
-### Ataques al DOM:
-El DOM es la interfaz real de la pagina creada para HTML Y XML, es el esqueleto que es modificado por JS y HTML, entonces en este caso puede ser un XSS reflejado o almacenado pero que tiene como objetivo modificar el DOM.
-
-- DOM: (document)
-  - Root elemnt <html>
-    - <Head>
-      - <title>
-    - <body>
-      - element: <a> <h1>
-        - attribute: "href"
-        - attribute: "style"
-
-- Scripts basicos para modificar el DOM:
-  - Modificar contenido
-    - document.querySelector("#name_t816bq").value = "ever<br>";
-    - document.getElementById("demo").innerHTML = "I have changed!<br>"; NOTA: .getinnerText() solo inyecta texto ingorando html
-  - Modificar un atributo
-    - document.getElementById("myAnchor").href = "https://www.w3schools.com";
-    - document.getElementById("myAnchor").contenteditable = "true";
-
-- Atacar eval()
-  - Sí la variable es enviada a un eval, es muy suceptible a ser inyectada, dado que permite que eval es generico, ejecuta todo lo que se envie como variable, sin importar que sea.
-    - URL: https://doc.com/?stat=alert(document.cookie)
-    - var stat = document.URL.split("stat=")[1];
-    - eval(stat);
-    - * Va a ejecutar el alert, cuando posiblemente solo esperaba recibir una simple suma
 
 ## Common Web Vulnerability:
 OWASP Top Ten:
@@ -340,6 +348,53 @@ if(preg_match($pattern, $_GET["code"])) { #VALIDA QUE EL PARAMETRO DE GET VENGA 
   - Browser exploitation
   - Keyloggin
   - Phishing: Fake forms
+ 
+### Ataques al DOM:
+El DOM es la interfaz real de la pagina creada para HTML Y XML, es el esqueleto que es modificado por JS y HTML, entonces en este caso puede ser un XSS reflejado o almacenado pero que tiene como objetivo modificar el DOM.
+
+- DOM: (document)
+  - Root elemnt <html>
+    - <Head>
+      - <title>
+    - <body>
+      - element: <a> <h1>
+        - attribute: "href"
+        - attribute: "style"
+
+- Scripts basicos para modificar el DOM:
+  - Modificar contenido
+    - document.querySelector("#name_t816bq").value = "ever<br>";
+    - document.getElementById("demo").innerHTML = "I have changed!<br>"; NOTA: .getinnerText() solo inyecta texto ingorando html
+  - Modificar un atributo
+    - document.getElementById("myAnchor").href = "https://www.w3schools.com";
+    - document.getElementById("myAnchor").contenteditable = "true";
+    - document.write("Ejecución exitosa gracias: " + var_name) escritura general de cualquier cosa dentro del documento
+  - Lectura de parametros:
+    - URLSearchParams(window.location.search)).get('search'); busca el contenido del parametro search
+
+- Atacar eval()
+  - Sí la variable es enviada a un eval, es muy suceptible a ser inyectada, dado que permite que eval es generico, ejecuta todo lo que se envie como variable, sin importar que sea.
+    - URL: https://doc.com/?stat=alert(document.cookie)
+    - var stat = document.URL.split("stat=")[1];
+    - eval(stat);
+    - * Va a ejecutar el alert, cuando posiblemente solo esperaba recibir una simple suma
+   
+### Inyección en atributo:
+Sí no se puede inyectar la etiqueta script, puedes cargarlo en un atributo como:
+
+- <img src=x onerror="alert('XSS')"> (Marcando error cargara el mensaje)
+
+Posibles casos:
+- Sí la inyección es en:
+- > document.getElementById('searchMessage').innerHTML = query;
+- Es comun que el navegador bloque <script> pero inyectandolo como atributo debe funcionar. 
+
+
+     
+### Automatizado:
+- xsser -url "https://domain.com/?pop=show" -p "target_host=XSS"
+- xsser -url "https://domain.com/?pop=show" -p "target_host=XSS" --Fp "<script>alert("")</script> (ataque especifico)
+- xsser --gtk (grafical interfaz)
 
 ### IDOR:
 Mal asignación de permisos para ver recursos que solo deberian pertenecerle a un usuario, ejemplo: /read.php?file=reporte_enero.pdf sí esté URL es accesible para todos los usuarios pero solo deberia poder verlo quien lo subio.
