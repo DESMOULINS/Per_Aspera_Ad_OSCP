@@ -104,6 +104,21 @@ Es el motor de accionables de las paginas web, por llamarlo de una forma burda.
 
 * Herramienta para correr javascript: https://jsconsole.com/
 
+### Basics:
+- Nota clave:
+  - Interactuar con el DOM, crear y enviar request.
+  - Corre usualmente en una sandbox dentro del navegador.
+  - JS es usado a nivel cliente, pero tambien existe Node.JS creado para tambien ser usado del lado del servidor.
+  - Es sensible a mayusculas, y es secuencial, es decir que solo se ejecuta cuando se manda a llamar por un evento o que el navegador se encuentra con el durante la ejecución.
+ 
+- Codigo basico:
+  - alert("mensaje"); (mensaje)
+  - window.location.replace("https://mydomain.com"); (redirección)
+  - document.write("mensaje sobre el html") (escribe en pantalla)
+
+- payloads:
+  - https://github.com/payloadbox/xss-payload-list
+
 ### Ofuscation:
 Proceso en hacer más complicado la lectura del codigo de javascript, basado en herramientas que en automatico alteran la estructura del codigo.
 
@@ -173,6 +188,33 @@ Recuerda encoding no es cifrado :) es solo encodear.
 - HEX: Anotación de hexadecimal equivalente a una letra, que dependera de que encoding estemos usando como ASCCI o UTF8
 - rot13: No tan usado, pero es una variación del viejo cifrado cesar
 
+### Ataques al DOM:
+El DOM es la interfaz real de la pagina creada para HTML Y XML, es el esqueleto que es modificado por JS y HTML, entonces en este caso puede ser un XSS reflejado o almacenado pero que tiene como objetivo modificar el DOM.
+
+- DOM: (document)
+  - Root elemnt <html>
+    - <Head>
+      - <title>
+    - <body>
+      - element: <a> <h1>
+        - attribute: "href"
+        - attribute: "style"
+
+- Scripts basicos para modificar el DOM:
+  - Modificar contenido
+    - document.querySelector("#name_t816bq").value = "ever<br>";
+    - document.getElementById("demo").innerHTML = "I have changed!<br>"; NOTA: .getinnerText() solo inyecta texto ingorando html
+  - Modificar un atributo
+    - document.getElementById("myAnchor").href = "https://www.w3schools.com";
+    - document.getElementById("myAnchor").contenteditable = "true";
+
+- Atacar eval()
+  - Sí la variable es enviada a un eval, es muy suceptible a ser inyectada, dado que permite que eval es generico, ejecuta todo lo que se envie como variable, sin importar que sea.
+    - URL: https://doc.com/?stat=alert(document.cookie)
+    - var stat = document.URL.split("stat=")[1];
+    - eval(stat);
+    - * Va a ejecutar el alert, cuando posiblemente solo esperaba recibir una simple suma
+
 ## Common Web Vulnerability:
 OWASP Top Ten:
 
@@ -219,25 +261,24 @@ A10 – Server-Side Request Forgery (SSRF)
     -  https://www.whoxy.com/
 - DNS Pasivo:
   - https://dnsdumpster.com/
+  - https://github.com/owasp-amass/amass
 - Google dorks:
-  - Siempre revisar google, yahoo, duckduckgo y bing, google hoy en día ya casi no guarda mucho, no todos soportan filtros
-
-> site: – Restringe la búsqueda a un dominio específico.
-> intitle: – Busca palabras clave en el título de la página.
-> inurl: – Busca palabras clave en la URL.
-> filetype: – Busca archivos de un tipo específico.
-> ext: – Alternativa a filetype:, también busca extensiones de archivo.
-> intext: – Busca texto dentro del contenido de la página.
-> allinurl: – Busca todas las palabras especificadas en la URL.
-> allintitle: – Busca todas las palabras especificadas en el título. Ejemplo: allintitle:index of
-> allintext: – Busca todas las palabras especificadas en el contenido. Ejemplo: allintext:username password
-> cache: – Muestra la versión en caché de una página por Google. Ejemplo: cache:example.com
-> link: – Muestra páginas que enlazan a una URL específica (limitado por Google). Ejemplo: link:example.com
-> related: – Muestra sitios similares a uno especificado. Ejemplo: related:example.com
-> define: – Busca definiciones de palabras (más útil para análisis semántico que pentest). Ejemplo: define:token
-> AROUND(X) – Busca dos términos separados por X palabras. Ejemplo: "password" AROUND(5) "username"
-
-" (comillas dobles) – Busca una frase exacta. Ejemplo: "Welcome to admin panel"
+  - Siempre revisar google, yahoo, duckduckgo y bing, google hoy en día ya casi no guarda mucho, no todos soportan filtros:
+    > site: – Restringe la búsqueda a un dominio específico.
+    > intitle: – Busca palabras clave en el título de la página.
+    > inurl: – Busca palabras clave en la URL.
+    > filetype: – Busca archivos de un tipo específico.
+    > ext: – Alternativa a filetype:, también busca extensiones de archivo.
+    > intext: – Busca texto dentro del contenido de la página.
+    > allinurl: – Busca todas las palabras especificadas en la URL.
+    > allintitle: – Busca todas las palabras especificadas en el título. Ejemplo: allintitle:index of
+    > allintext: – Busca todas las palabras especificadas en el contenido. Ejemplo: allintext:username password
+    > cache: – Muestra la versión en caché de una página por Google. Ejemplo: cache:example.com
+    > link: – Muestra páginas que enlazan a una URL específica (limitado por Google). Ejemplo: link:example.com
+    > related: – Muestra sitios similares a uno especificado. Ejemplo: related:example.com
+    > define: – Busca definiciones de palabras (más útil para análisis semántico que pentest). Ejemplo: define:token
+    > AROUND(X) – Busca dos términos separados por X palabras. Ejemplo: "password" AROUND(5) "username"
+    > " (comillas dobles) – Busca una frase exacta. Ejemplo: "Welcome to admin panel"
 
 - Scrap:
   - python3 ReconSpider.py http://domain.com
@@ -252,12 +293,27 @@ A10 – Server-Side Request Forgery (SSRF)
 - Nikto: 
   - nikto -h inlanefreight.com -Tuning b (Modulo de reconocimiento)
 
+## WAF Detection:
+- wafw00f -a domain.com
+
+# Clonación del sitio:
+Util sino tienes burpsuite pro y necesitas revisar el codigo de la pagina
+- htttrack
+
 ## Web attacks:
 Tipos de ataques web.
 
+### Burpsuite tips:
+  - Settings > UserInterface > Message editor > change html message size
+  - Guardar la configuración creada para siempre se aplique a nuevos proyectos
+  - Live audit and live crawl: Decirle que audite tambien repiter e intruder es util.
+    - Extensiones interesantes:
+      - inQL: grafica el introspection de graphql para entregarte cada petición lista para usarse en repeter
+      - 403 bypasser: puedes mandarle directamente a que haga un scan rapido
+
 ### HTTP Verb Tampering:
 - Insecure Configurations:
-  - Limitar acceso a información por el tipo de Metodo, por ejemplo panel de autenticación podria limitar el acceso solo a PUT y GET, podria permitir al menos leer las cabeceras que regresen HEAD, o sí ejecuta una cción permite que se ejecute por detras.
+  - Limitar acceso a información por el tipo de Metodo, por ejemplo panel de autenticación podria limitar el acceso solo a PUT y GET, podria permitir al menos leer las cabeceras que regresen HEAD, o sí ejecuta una acción permite que se ejecute por detras.
 ```
 <Limit GET POST>
     Require valid-user
@@ -273,6 +329,17 @@ if(preg_match($pattern, $_GET["code"])) { #VALIDA QUE EL PARAMETRO DE GET VENGA 
     ...SNIP...
 }
 ```
+
+## XSS:
+- Tipos:
+  - Reflejada
+  - Almacenada
+ 
+- Objetivos:
+  - Robo de cookies
+  - Browser exploitation
+  - Keyloggin
+  - Phishing: Fake forms
 
 ### IDOR:
 Mal asignación de permisos para ver recursos que solo deberian pertenecerle a un usuario, ejemplo: /read.php?file=reporte_enero.pdf sí esté URL es accesible para todos los usuarios pero solo deberia poder verlo quien lo subio.
