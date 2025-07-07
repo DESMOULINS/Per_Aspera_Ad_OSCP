@@ -406,11 +406,14 @@ Muchas de las veces el problema es que justamente nos facilita la vida encapsula
 
 - CVE-2012-6708: Selector interpreted as HTML
    - Este codigo hara una busqueda para ver si hay <H2> contienen la palabra recibida en la URL /#seccion, el problema es que este tipo de funciones se les llama selectores (:contains) y lo que reciba en el selector va a ejecutarlo como html, dado que para realizar la busqueda va a crear un clon de la pagina en DOM inyectando incluido lo recibido en /#seccion, al ejecutar el DOM clonado tambien ejecutara lo recibido como tags de html.
+     
 ```
-    - $('section.blog-list h2:contains(' + decodeURIComponent(window.location.hash.slice(1)) + ')');
+$('section.blog-list h2:contains(' + decodeURIComponent(window.location.hash.slice(1)) + ')');
 ```
   - POC:
-    - https://domain.com/#<img src=x onerror=alert()>
+```
+https://domain.com/#<img src=x onerror=alert()>
+```
 
 ### Inyección en atributo:
 Sí no se puede inyectar la etiqueta script, puedes cargarlo en un atributo como:
