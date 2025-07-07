@@ -372,7 +372,7 @@ if(preg_match($pattern, $_GET["code"])) { #VALIDA QUE EL PARAMETRO DE GET VENGA 
 El DOM es la interfaz real de la pagina creada para HTML Y XML, es el esqueleto que es modificado por JS y HTML, entonces en este caso puede ser un XSS reflejado o almacenado pero que tiene como objetivo modificar el DOM.
 
 - DOM: (document)
-  - Root elemnt <html>
+  - Root element <html>
     - <Head>
       - <title>
     - <body>
@@ -403,14 +403,15 @@ El DOM es la interfaz real de la pagina creada para HTML Y XML, es el esqueleto 
 #### Vulnerabilidades en jquery:
 
 Muchas de las veces el problema es que justamente nos facilita la vida encapsulando funciones, que mandamos a llamar, pero sí las funciones jquery son inseguras o no dan por sentado que nosotros haremos sanitización, al enviar información jquery podria generar xss.
-  - 
-  - Caso comun: CVE-2012-6708: Selector interpreted as HTML
+
+- CVE-2012-6708: Selector interpreted as HTML
+   - Este codigo hara una busqueda para ver si hay <H2> contienen la palabra recibida en la URL /#seccion, el problema es que este tipo de funciones se les llama selectores (:contains) y lo que reciba en el selector va a ejecutarlo como html, dado que para realizar la busqueda va a crear un clon de la pagina en DOM inyectando incluido lo recibido en /#seccion, al ejecutar el DOM clonado tambien ejecutara lo recibido como tags de html.
 ```
     - $('section.blog-list h2:contains(' + decodeURIComponent(window.location.hash.slice(1)) + ')');
 ```
-  - Este codigo hara una busqueda para ver si hay <H2> contienen la palabra recibida en la URL /#seccion, el problema es que este tipo de funciones se les llama selectores (:contains) y lo que reciba en el selector va a ejecutarlo como html, dado que para realizar la busqueda va a crear un clon de la pagina en DOM inyectando incluido lo recibido en /#seccion, al ejecutar el DOM clonado tambien ejecutara lo recibido como tags de html.
+  - POC:
+    - https://domain.com/#<img src=x onerror=alert()>
 
-   
 ### Inyección en atributo:
 Sí no se puede inyectar la etiqueta script, puedes cargarlo en un atributo como:
 
