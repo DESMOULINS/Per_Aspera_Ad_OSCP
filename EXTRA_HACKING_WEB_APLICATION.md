@@ -395,17 +395,19 @@ El DOM es la interfaz real de la pagina creada para HTML Y XML, es el esqueleto 
 
 - Atacar eval()
   - Sí la variable es enviada a un eval, es muy suceptible a ser inyectada, dado que permite que eval es generico, ejecuta todo lo que se envie como variable, sin importar que sea.
-    - URL: https://doc.com/?stat=alert(document.cookie)
+```
+    -> URL: https://doc.com/?stat=alert(document.cookie)
     - var stat = document.URL.split("stat=")[1];
     - eval(stat);
-    - * Va a ejecutar el alert, cuando posiblemente solo esperaba recibir una simple suma
+```
+  - Va a ejecutar el alert, cuando posiblemente solo esperaba recibir una simple suma
      
 #### Vulnerabilidades en jquery:
 
 Muchas de las veces el problema es que justamente nos facilita la vida encapsulando funciones, que mandamos a llamar, pero sí las funciones jquery son inseguras o no dan por sentado que nosotros haremos sanitización, al enviar información jquery podria generar xss.
 
 - CVE-2012-6708: Selector interpreted as HTML
-   - Este codigo hara una busqueda para ver si hay <H2> contienen la palabra recibida en la URL /#seccion, el problema es que este tipo de funciones se les llama selectores (:contains) y lo que reciba en el selector va a ejecutarlo como html, dado que para realizar la busqueda va a crear un clon de la pagina en DOM inyectando incluido lo recibido en /#seccion, al ejecutar el DOM clonado tambien ejecutara lo recibido como tags de html.
+   - Este codigo hara una busqueda para ver si hay H2 que contienen la palabra recibida en la URL /#seccion, el problema es que este tipo de funciones se les llama selectores (:contains) y lo que reciba en el selector va a ejecutarlo como html, dado que para realizar la busqueda va a crear un clon de la pagina en DOM inyectando incluido lo recibido en /#seccion, al ejecutar el DOM clonado tambien ejecutara lo recibido como tags de html.
      
 ```
 $('section.blog-list h2:contains(' + decodeURIComponent(window.location.hash.slice(1)) + ')');
