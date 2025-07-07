@@ -177,8 +177,8 @@ Proceso en hacer más complicado la lectura del codigo de javascript, basado en 
 NOTA: Aunque en realida mayormente es usado para realizar evasión, dado que al final de cuentas al estar del lado del cliente puede ser des-ofuscado por lo que no es 100% su uso para ocultar información sensible.
 
 * Herramienta: https://beautifytools.com/javascript-obfuscator.php
-  
--Ejemplo: 
+
+-Ejemplo:
 ```
 console.log('HTB JavaScript Deobfuscation Module');
 ```
@@ -331,10 +331,12 @@ Tipos de ataques web.
 ### Burpsuite tips:
   - Settings > UserInterface > Message editor > change html message size
   - Guardar la configuración creada para siempre se aplique a nuevos proyectos
-  - Live audit and live crawl: Decirle que audite tambien repiter e intruder es util.
-    - Extensiones interesantes:
-      - inQL: grafica el introspection de graphql para entregarte cada petición lista para usarse en repeter
-      - 403 bypasser: puedes mandarle directamente a que haga un scan rapido
+  - Live audit and live crawl:
+    - Decirle que audite tambien repiter e intruder es util.
+    - Modificar para que tambien audite "light audit" y "javascript analysis" es muy util dado que sera más proactivo sin ser demasiado intrusivo
+  - Extensiones interesantes:
+    - inQL: grafica el introspection de graphql para entregarte cada petición lista para usarse en repeter
+    - 403 bypasser: puedes mandarle directamente a que haga un scan rapido
 
 ### HTTP Verb Tampering:
 - Insecure Configurations:
@@ -388,6 +390,8 @@ El DOM es la interfaz real de la pagina creada para HTML Y XML, es el esqueleto 
     - document.write("Ejecución exitosa gracias: " + var_name) escritura general de cualquier cosa dentro del documento
   - Lectura de parametros:
     - URLSearchParams(window.location.search)).get('search'); busca el contenido del parametro search
+    - decodeURIComponent(window.location.hash); regresa el valor de #valor de la url
+      - NOTA: .slice(1)); busca y regresa el valor de # eliminando el primer caracter, un valor de 2 eliminaria primeros 2
 
 - Atacar eval()
   - Sí la variable es enviada a un eval, es muy suceptible a ser inyectada, dado que permite que eval es generico, ejecuta todo lo que se envie como variable, sin importar que sea.
@@ -395,6 +399,17 @@ El DOM es la interfaz real de la pagina creada para HTML Y XML, es el esqueleto 
     - var stat = document.URL.split("stat=")[1];
     - eval(stat);
     - * Va a ejecutar el alert, cuando posiblemente solo esperaba recibir una simple suma
+     
+#### Vulnerabilidades en jquery:
+
+Muchas de las veces el problema es que justamente nos facilita la vida encapsulando funciones, que mandamos a llamar, pero sí las funciones jquery son inseguras o no dan por sentado que nosotros haremos sanitización, al enviar información jquery podria generar xss.
+  - 
+  - Caso comun: CVE-2012-6708: Selector interpreted as HTML
+```
+    - $('section.blog-list h2:contains(' + decodeURIComponent(window.location.hash.slice(1)) + ')');
+```
+  - Este codigo hara una busqueda para ver si hay <H2> contienen la palabra recibida en la URL /#seccion, el problema es que este tipo de funciones se les llama selectores (:contains) y lo que reciba en el selector va a ejecutarlo como html, dado que para realizar la busqueda va a crear un clon de la pagina en DOM inyectando incluido lo recibido en /#seccion, al ejecutar el DOM clonado tambien ejecutara lo recibido como tags de html.
+
    
 ### Inyección en atributo:
 Sí no se puede inyectar la etiqueta script, puedes cargarlo en un atributo como:
@@ -403,9 +418,8 @@ Sí no se puede inyectar la etiqueta script, puedes cargarlo en un atributo como
 
 Posibles casos:
 - Sí la inyección es en:
-- > document.getElementById('searchMessage').innerHTML = query;
-- Es comun que el navegador bloque <script> pero inyectandolo como atributo debe funcionar. 
-
+  - > document.getElementById('searchMessage').innerHTML = query;
+  - Es comun que el navegador bloque <script> pero inyectandolo como atributo debe funcionar. 
 
      
 ### Automatizado:
