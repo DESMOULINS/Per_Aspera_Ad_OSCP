@@ -171,6 +171,23 @@ $(document).ready(function(){ // Esto hace que el codigo se ejecute hasta que fi
 )}
 ```
 
+### Angular:
+Framework de basado en MVC para javascript, que permite manipular objetos sin necesidad de escribir javascript directamente, que puedes mandar a llamar por atributos a los elementos con ng-*=""
+
+NOTA: Angular 1.x es obsoleto hoy en día y blanco facil de ataques, 2.x es su reemplazo actual.
+
+Versiones antiguas de 1.x permiten inyecciones faciles de realizar, como inyectar lo siguiente:
+```
+{{constructor.constructor('alert(1)')()}}
+```
+
+- Condiciones para vulnerar angular:
+  - Que el script de angular sea cargado <script src=angular.min.js>
+  - El body tenga la etiqueta <body ng-app>
+  - Debe estar dentor de una etiqueta <span>codigoxss</span>
+  - Debe estar dentro de un atributo especifico de angular como ng-href="codigoxss" o ng-src href="codigoxss"
+
+
 ### Ofuscation:
 Proceso en hacer más complicado la lectura del codigo de javascript, basado en herramientas que en automatico alteran la estructura del codigo.
 
@@ -368,9 +385,20 @@ if(preg_match($pattern, $_GET["code"])) { #VALIDA QUE EL PARAMETRO DE GET VENGA 
   - Keyloggin
   - Phishing: Fake forms
  
+- Puntos basicos de inyección:
+  - Atributos: onmouseover=alert()
+  - href usando URI: href=javascript:alert()
+  - Etiqueta HTML: <script>...
+```
+  <a id=parrafonormal onmouseover=alert() href=javascript:alert()>
+```
+
 ### Ataques al DOM:
 El DOM es la interfaz real de la pagina creada para HTML Y XML, es el esqueleto que es modificado por JS y HTML, entonces en este caso puede ser un XSS reflejado o almacenado pero que tiene como objetivo modificar el DOM.
 
+IMPORTANTE: Se considera un XSS de tipo DOM cuando es enviado el request, se ejecuta en el servidor y regresa el html normal, y despues al ingresar la respuesta al navegador JS modifica el DOM del lado del cliente, y no proviene ya asi el HTML malicioso del servidor. 
+
+¿En si que es el DOM?:
 - DOM: (document)
   - Root element <html>
     - <Head>
@@ -382,18 +410,24 @@ El DOM es la interfaz real de la pagina creada para HTML Y XML, es el esqueleto 
 
 - Scripts basicos para modificar el DOM:
   - Modificar contenido
+```
     - document.querySelector("#name_t816bq").value = "ever<br>";
-    - document.getElementById("demo").innerHTML = "I have changed!<br>"; NOTA: .getinnerText() solo inyecta texto ingorando html
+    - document.getElementById("demo").innerHTML = "I have changed!<br>"; NOTA: existe otra función llamada .getinnerText() solo inyecta texto ingorando html
+```
   - Modificar un atributo
+```
     - document.getElementById("myAnchor").href = "https://www.w3schools.com";
     - document.getElementById("myAnchor").contenteditable = "true";
     - document.write("Ejecución exitosa gracias: " + var_name) escritura general de cualquier cosa dentro del documento
+```
   - Lectura de parametros:
+```
     - URLSearchParams(window.location.search)).get('search'); busca el contenido del parametro search
     - decodeURIComponent(window.location.hash); regresa el valor de #valor de la url
-      - NOTA: .slice(1)); busca y regresa el valor de # eliminando el primer caracter, un valor de 2 eliminaria primeros 2
+    - // .slice(1)); busca y regresa el valor de # eliminando el primer caracter, un valor de 2 eliminaria primeros 2
+```
 
-- Atacar eval()
+#### Atacar eval()
   - Sí la variable es enviada a un eval, es muy suceptible a ser inyectada, dado que permite que eval es generico, ejecuta todo lo que se envie como variable, sin importar que sea.
 ```
     -> URL: https://doc.com/?stat=alert(document.cookie)
@@ -402,7 +436,7 @@ El DOM es la interfaz real de la pagina creada para HTML Y XML, es el esqueleto 
 ```
   - Va a ejecutar el alert, cuando posiblemente solo esperaba recibir una simple suma
      
-#### Vulnerabilidades en jquery:
+#### Vulnerabilidades en jquery tipo DOM:
 
 Muchas de las veces el problema es que justamente nos facilita la vida encapsulando funciones, que mandamos a llamar, pero sí las funciones jquery son inseguras o no dan por sentado que nosotros haremos sanitización, al enviar información jquery podria generar xss.
 
@@ -417,15 +451,6 @@ $('section.blog-list h2:contains(' + decodeURIComponent(window.location.hash.sli
 https://domain.com/#<img src=x onerror=alert()>
 ```
 
-### Inyección en atributo:
-Sí no se puede inyectar la etiqueta script, puedes cargarlo en un atributo como:
-
-- <img src=x onerror="alert('XSS')"> (Marcando error cargara el mensaje)
-
-Posibles casos:
-- Sí la inyección es en:
-  - > document.getElementById('searchMessage').innerHTML = query;
-  - Es comun que el navegador bloque <script> pero inyectandolo como atributo debe funcionar. 
 
      
 ### Automatizado:
@@ -433,7 +458,7 @@ Posibles casos:
 - xsser -url "https://domain.com/?pop=show" -p "target_host=XSS" --Fp "<script>alert("")</script> (ataque especifico)
 - xsser --gtk (grafical interfaz)
 
-### IDOR:
+## IDOR:
 Mal asignación de permisos para ver recursos que solo deberian pertenecerle a un usuario, ejemplo: /read.php?file=reporte_enero.pdf sí esté URL es accesible para todos los usuarios pero solo deberia poder verlo quien lo subio.
 
 - URL Parameters, JSON & APIs:
