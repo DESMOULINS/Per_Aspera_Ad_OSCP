@@ -376,8 +376,11 @@ if(preg_match($pattern, $_GET["code"])) { #VALIDA QUE EL PARAMETRO DE GET VENGA 
 
 ## XSS:
 - Tipos:
-  - Reflejada
-  - Almacenada
+  - Reflejada: El cliente envia información, el servidor a la hora de procesarla regresa el HTML con JS inyectado.
+  - Almacenada: El cliente envia información, el servidor almacena la info, y a la hora de procesarla nuevamente regresa el HTML con JS inyectado.
+  - DOM: El cliente envia información, el servidor procesa y regresa la información, pero cliente procesa la información recibida mediante una función de javascript en el navegador, y el script de js inyecta codigo en el DOM.
+    -> Ejemplo clasico: document.getElementById("output").innerHTML = location.hash;
+    -> Inyecta lo que venga en el # en un objeto sin sanitizar, ejemplo: http://example.com/page.html#<script>alert(1)</script>
  
 - Objetivos:
   - Robo de cookies
@@ -391,10 +394,11 @@ if(preg_match($pattern, $_GET["code"])) { #VALIDA QUE EL PARAMETRO DE GET VENGA 
   - Etiqueta HTML: <script>...
 ```
   <a id=parrafonormal onmouseover=alert() href=javascript:alert()>
+  <script>alert...
 ```
 
 ### Ataques al DOM:
-El DOM es la interfaz real de la pagina creada para HTML Y XML, es el esqueleto que es modificado por JS y HTML, entonces en este caso puede ser un XSS reflejado o almacenado pero que tiene como objetivo modificar el DOM.
+El DOM es la interfaz real de la pagina creada para HTML Y XML, es el esqueleto que es modificado por JS y HTML, entonces en este caso puede ser un XSS reflejado o almacenado pero que tiene como objetivo modificar el DOM por parte de un script en el cliente de JS.
 
 IMPORTANTE: Se considera un XSS de tipo DOM cuando es enviado el request, se ejecuta en el servidor y regresa el html normal, y despues al ingresar la respuesta al navegador JS modifica el DOM del lado del cliente, y no proviene ya asi el HTML malicioso del servidor. 
 
@@ -451,12 +455,72 @@ $('section.blog-list h2:contains(' + decodeURIComponent(window.location.hash.sli
 https://domain.com/#<img src=x onerror=alert()>
 ```
 
-
-     
 ### Automatizado:
 - xsser -url "https://domain.com/?pop=show" -p "target_host=XSS"
 - xsser -url "https://domain.com/?pop=show" -p "target_host=XSS" --Fp "<script>alert("")</script> (ataque especifico)
 - xsser --gtk (grafical interfaz)
+
+## SQLInjection:
+Los comandos de SQL en ocasiones son conctanados dentro del codigo de la aplicación web, la concatenación es literal copiar y pega el comando y mandarlo a ejecutar, entonces sí ademas copia dentro del comando valores no sanitizados, esto conlleva a que se ejecute lo que nosotros le digamos, elimiando el comando esperado.
+
+### DBMS:
+- Tipos de bases de datos:
+  - Relacionales: Tienen conexiones entre las trablas llamadas llaves primarias y foraneas, que facilitan la conexión y relación entre la información que contienen.
+| id\_usuario | nombre   | email                                       | edad |
+| ----------- | -------- | ------------------------------------------- | ---- |
+| 1           | Ana Ruiz | [ana@example.com](mailto:ana@example.com)   | 28   |
+| 2           | Juan Gil | [juan@example.com](mailto:juan@example.com) | 34   |
+  - No relacionales: Usada en información sin tanta estructura y relación entre datos, haciendolas más flexibles y rapidas, pero complejas en relacionamiento de datos.
+```
+{
+  "_id": "u1",
+  "nombre": "Ana Ruiz",
+  "email": "ana@example.com",
+  "edad": 28,
+  "direccion": {
+    "calle": "Av. Central 123",
+    "ciudad": "Madrid",
+    "postal": "28001"
+  }
+}
+```
+  - Orientado a objetos: No guarda la información en tablas y columnas, sino que directamente al objeto lo guardas en una BD sin descomponerlo en columnas.
+```
+//// Creación del objeto
+public class Usuario {
+    private String nombre;
+    private String email;
+    private int edad;
+
+    public Usuario(String nombre, String email, int edad) {
+        this.nombre = nombre;
+        this.email = email;
+        this.edad = edad;
+    }
+
+    // Getters y setters...
+}
+
+ObjectContainer db = Db4o.openFile("usuarios.db"); // Abre la base de datos
+
+Usuario u = new Usuario("Ana", "ana@email.com"); //Setea los valores
+
+db.store(u); // Guarda el objeto completo en disco
+
+db.close(); // Cierra la base de datos
+```
+
+
+### Tipos de sqli:
+- In-Band:
+  - Error based
+  - Union based
+- Blind:
+  - Boleean based
+  - Time based:
+- Out of Band:
+  - HTTP/DNS responses
+
 
 ## IDOR:
 Mal asignación de permisos para ver recursos que solo deberian pertenecerle a un usuario, ejemplo: /read.php?file=reporte_enero.pdf sí esté URL es accesible para todos los usuarios pero solo deberia poder verlo quien lo subio.
