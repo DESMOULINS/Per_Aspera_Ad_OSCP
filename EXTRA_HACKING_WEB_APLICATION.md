@@ -501,14 +501,23 @@ public class Usuario {
     // Getters y setters...
 }
 
+//// Almacenar el objeto
 ObjectContainer db = Db4o.openFile("usuarios.db"); // Abre la base de datos
-
 Usuario u = new Usuario("Ana", "ana@email.com"); //Setea los valores
-
 db.store(u); // Guarda el objeto completo en disco
-
 db.close(); // Cierra la base de datos
 ```
+
+### Comandos clave SQL:
+' or "                   Cierre y apertura de valores
+/* sql... */             Comentarios multilinea
+\+                       Concatenación
+\# --                    Comentarios de una linea
+||                       Concatenación
+%                        Indicador de atributo
+@variable                Variable local
+@@variable               Variable global
+waitfor delay '00:00:10' Sleep
 
 
 ### Tipos de sqli:
