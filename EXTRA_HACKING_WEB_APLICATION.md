@@ -519,7 +519,6 @@ db.close(); // Cierra la base de datos
 @@variable               Variable global
 waitfor delay '00:00:10' Sleep
 
-
 ### Tipos de sqli:
 - In-Band:
   - Error based
