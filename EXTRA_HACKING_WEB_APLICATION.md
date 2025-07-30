@@ -78,7 +78,7 @@ GET /api/convert?from=USD&to=EUR&amount=100 HTTP/1.1
 Host: example.com
 ```
 - RESPUESTA RESTFUL:
-```
+``` 
 {
   "fromCurrency": "USD",
   "toCurrency": "EUR",
