@@ -519,6 +519,47 @@ db.close(); // Cierra la base de datos
 @@variable               Variable global
 waitfor delay '00:00:10' Sleep
 
+### Evasión de waf o controles:
+Existen varios metodos pero todo va a depender del contexto, algunos son por ejemplo:
+
+#### Operaciones aritmeticas:
+- Sí estamos usando un where en un integer, podemos agregarle un "+" para que haga operaciones aritmeticas:
+```sql
+    SELECT id from users where id=1+1
+```
+- Ademas existen otras operaciones en caso de que no este permitido el envio de +:
+```sql
+    WHERE id = 5*2
+    WHERE id = POWER(2,3)  -- 8
+    WHERE id = ASCII('A')  -- 65
+    WHERE id = LENGTH('abc') -- 3
+    WHERE id = (SELECT 1+1)
+    WHERE id = CHAR(49)+CHAR(0)
+```
+
+#### Encoding:
+- Ademas de realizar fuzzing siempre es bueno encodear los payloads con:
+  - HTML Encoding
+  - URL Encoding
+  - BASE64 (dependera mucho del contexto de la app)
+ 
+#### Envio de info dentro de XML:
+- Entity: XML es muy versatil y permite trabajar con Entity, que principalmente se usa en XSS o XML injection, pero tambien puede ser usado para no inyectar directamentro dentro de la etiqueta:
+```xml
+<!DOCTYPE replace [<!ENTITY example "Doe"> ]>
+ <userInfo>
+  <firstName>John</firstName>
+  <lastName>&example;</lastName>
+ </userInfo>
+```
+
+- Encodear: El plugin Hackvector permite usar tags, que lo que coloques dentro el hara la conversión.
+  - <@hex('hola')>asd</@hex> colocara un hola entre cada hexadecimal de cada caracter -> 61hola73hola64
+  - <@hex_entities></@hex_entities>: Convierte caracteres a entidades hexadecimales HTML '<' → &#x3C;
+  - <@hex_escapes>: Utiliza escapes hexadecimales 'A' → \x41
+ 
+NOTA: El encodeamiento tambien se puede hacer de forma manual, no es necesario el plugin, pero a hacerlo más facil.
+
 ### Tipos de sqli:
 
 #### In-Band:
