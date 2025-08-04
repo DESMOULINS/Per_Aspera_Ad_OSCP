@@ -737,6 +737,7 @@ En cualquier caso debe seguir las reglas generales, por ejemplo una UNION debe l
 ## Command Injection:
 La ejecución de codigo puede ser desde diferente perspectiva, pero el objetivo es realizar una ejecución de codigo
 
+
 ## HTTP Authentication:
 
 1. Basic Auth:
@@ -747,8 +748,18 @@ La ejecución de codigo puede ser desde diferente perspectiva, pero el objetivo 
    - hydra -l admin -P /root/Desktop/wordlists/100-common-passwords.txt 192.168.x.x http-get /digest-auth/
    - curl --digest -u admin:adminpasswd 192.209.143.3/digest-auth/
   
-## Exposición de ficheros sensibles:
-Permitir la lectura de ficheros puede deberse a diversas situaciones, pero en lo personal me gusta dividirlo en estas categorias:
+## Login authentication:
+Existen muchos tipos de ataques para sistemas de acceso, pero un listado puede ser:
+
+1. Acceso por usuario y contraseña:
+   - Texto plano: Sí van por texto plano es facil hacer un ataque de fuerza bruta, solo usamos intruder y listo.
+   - Contraseña Cifrada: La contraseña podria ir cifrada, pero recordemos el cifrado ocurre del lado del cliente, entonces podemos leer el fichero de js encarado de hacer el cifrado o hashing, y replicar el proceso.
+  
+2- Acceso por OTP:
+   - Sin limite: Sino hay limite de request en la validación, con un simple ataque de fuzzing podriamos acceder.
+   
+## Exposición de datos sensibles:
+Permitir la lectura de ficheros, provocar errores o leer los ficheros js, puede darnos mucha información:
 
 1. Ficheros intencionales: Son aquellos que son necesarios para el funcionamiento normal de una aplicación, y deben estar expuestos pero a veces son demasiado especificos.
    - robots.txt: Fichero donde se pone directorios o ficheros que no se quiere que se indexe.
@@ -769,6 +780,18 @@ Permitir la lectura de ficheros puede deberse a diversas situaciones, pero en lo
      - backup.zip Respaldos creados en la misma carpeta del servidor
      - config.phg.old Respaldos individuales de ficheros
      - database.sql Ficheros de base de datos o configuraciones locales
+
+3. Provocar errores: Dependera mucho del tipo de web server, pero el que es más facil es IIS.
+   - Podemos encontrar información sensible como:
+     - Versiones de la tecnologia.
+     - Path donde está instalado
+   - Metodos para provocar errores:
+     - 404 Fichero no existente
+     - Metodos HTTP no existentes
+     - URL Mal formados, como admin%00.php
+
+4- Ficheros: Ficheros comunes como JS, JSON, HTML, etc. Pueden contener información sensible pero al ser muy largos pueden pasarse por alto.
+   - Buscar metodos ocultos, URL, tokens, comentarios, etc.
 
 ## IDOR:
 Mal asignación de permisos para ver recursos que solo deberian pertenecerle a un usuario, ejemplo: /read.php?file=reporte_enero.pdf sí esté URL es accesible para todos los usuarios pero solo deberia poder verlo quien lo subio.
