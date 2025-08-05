@@ -480,6 +480,7 @@ La ejecución de codigo puede ser desde diferente perspectiva, pero el objetivo 
 
 
 ## HTTP Authentication:
+Proceso de autenticación simplificado otorgado por web servers, con el principal defecto de ser suceptibles a fuerza bruta.
 
 1. Basic Auth:
    - hydra -l admin -P /root/Desktop/wordlists/100-common-passwords.txt 192.168.x.x http-get /basic-auth/
@@ -493,11 +494,25 @@ La ejecución de codigo puede ser desde diferente perspectiva, pero el objetivo 
 Existen muchos tipos de ataques para sistemas de acceso, pero un listado puede ser:
 
 1. Acceso por usuario y contraseña:
-   - Texto plano: Sí van por texto plano es facil hacer un ataque de fuerza bruta, solo usamos intruder y listo.
+   - Texto plano: Sí van por texto plano es facil hacer un ataque de fuerza bruta o robarla sí viaja por canales inseguros.
    - Contraseña Cifrada: La contraseña podria ir cifrada, pero recordemos el cifrado ocurre del lado del cliente, entonces podemos leer el fichero de js encarado de hacer el cifrado o hashing, y replicar el proceso.
-  
-2- Acceso por OTP:
+
+2. Acceso por OTP:
    - Sin limite: Sino hay limite de request en la validación, con un simple ataque de fuzzing podriamos acceder.
+  
+## Session Hijacking & Fixation:
+
+1. Hijacking: Robo de la sesión de otro usuario, mediante el robo de tokens o identificadores de sesiones, permitiendo imitar al usuario real.
+   - Session tampering: Sí el contenido del token o cookie no está cifrada y trae información modificable, por ejemplo, sí el valor es una cuenta admin o normal.
+   - Session Prediction: Sí el identificador es facil de adivinar.
+   - Session Sniffing: Interceptar el identificador sí viaja por canales inseguros.
+   - XSS: Robo por ejecución de scripts de JS maliciosos en el navegador del usuario.
+
+2. Fixation: Insertar un identificador a la victima, siendo un valor conocido por el atacante, para que al realizar la autenticación, ya conozca el ID a usar en la sesión, esto puede ocurrir en varias formas como:
+   - El atacante envia una liga a la victima, con una URL que coloca un identificar de sesión al cliente.
+   - Hacer que la victima haga click en un boton malicioso.
+   - Provocar que la victima con ingeniera social que usa un metodo especifico para iniciar sesión.
+
    
 ## Exposición de datos sensibles:
 Permitir la lectura de ficheros, provocar errores o leer los ficheros js, puede darnos mucha información:
