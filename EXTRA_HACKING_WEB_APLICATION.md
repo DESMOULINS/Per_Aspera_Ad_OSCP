@@ -549,6 +549,27 @@ Permitir la lectura de ficheros, provocar errores o leer los ficheros js, puede 
 4- Ficheros: Ficheros comunes como JS, JSON, HTML, etc. Pueden contener información sensible pero al ser muy largos pueden pasarse por alto.
    - Buscar metodos ocultos, URL, tokens, comentarios, etc.
 
+## CSRF:
+Cross site request forgery, es cuando el servidor permite ejecutar funciones confiando en que provienen legitimamente del navegador del usuario.
+
+1. Inyección de forms: A traves de un form malicioso se inyecta parametros ocultos y un action a la liga suceptible.
+2. Ligas maliciosas: Ligas con parametros GET que al ejecutarse toma la sesión activa del usuario y realiza el ataque.
+3. Ficheros HTML: Ficheros html que al abrirse en automatico ejecuten un script que redireccione con un form a la URL vulnerable.
+
+### Anti-CSRF:
+Medidas comunes que usan las aplicaciones para evitar CSRF es:
+
+1. El servidor inyecta un token random en cada formulario o en una cookie.
+```html
+<input type="hidden" name="csrf_token" value="4f92ef1c-f74e-4f8b-b0c3-a61cf8fadc31">
+```
+```
+X-CSRF-Token
+```
+3. El cliente envia el token en cada request.
+4. El servidor valida que ese token coincida con el de la sesión del usuario.
+5. El servidor valida que el Referer o Origin coincida con dominios de confianza.
+
 ## IDOR:
 Mal asignación de permisos para ver recursos que solo deberian pertenecerle a un usuario, ejemplo: /read.php?file=reporte_enero.pdf sí esté URL es accesible para todos los usuarios pero solo deberia poder verlo quien lo subio.
 
