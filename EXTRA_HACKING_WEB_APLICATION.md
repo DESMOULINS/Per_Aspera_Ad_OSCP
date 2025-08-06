@@ -476,8 +476,35 @@ En cualquier caso debe seguir las reglas generales, por ejemplo una UNION debe l
 ```
 
 ## Command Injection:
-La ejecución de codigo puede ser desde diferente perspectiva, pero el objetivo es realizar una ejecución de codigo
+La ejecución de codigo puede ser desde diferente perspectiva, pero el objetivo es realizar una ejecución de codigo del lado del servidor abusando de funciones en el codigo, por ejemplo:
 
+1. En PHP: system(), exec(), shell_exec(), passthru()
+2. En Python: os.system(), subprocess.call(), etc.
+3. En Node.js: child_process.exec()
+
+El objetivo es lograr que ejecuta una segunda operación, aparte de la original
+
+### Operadores comunes:
+1. ```;```
+   - Ejecuta varios comandos uno tras otro, sin importar si el primero falla. Ejemplo: ping 8.8.8.8 ; whoami
+2. ```&&```
+   - Ejecuta el segundo comando solo si el primero fue exitoso. Ejemplo: ping 127.0.0.1 && id
+3. ```||```
+   - Ejecuta el segundo comando solo si el primero falla. Ejemplo: ping 0.0.0.0 || echo fallo
+4. ```&```
+   - Ejecuta el primer comando en segundo plano. Ejemplo: sleep 10 &
+5. ```|```
+  - Usa la salida del primer comando como entrada del segundo (pipe). Ejemplo: cat /etc/passwd | grep root
+6. ```>```
+  - Redirige la salida a un archivo (sobrescribe). Ejemplo: ls > salida.txt
+6. ```>>```
+   - Redirige la salida y la agrega al final de un archivo. Ejemplo: echo hola >> log.txt
+7. ```2>```
+   - Redirige los errores a un archivo. Ejemplo: cat archivo.txt 2> errores.txt
+8. ```2>/dev/null```
+   - Silencia los errores (envía stderr al "basurero"). Ejemplo: cat archivo.txt 2>/dev/null
+9. ```$(comando)```
+   - Ejecuta el comando y lo reemplaza por su salida. Ejemplo: echo $(whoami)
 
 ## HTTP Authentication:
 Proceso de autenticación simplificado otorgado por web servers, con el principal defecto de ser suceptibles a fuerza bruta.
