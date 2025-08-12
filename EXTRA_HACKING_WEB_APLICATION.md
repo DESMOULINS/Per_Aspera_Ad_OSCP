@@ -408,6 +408,16 @@ El objetivo es lograr que ejecuta una segunda operación, aparte de la original
 9. ```$(comando)```
    - Ejecuta el comando y lo reemplaza por su salida. Ejemplo: echo $(whoami)
 
+** NOTA **: Para mayor referencia revisa la sección de payloads de intruder
+
+### Tipos:
+
+1. Blind:
+   - Escritura en fichero: Primero puedes validarlo con un sleep, despues puede redireccionar la salida de comandos o leer ficheros y guardarlos en carpetas que usualmente son de estrictura como "imagenes", "css", etc. Habria que validar multiples metodos.
+     - ```$(whoami > /var/www/images/a.jpg)```
+   - Out-of-Band: Sí el servidor tiene salida a internet, podemos contactar y sacar información a un servidor externo.
+     -  ```$(whoami > /var/www/images/a.jpg)```
+
 ## HTTP Authentication:
 Proceso de autenticación simplificado otorgado por web servers, con el principal defecto de ser suceptibles a fuerza bruta.
 
@@ -504,7 +514,7 @@ X-CSRF-Token
 Cookies con la bandera samesite no permiten compartir información con otros sitios, aunque los navegadores modernos como chrome, ya implementan medidas ligeras para evitar el robo de cookies.
 
 #### Referer-based validation:
-Se valida que el "Origin" sea de una lista de dominios de confianza.
+Se valida que el origen previo del request sea de una lista de dominios de confianza.
 
 ### Autoejecución del Form:
 Es clave el metodo a usar para ejecutar en automatico acciones al ingresar y redireccionar al usuario con la información maliciosa, enumeraremos algunas:
@@ -578,18 +588,34 @@ User=1&csrfkey=222
 </form>
 ```
 6. Evasión de politicas SameSite en cookies:
-  - El procedimiento más sencillo es abusar de cookies con la politica colocada como Lax:
-    - El request es aceptado por GET.
-    - Se usan frameworks de desarrollo que sobre escriban el metodo por ejemplo "Symfony"
+  - LAX: El procedimiento más sencillo es abusar de cookies con la politica colocada como Lax.
+    - Buscar request que sean aceptado por GET.
+    - Tambien se pueden Se usan frameworks de desarrollo que sobre-escriban el metodo por ejemplo "Symfony", sí la pagina solo acepta request por POST, podemos hacer que la información viaje por GET y despues el framework de desarrollo la convierta a POST antes de ser procesada por la función de validación.
+    - **Esto dependera completamente del framework**:
+      - En Rails, Laravel, Symfony, CodeIgniter → _method es aceptado directamente o con mínima configuración.
+      - En Node.js, Spring MVC, ASP.NET, Django, Flask → necesitas habilitar o instalar algo para que lo soporte, y el nombre puede cambiar.
 ```html
-<form action="https://vulnerable-website.com/account/transfer-payment" method="POST">
-    <input type="hidden" name="_method" value="GET">
+<form action="https://vulnerable-website.com/account/transfer-payment" method="GET">
+    <input type="hidden" name="_method" value="POST">
     <input type="hidden" name="recipient" value="hacker">
     <input type="hidden" name="amount" value="1000000">
 </form>
 ```
-  - Tambien se podria abusar de strict, pero es más complicado:
-    - Inyectar un form o liga en un subdominio vulnerable, y redireccionarlo al objetivo.
+    - Casos excepcionales:
+      - Sí el tag de LAX fue agregado por el navegador, y no fue colocado en el codigo, chrome no aplica la regla en los primeros 120 segundos.
+      
+  - STRICT: Tambien se podria abusar de strict, pero es más complicado:
+    - Inyectar un form o liga en un subdominio vulnerable que permita guardar o ejecutar en directo una redirección, y redireccionarlo la URL que permita modificar datos.
+    - Redirección directa:
+
+```html
+<script>
+    window.location.assign("https://1.web-security-academy.net/post/comment/confirmation?postId=../my-account/change-email?email=afa@a.com%26submit=1");
+</script>
+```
+
+    - Redirección almacenada: Realizada atraves de paginas que permitan almacenar ligas o URL de forma directa en comentarios, documentos, etc. o a traves de inyección de XSS.
+
 
 ## IDOR:
 Mal asignación de permisos para ver recursos que solo deberian pertenecerle a un usuario, ejemplo: /read.php?file=reporte_enero.pdf sí esté URL es accesible para todos los usuarios pero solo deberia poder verlo quien lo subio.
