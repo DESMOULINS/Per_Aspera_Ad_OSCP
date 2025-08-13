@@ -408,7 +408,15 @@ El objetivo es lograr que ejecuta una segunda operación, aparte de la original
 9. ```$(comando)```
    - Ejecuta el comando y lo reemplaza por su salida. Ejemplo: echo $(whoami)
 
-** NOTA **: Para mayor referencia revisa la sección de payloads de intruder
+**NOTA**: Para mayor referencia revisa la sección de payloads de intruder
+
+### Doble ejecución de comandos:
+Para hacer exfiltración de datos, lo más sencillo es colocar un segundo comando dentro del comando usado para exfiltrar, en linux existen estos auxiliares:
+
+1. ``` `whoami` ```
+2. ``` $(whoami) ```
+
+**NOTA**: A veces necesitaras ingresarlas dentro de un "" o un ' '.
 
 ### Tipos:
 
