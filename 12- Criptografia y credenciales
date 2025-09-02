@@ -1,0 +1,41 @@
+# Introducción:
+En está sección vamos a revisar como se puede realizar ataques a cifrado de contraseñas, certificados, etc.
+
+## Keepass:
+
+### Fuerza bruta:
+- Versión >= 2.36
+A partir de la verión 2.36 la herramienta de keepass2jhon no está soportada por lo que hay que buscar alternativas como:
+  - [https://github.com/r3nt0n/keepass4brute]
+  - ./keepass4brute.sh <kdbx-file> <wordlist>
+
+- Versión < 2.36
+  - keepass2jhon fichero.kdbx > hash-kdbx
+  - john -wordlist=/usr/share/wordlist/rockyou.txt hash-kdbx
+
+### Robo de memoria:
+- Keethieft: No requiere permisos de elevación y permite leer la contraseña en memoria durante la ejecución de keepass.
+  - https://github.com/GhostPack/KeeThief
+- Keefarce: Inyecta una DLL al proceso de keepass para el robo de la contraseña en caso de que este protegida la lectura en memoria.
+  - https://github.com/denandz/KeeFarce
+
+### Robo del portapapeles:
+Es comun que keepass permita copiar y pegar, por lo que es "facil" robar ese historial de portapepeles con herramientas tipo redteam:
+
+- Covenant:
+  - Plataforma completa de red team con funciones que permiten realizar lectura del portapeles.
+  - [https://github.com/cobbr/Covenant/wiki/Installation-And-Startup]
+
+## ZIP:
+- Fuerza bruta:
+  - zip2john secret.zip > zip_hash.txt
+  - john -wordlist=/usr/share/wordlist/rockyou.txt zip_hash.txt
+  - unzip secret.zip
+
+
+
+
+
+
+
+
