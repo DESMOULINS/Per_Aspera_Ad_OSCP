@@ -1,23 +1,44 @@
 # Introducción:
 En está sección vamos a revisar como se puede realizar ataques a cifrado de contraseñas, certificados, etc.
 
+---
+
+## Metodología de descifrado:
+
+1. **Identifica el formato** (KDBX, ZIP, RAR, 7z, PFX, etc.).  
+2. **Extrae el material verificable** (hash/representación) con la herramienta adecuada.  
+3. **Elige la estrategia de ataque** (diccionario, reglas, máscara, híbrido).  
+4. **Optimiza**: usa GPU con hashcat cuando aplique, gestiona sesiones/potfiles y registra tiempos.  
+5. **Valida** la contraseña, **desencripta** el artefacto y documenta el procedimiento.
+
+> Tip: Usa diccionarios contextualizados (CEWL, patrones de la organización, variantes l33t, sufijos con años/!/?).
+
+---
+
 ## Keepass:
 
 ### Fuerza bruta:
-- Versión >= 2.36
+- **Keepass 2.x (KDBX 4.x, ~v2.36+)**
 A partir de la verión 2.36 la herramienta de keepass2jhon no está soportada por lo que hay que buscar alternativas como:
-  - [https://github.com/r3nt0n/keepass4brute]
-  - ./keepass4brute.sh <kdbx-file> <wordlist>
 
-- Versión < 2.36
-  - keepass2jhon fichero.kdbx > hash-kdbx
-  - john -wordlist=/usr/share/wordlist/rockyou.txt hash-kdbx
+```bash
+git clone https://github.com/r3nt0n/keepass4brute
+./keepass4brute.sh <kdbx-file> <wordlist>
+```
 
-### Robo de memoria:
+- **KeePass 2.x (KDBX ≤ 3.x, versiones antiguas <~2.36)**
+```bash
+keepass2jhon fichero.kdbx > hash-kdbx
+john --wordlist=/usr/share/wordlists/rockyou.txt hash-kdbx
+```
+
+### Robo en memoria:
 - Keethieft: No requiere permisos de elevación y permite leer la contraseña en memoria durante la ejecución de keepass.
   - https://github.com/GhostPack/KeeThief
 - Keefarce: Inyecta una DLL al proceso de keepass para el robo de la contraseña en caso de que este protegida la lectura en memoria.
   - https://github.com/denandz/KeeFarce
+
+> **OPSEC/Detección**: EDR y reglas de seguridad detectan facilmente hoy en día inyección de DLL y lecturas de memoria.
 
 ### Robo del portapapeles:
 Es comun que keepass permita copiar y pegar, por lo que es "facil" robar ese historial de portapepeles con herramientas tipo redteam:
@@ -26,11 +47,45 @@ Es comun que keepass permita copiar y pegar, por lo que es "facil" robar ese his
   - Plataforma completa de red team con funciones que permiten realizar lectura del portapeles.
   - [https://github.com/cobbr/Covenant/wiki/Installation-And-Startup]
 
+---
+
 ## ZIP:
-- Fuerza bruta:
-  - zip2john secret.zip > zip_hash.txt
-  - john -wordlist=/usr/share/wordlist/rockyou.txt zip_hash.txt
-  - unzip secret.zip
+Primero identificar el **tipo de cifrado** (ZipCrypto legado vs AES/PKZIP moderno). Esto es visible en las propiedades del fichero:
+
+### AES/PKZIP moderno:
+
+- **Extracción de hash** con John the Ripper y ataque por diccionario:
+  ```bash
+  zip2john secreto.zip > zip_hash.txt
+  john --wordlist=/usr/share/wordlists/rockyou.txt zip_hash.txt
+  ```
+
+- **Descompresión** tras recuperar la contraseña:
+  ```bash
+  unzip secreto.zip
+  ```
+
+### ZipCrypto:
+Si el ZIP es **ZipCrypto** y cuentas con texto conocido del contenido, existen enfoques criptoanalíticos (p. ej., herramientas tipo *known-plaintext attack*) que pueden ser más eficientes que la fuerza bruta.
+
+- **Extracción de texto plano** El primer paso es conocer una sección original del fichero a descifrar, este debe estar en binario, colocamos esa pequeña sección dentro de un fichero.
+- **Conseguir llave**: Nos regresara 3 llaves cortas, que usaremos adelante. 
+  - https://github.com/kimci86/bkcrack
+```bash
+bkcrack.exe -C "Archivocompleto.zip" -c "Archivocifrado.pdf" -p plain.bin
+```
+
+- **Extracción y descifrado**:
+```bash
+bkcrack.exe -C "Archivocompleto.zip" -c "Archivocifrado.pdf" -k [Your] [Keys] [Here] -d "DecryptedFile.pdf"
+```
+
+
+
+
+
+
+
 
 
 
