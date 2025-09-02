@@ -103,8 +103,11 @@ bkcrack.exe -k [Your] [Keys] [Here] -r 12 ?p
 
 > **Referencia de charset**: https://github.com/kimci86/bkcrack?tab=readme-ov-file#character-sets
 
-
-
+#### Texto plano en partes:
+Sí conoces poco sobre el fichero de 8 a 11 bytes, podrias complentarlo con otras secciones del fichero con el flag -x
+```bash
+bkcrack -c cipherfile -p plainfile -x 25 4b4f -x 30 21
+```
 
 
 
