@@ -68,22 +68,40 @@ Primero identificar el **tipo de cifrado** (ZipCrypto legado vs AES/PKZIP modern
 ### ZipCrypto:
 Si el ZIP es **ZipCrypto** y cuentas con texto conocido del contenido, existen enfoques criptoanalíticos (p. ej., herramientas tipo *known-plaintext attack*) que pueden ser más eficientes que la fuerza bruta.
 
-- **Extracción de texto plano** El primer paso es conocer una sección original del fichero a descifrar, este debe estar en binario, colocamos esa pequeña sección dentro de un fichero.
+#### Abusar de Multiples ficheros o ficheros comunes: 
+Sí el archivo cifrado trae varios ficheros, y entre ellos ficheros faciles de conseguir como readme.txt, license.txt, iguales o secciones que no varian, podemos usar estos ficheros para conseguir nuestro plain.bin dado que no importa sí la llave conseguida es de estos ficheros, con está llave podemos descifrar el resto del archivo.
+
+#### Extracción sin Deflate:
+Sí el archivo fue comprimido con deflate, hay que conocer el texto plano comprimido, dado que el proceso es primero comprimir y luego cifrar, ejemplo de como se veria en 7zip:
+
+<img width="821" height="251" alt="image" src="https://github.com/user-attachments/assets/c86e6520-e2ef-458d-ac93-c4bb2b3f9641" />
+
+- **Extracción de texto plano** El primer paso es conocer una sección original del fichero a descifrar en uno nuevo, este debe estar en binario, colocamos esa pequeña sección dentro de un fichero.
+<img width="891" height="161" alt="image" src="https://github.com/user-attachments/assets/28296f6a-9111-41cd-ac37-c26e2ff96420" />
+
 - **Conseguir llave**: Nos regresara 3 llaves cortas, que usaremos adelante. 
   - https://github.com/kimci86/bkcrack
 ```bash
 bkcrack.exe -C "Archivocompleto.zip" -c "Archivocifrado.pdf" -p plain.bin
 ```
+<img width="2000" height="341" alt="image" src="https://github.com/user-attachments/assets/062dad7b-3f95-4b47-a07b-5b164bb2a3ee" />
 
 - **Extracción y descifrado**:
 ```bash
 bkcrack.exe -C "Archivocompleto.zip" -c "Archivocifrado.pdf" -k [Your] [Keys] [Here] -d "DecryptedFile.pdf"
 ```
 
+#### Extracción con deflate:
+Es el mismo proceso pero 
 
+#### Recuperar la contraseña:
+La contraseña con la que fue cifrado podria ser importante o repetida en otro sistema, y es facil de extraer sí ya conoces las llaves:
+```bash
+bkcrack.exe -k [Your] [Keys] [Here] -r 12 ?p
+```
+<img width="625" height="195" alt="image" src="https://github.com/user-attachments/assets/e26e10f1-3305-42e3-8a8b-1de6cb60d9f2" />
 
-
-
+> **Referencia de charset**: https://github.com/kimci86/bkcrack?tab=readme-ov-file#character-sets
 
 
 
