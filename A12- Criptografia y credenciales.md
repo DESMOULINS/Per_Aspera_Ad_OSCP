@@ -72,8 +72,7 @@ Si el ZIP es **ZipCrypto** y cuentas con texto conocido del contenido, existen e
 Sí el archivo cifrado trae varios ficheros, y entre ellos ficheros faciles de conseguir como readme.txt, license.txt, iguales o secciones que no varian, podemos usar estos ficheros para conseguir nuestro plain.bin dado que no importa sí la llave conseguida es de estos ficheros, con está llave podemos descifrar el resto del archivo.
 
 #### Extracción sin Deflate:
-Sí el archivo fue comprimido con deflate, hay que conocer el texto plano comprimido, dado que el proceso es primero comprimir y luego cifrar, ejemplo de como se veria en 7zip:
-
+Sí el archivo fue cifrado sin deflate, ejemplo de como se veria en 7zip:
 <img width="821" height="251" alt="image" src="https://github.com/user-attachments/assets/c86e6520-e2ef-458d-ac93-c4bb2b3f9641" />
 
 - **Extracción de texto plano** El primer paso es conocer una sección original del fichero a descifrar en uno nuevo, este debe estar en binario, colocamos esa pequeña sección dentro de un fichero.
@@ -92,7 +91,7 @@ bkcrack.exe -C "Archivocompleto.zip" -c "Archivocifrado.pdf" -k [Your] [Keys] [H
 ```
 
 #### Extracción con deflate:
-Es el mismo proceso pero 
+Sí el archivo fue cifrado mediante compresión con deflate, hay que conocer el texto plano comprimido, dado que el proceso es primero comprimir y luego cifrar, ejemplo de como se veria en 7zip:
 
 #### Recuperar la contraseña:
 La contraseña con la que fue cifrado podria ser importante o repetida en otro sistema, y es facil de extraer sí ya conoces las llaves:
@@ -108,7 +107,7 @@ Sí conoces poco sobre el fichero de 8 a 11 bytes, podrias complentarlo con otra
 ```bash
 bkcrack -c cipherfile -p plainfile -x 25 4b4f -x 30 21
 ```
-
+#### 
 
 
 
