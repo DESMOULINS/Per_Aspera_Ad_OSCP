@@ -91,7 +91,14 @@ bkcrack.exe -C "Archivocompleto.zip" -c "Archivocifrado.pdf" -k [Your] [Keys] [H
 ```
 
 #### Extracción con deflate:
-Sí el archivo fue cifrado mediante compresión con deflate, hay que conocer el texto plano comprimido, dado que el proceso es primero comprimir y luego cifrar, ejemplo de como se veria en 7zip:
+Sí el archivo fue cifrado mediante compresión con deflate, hay que conocer el texto plano comprimido, 
+
+- **Comprimir:** por lo que podemos comprimirlo con la herramienta de deflate.py:
+```bash
+python tools/deflate.py --level 5 < originalfile.txt > originalfile.txt.compress
+```
+
+> **--LEVEL**: Hay que hacer el deflate con varios niveles hasta encontrar el correcto, aunque por ejemplo 7zip coloca por defecto level 3.
 
 #### Recuperar la contraseña:
 La contraseña con la que fue cifrado podria ser importante o repetida en otro sistema, y es facil de extraer sí ya conoces las llaves:
