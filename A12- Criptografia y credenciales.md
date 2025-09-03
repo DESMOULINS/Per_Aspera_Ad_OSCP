@@ -91,11 +91,17 @@ bkcrack.exe -C "Archivocompleto.zip" -c "Archivocifrado.pdf" -k [Your] [Keys] [H
 ```
 
 #### Extracción con deflate:
-Sí el archivo fue cifrado mediante compresión con deflate, hay que conocer el texto plano comprimido, 
+Sí el archivo fue cifrado mediante compresión con deflate, hay que conocer el contenido de uno de los ficheros, por ejemplo dlls, readme, license, ficheros que tengan estructura comun, como ficheros html.
 
-- **Comprimir:** por lo que podemos comprimirlo con la herramienta de deflate.py:
+- **Comprimir el fichero comun:** podemos usar directamente 7zip para comprimir ficheros con contenido publico, como ficheros readme, license, etc. donde probaremos primero con deflate default que es 5.
+- **Conseguir las llaves:** Ahora le pasamos el fichero zip sin cifrar y el fichero en texto plano:
 ```bash
-python tools/deflate.py --level 5 < originalfile.txt > originalfile.txt.compress
+bkcrack.exe -C <encrypted.zip> -c <plaintext.file> -P <plaintext.zip> -p <plaintext.file>
+```
+- **Descifrado**: mismo proceso que sin deflate.
+- **Descomprimir:** Este fichero lo descifrara pero vendra comprimido, debemos descomprimirlo con:
+```bash
+python tools/inflate.py --level 5 < originalfile-comprimido.txt > originalfile-sincomprimir.txt
 ```
 
 > **--LEVEL**: Hay que hacer el deflate con varios niveles hasta encontrar el correcto, aunque por ejemplo 7zip coloca por defecto level 3.
